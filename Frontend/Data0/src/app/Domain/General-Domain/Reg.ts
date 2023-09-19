@@ -1,0 +1,19 @@
+export class Reg
+{
+    userId:string;
+    email:string;
+    isOwner:boolean;
+    name1:string;
+    mobNo:string;
+    password:string;
+    city:string;
+    constructor(){
+        this.userId='';
+        this.email='',
+        this.isOwner=false;
+        this.name1='',
+        this.mobNo='',
+        this.password='',
+        this.city='';
+    }
+}

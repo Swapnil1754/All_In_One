@@ -1,0 +1,15 @@
+<form [formGroup]="getHotelForm" enctype="multipart/form-data">
+    <mat-grid-list cols="4" rowHeight="270px">
+    <mat-grid-tile *ngFor="let l of hotel; let i=index">
+    <mat-card>
+    <mat-card-content>
+    <!-- <img mat-card-lg-image [src]="data"> -->
+    <app-image [image]="l.image"></app-image><br>
+    <span>{{l.hotelName}}</span><br>
+    <span>Ratings: {{l.rating}}</span><br>
+    <span>{{l.city}}</span><br><br>
+    </mat-card-content>
+    </mat-card>
+</mat-grid-tile><br>
+</mat-grid-list>
+</form>

@@ -1,0 +1,61 @@
+
+<mat-toolbar color="primary">
+    <h1>Make My Yatraa</h1>
+</mat-toolbar>
+<div class="a">
+    <section style="text-align: center;">
+
+    </section>
+<form [formGroup]="RoomForm" (submit)="uploadData()" class="hotel-form">
+        <div><span>ADD NEW Room</span></div><br>
+        <div class="example-container">
+            <mat-form-field appearance="outline">
+                <mat-label>Enter Room Catagory</mat-label>
+                <input type="text" matInput placeholder="Ex. Super Delux" formControlName="roomCatagory" required>
+            </mat-form-field><br><br>
+            <mat-form-field appearance="outline">
+                <mat-label>Enter Room Type</mat-label>
+                <input type="text" matInput placeholder="Ex. AC Room" formControlName="roomType" required>
+            </mat-form-field><br><br>
+            <mat-form-field appearance="outline">
+                <mat-label>Enter Price</mat-label>
+                <input type="text" matInput placeholder="Ex. Price" formControlName="price" required>
+            </mat-form-field><br><br>
+           <div formArrayName="aminitiesList">
+           <mat-form-field class="example-chip-list">
+            <mat-label>Enter Aminities Provided</mat-label>
+            <mat-chip-grid #chipGrid aria-label="Fruit selection">
+              <mat-chip-row *ngFor="let fruit of fruits" (removed)="remove(fruit)">
+                {{fruit}}
+                <button matChipRemove [attr.aria-label]="'remove ' + fruit">
+                  <mat-icon>cancel</mat-icon>
+                </button>
+              </mat-chip-row>
+            </mat-chip-grid>
+            <input placeholder="New Fruit..." #fruitInput [formControl]="fruitCtrl"
+              [matChipInputFor]="chipGrid" [matAutocomplete]="auto"
+              [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+              (matChipInputTokenEnd)="add($event)"/>
+            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+              <mat-option *ngFor="let fruit of filteredFruits | async" [value]="fruit">
+                {{fruit}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+           </div>
+
+
+    <!-- <div class="file-upload">
+        <div class="file-select">
+        <div class="file-select-button" id="fileName">Choose File</div>
+        <div class="file-select-name" id="noFile">{{image.name}}</div>
+<input #fileInput type="file" (change)="onFileSelected($event)" accept=".jpg,.jpeg">
+        </div>
+    </div> -->
+<br>
+    <span>
+    <button mat-raised-button color="Warn" type="submit">Add Room</button></span>
+        </div>
+</form>
+</div>
+
