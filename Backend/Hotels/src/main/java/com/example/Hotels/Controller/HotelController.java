@@ -38,7 +38,6 @@ public class HotelController {
     }
     @PutMapping("/{registrationId}/add-room")
     public ResponseEntity<?> addRoom(@RequestParam("files") MultipartFile[] multipartFile, @RequestParam("data") String data, @PathVariable String registrationId) throws IOException {
-        System.out.println(data);
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
         Room room = objectMapper.readValue(data, Room.class);
