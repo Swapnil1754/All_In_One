@@ -1,0 +1,90 @@
+<mat-toolbar color="primary">
+    <button mat-stroked-button>Home</button>
+    <header class="g">Registration Form</header>
+    <button mat-stroked-button class="b">Back</button>
+</mat-toolbar>
+    <div class="bg-img">
+
+        <div class="content">
+
+           <!-- <header>Registration Form</header><br> -->
+
+           <form [formGroup]="RegisterForm" class="login-form" (submit)="regFun()">
+
+              <mat-form-field appearance="outline">
+                <mat-label style="color: rgb(188, 216, 241)">Enter Your Name</mat-label>
+                 <!-- <span class="fa fa-user"></span> -->
+
+                 <input type="text" matInput placeholder="Ex. Ramesh Pawar" formControlName="name1" style="color: aliceblue;">
+                 <mat-error *ngIf="RegisterForm.controls['name1'].hasError('required')">Name is Mandatory...!!!</mat-error>
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+
+                <mat-label style="color: rgb(188, 216, 241)">Enter Your Mobile Number</mat-label>
+
+                <input type="text" matInput placeholder="+918806840585" formControlName="mobNo" style="color: aliceblue;" required>
+                <mat-error *ngIf="RegisterForm.controls['mobNo'].hasError('invalidMobileNo')">Invalid Mobile Number...!!!</mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+
+                <mat-label style="color: rgb(188, 216, 241)">Enter Your Email</mat-label>
+
+                <input type="email" matInput placeholder="Email" formControlName="email" style="color: aliceblue;" required>
+                <mat-error *ngIf="RegisterForm.controls['email'].hasError('required')">Email is Mandatory...!!!</mat-error>
+                <mat-error *ngIf="RegisterForm.controls['email'].hasError('invalidEmail')">Invalid Email Format...!!!</mat-error>
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+
+                <mat-label style="color: rgb(188, 216, 241)">Enter Your Password</mat-label>
+
+                 <input type="password" matInput placeholder="Password" formControlName="password" style="color: aliceblue;" required>
+                 <mat-error *ngIf="RegisterForm.controls['password'].hasError('required')">Password is Mandatory...!!!</mat-error>
+                 <mat-error *ngIf="RegisterForm.controls['password'].hasError('invalidPassword')">Invalid Password...!!!</mat-error>
+                 <mat-error *ngIf="RegisterForm.controls['password'].hasError('minlength')">Password is too Short...!!!</mat-error>
+                 <mat-error *ngIf="RegisterForm.controls['password'].hasError('maxlength')">Password is too Large...!!!</mat-error>
+                </mat-form-field>
+                <app-password-strength [passwordToCheck]="RegisterForm.get('password')!.value"></app-password-strength>
+              <mat-form-field appearance="outline">
+                <mat-label style="color: rgb(188, 216, 241)">Confirm Your Password</mat-label>
+                 <input type="password" matInput placeholder="Password" formControlName="confirmPassword" style="color: aliceblue;" required>
+                 <!-- <mat-error *ngIf="noMatch">The password and its confirmation do not match!</mat-error> -->
+              </mat-form-field>
+              <div class="alert alert-danger" *ngIf="noMatch">The password and its confirmation do not match!</div>
+              <mat-form-field appearance="outline">
+
+                <mat-label style="color: rgb(188, 216, 241)">Enter Your City</mat-label>
+
+                <input type="text" matInput placeholder="Ex. Mumbai" formControlName="city" style="color: aliceblue;" required>
+
+              </mat-form-field>
+              <span>
+                <mat-label style="color: rgb(188, 216, 241);">Register As: </mat-label>
+                <mat-radio-group formControlName="isOwner">
+                    <mat-radio-button class="example-margin" value="true">Owner</mat-radio-button>
+                    <mat-radio-button class="example-margin" value="false">Customer</mat-radio-button>
+                </mat-radio-group>
+              </span><br>
+              <div class="field">
+
+                 <input type="submit" [disabled]="RegisterForm.invalid" value="REGISTER">
+
+              </div>
+
+           </form>
+
+           <div class="signup">
+
+             Wan't to go back?
+
+             <a href="">Home</a>
+
+          </div>
+
+        </div>
+
+     </div>
+
+   
+
+   

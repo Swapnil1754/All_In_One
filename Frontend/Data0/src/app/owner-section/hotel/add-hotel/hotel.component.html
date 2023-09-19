@@ -1,0 +1,44 @@
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatics.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500&display=swap" rel="stylesheet">
+</head>
+<mat-toolbar color="primary">
+    <h1>Make My Yatraa</h1>
+</mat-toolbar>
+<div class="a">
+    <section style="text-align: center;">
+
+    </section>
+<form [formGroup]="HotelForm" (submit)="uploadData()" class="hotel-form">
+        <div><span>ADD NEW HOTEL</span></div><br>
+        <div class="example-container">
+            <mat-form-field appearance="outline">
+                <mat-label>Enter Hotel Owner Name</mat-label>
+                <input type="text" matInput formControlName="ownerName" required>
+            </mat-form-field><br><br>
+            <mat-form-field appearance="outline">
+                <mat-label>Enter Hotel Name</mat-label>
+                <input type="text" matInput formControlName="hotelName" required>
+            </mat-form-field><br><br>
+            <mat-form-field appearance="outline">
+                <mat-label>Enter City</mat-label>
+                <input type="text" matInput formControlName="city" required>
+            </mat-form-field><br><br>
+            <mat-form-field appearance="outline">
+                <mat-label>Enter Rating</mat-label>
+        <input type="number" matInput formControlName="rating" required>
+    </mat-form-field><br><br>
+    <div class="file-upload">
+        <div class="file-select">
+        <div class="file-select-button" id="fileName">Choose File</div>
+        <div class="file-select-name" id="noFile">{{image.name}}</div>
+<input #fileInput type="file" (change)="onFileSelected($event)" accept=".jpg,.jpeg">
+        </div>
+    </div>
+<br><br>
+    <span>
+    <button mat-raised-button color="Warn" type="submit">Register</button></span>
+        </div>
+</form>
+</div>
