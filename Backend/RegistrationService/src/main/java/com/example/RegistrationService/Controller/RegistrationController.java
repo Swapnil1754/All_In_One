@@ -33,7 +33,6 @@ public class RegistrationController {
     }
     @PostMapping("/register")
     public ResponseEntity<User> register(@RequestBody User user) throws IOException {
-//    User user1 = MaskService.dataMaskFun(user);
         String srtData = MaskData.maskFun(user);
         ObjectMapper objectMapper = new ObjectMapper();
         User user1 = objectMapper.readValue(srtData,User.class);
