@@ -6,5 +6,5 @@ import java.security.NoSuchAlgorithmException;
 
 public interface RegistrationService {
     public User registerUser(User user) throws Exception;
-    public User findUser(String userId,String password) throws Exception;
+    public User findUser(String userId, String password) throws Exception;
 }
