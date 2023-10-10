@@ -2,7 +2,10 @@ package com.example.Hotels.Service;
 
 import com.example.Hotels.Domain.Hotel;
 import com.example.Hotels.Domain.Room;
+import com.example.Hotels.Domain.User;
+import com.example.Hotels.Exceptions.OwnerNotExistsException;
 import com.example.Hotels.Repository.HotelRepository;
+import com.example.Hotels.Repository.OwnerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,14 +21,22 @@ import java.util.UUID;
 @Service
 public class HotelServiceImpl implements HotelService {
     private HotelRepository repository;
+    private OwnerRepository ownerRepository;
 
     @Autowired
-    public HotelServiceImpl(HotelRepository repository) {
+
+    public HotelServiceImpl(HotelRepository repository, OwnerRepository ownerRepository) {
         this.repository = repository;
+        this.ownerRepository = ownerRepository;
     }
 
+
     @Override
-    public Hotel addHotel(byte[] image, Hotel hotel) {
+    public Hotel addHotel(byte[] image, Hotel hotel) throws OwnerNotExistsException {
+        User user = ownerRepository.findUserByName1(hotel.getOwnerName());
+        if (user == null) {
+            throw new OwnerNotExistsException();
+        }
         hotel.setImage(image);
         hotel.setRegistrationId(registrationNumber());
         return repository.save(hotel);
@@ -44,8 +55,6 @@ public class HotelServiceImpl implements HotelService {
                 bytes.add(b);
             }
             imgBytes.add(bytes);
-//            FileOutputStream fileOutputStream = new FileOutputStream(multipartFile.getOriginalFilename());
-//            fileOutputStream.write(imageB);
         }
         room.setImages(imgBytes);
         List<Room> rooms = hotel.getRooms();
@@ -53,6 +62,20 @@ public class HotelServiceImpl implements HotelService {
         hotel.setRooms(rooms);
         repository.save(hotel);
         return hotel;
+    }
+
+    @Override
+    public Hotel getHotel(String registrationId) {
+        return repository.findByRegistrationId(registrationId);
+    }
+
+    @Override
+    public List<Hotel> getHotels(String ownerName) {
+        List<Hotel> list = repository.findByOwnerName(ownerName);
+        for (Hotel hotel : list) {
+            System.out.println(hotel);
+        }
+        return repository.findByOwnerName(ownerName);
     }
 
     private String registrationNumber() {
