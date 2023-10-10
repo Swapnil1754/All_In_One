@@ -1,0 +1,48 @@
+
+<mat-toolbar color="primary">
+    <h1>Make My Yatraa</h1>
+</mat-toolbar>
+<div class="bg-img">
+<form [formGroup]="loginForm" (submit)="loginFun()" class="content">
+        <h1 style="color: white;">LOGIN</h1>
+        <section class="example-container">
+            <mat-form-field appearance="outline">
+                <mat-label style="color: white;">ENTER USER ID</mat-label>
+                <input type="text" matInput placeholder="Ex. HP005677BT" formControlName="userId" required>
+            </mat-form-field><br>
+    <mat-form-field appearance="outline">
+        <mat-label style="color: white;">Enter Password</mat-label>
+<input type="password" matInput placeholder="Ex. Abc@1234" formControlName="password" required>
+</mat-form-field><br>
+<ngx-recaptcha2 
+    [siteKey]="siteKey"
+    formControlName="recaptcha">
+  </ngx-recaptcha2><br>
+<div class="form-check">
+    <label class="form-check-label" for="rememberMe">
+        <input class="form-check-input" type="checkbox" name="rememberMe" id="rememberMe" formControlName="rememberMe" />
+        <span>Remember me</span>
+      </label>
+    </div>
+    
+    <span>
+    <button mat-raised-button color="Warn" type="submit" style="color: white;">LOGIN</button></span>
+    <span>
+      <button mat-raised-button color="Warn" (click)="loginWithFb()" style="color: white;">Login With Facebook</button>
+    </span><br>
+    <span>
+      <button mat-raised-button color="Warn" (click)="loginWithGoogle()" style="color: white;">Login With Google</button>
+    </span>
+    <div class="mt-3 alert alert-warning">
+        <a class="alert-link" routerLink="/account/reset/request" data-cy="forgetYourPasswordSelector">Did you forget your password?</a>
+      </div>
+
+      <div class="alert alert-warning">
+        <span>You don't have an account yet?</span>
+        <a class="alert-link" routerLink="/account/register">Register a new account</a>
+      </div>
+</section>
+        </form>
+        
+</div>
+  
