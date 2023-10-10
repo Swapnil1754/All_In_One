@@ -23,7 +23,9 @@ public class JwtFilter extends GenericFilterBean {
         final HttpServletResponse response = (HttpServletResponse) servletResponse;
         final String authHeader = request.getHeader("Authorization");
         if ("OPTIONS".equals(request.getMethod())) {
+            System.out.println("1");
             response.setStatus(HttpServletResponse.SC_OK);
+            System.out.println("2");
             filterChain.doFilter(request,response);
         } else {
             if (authHeader == null || !authHeader.startsWith("Bearer")) {
@@ -33,6 +35,7 @@ public class JwtFilter extends GenericFilterBean {
             final String token = authHeader.substring(7);
             final Claims claims = Jwts.parser().setSigningKey("secretekey").parseClaimsJws(token).getBody();
             request.setAttribute("claims", claims);
+            System.out.println("3");
             filterChain.doFilter(request, response);
         }
     }
