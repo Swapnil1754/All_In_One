@@ -1,16 +1,42 @@
 import React, { useState } from "react";
 import { Container, Typography, TextField, Button, Grid } from '@mui/material';
 import '../CSS/Login.css';
+import axios from "axios";
 const Login = () => {
+    const url = process.env.REACT_APP_LOGIN_URL;
+    const [token, setToken] = useState('');
     const [formData, setFormData] = useState({
-        email: "",
+        userId: "",
         password: ""
-    })
-    const handleChange = (e) => {
-
+    });
+    const params = {
+        password: formData.password
     }
-    const handleSubmit = (e) => {
-
+    const callApi = async (userId) => {
+        try {
+          const response = await axios.post(url+`${userId}?password=${formData.password}`, null, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                }
+            })
+            return response.data;
+        } catch(error) {
+            console.log("Error", error);
+        }
+    }
+    
+    const handleChange = (e) => {
+        const {name, value} = e.target;
+        setFormData({
+            ...formData,
+            [name]: value
+        });
+    }
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const login = await callApi(formData.userId);
+        setToken(login.token);
     }
     return(
         <Container maxWidth="sm">
@@ -21,11 +47,11 @@ const Login = () => {
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <TextField
-              label="Email or UserName"
+              label="UserId"
               variant="outlined"
-              fullwidth
-              name="email"
-              value={formData.email}
+              fullWidth
+              name="userId"
+              value={formData.userId}
               onChange={handleChange}
             />
             </Grid>
@@ -34,7 +60,7 @@ const Login = () => {
               label="Password"
               type="password"
               variant="outlined"
-              fullwidth
+              fullWidth
               name="password"
               value={formData.password}
               onChange={handleChange}
@@ -45,7 +71,7 @@ const Login = () => {
               type="submit"
               variant="contained"
               color="primary"
-              fullwidth
+              fullWidth
             >
               Login
             </Button>

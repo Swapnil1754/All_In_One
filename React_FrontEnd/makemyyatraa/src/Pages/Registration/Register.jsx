@@ -13,11 +13,11 @@ const Register = () => {
         isOwner: false
     };
     const [formData, setFormData] = useState(initialData);
-    const url = "http://localhost:9000/api/v1/register";
+    const url = process.env.REACT_APP_REGISTRATION_URL;
     const handleSubmit = async(e) => {
         e.preventDefault();
         const myData = await callApi();
-        console.log("Registration data:", myData);
+        console.log("Registration data:", url);
     }
     const callApi = async() => {
         let data = [];
@@ -25,7 +25,7 @@ const Register = () => {
              await axios.post(url, formData, {
             headers: {
                 'Content-Type': 'application/json',
-                'Accept': 'application/json, text/plain, /'
+                'Accept': 'application/json'
             }
         }).then((response) => {
             data = response;
@@ -33,6 +33,7 @@ const Register = () => {
     } catch(error) {
         console.log("Error", error);
     }
+    return data;
     }
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
