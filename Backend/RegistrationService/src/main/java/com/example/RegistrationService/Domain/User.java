@@ -28,9 +28,14 @@ public class User {
     private String userId;
     @JsonProperty("isOwner")
     private boolean isOwner;
+    @JsonProperty("isActivated")
+    private boolean isActivated;
+    @Column(unique = true)
     private String email;
+    @Column(unique = true)
     private String name1;
     private String mobNo;
     private String password;
     private String city;
+
 }

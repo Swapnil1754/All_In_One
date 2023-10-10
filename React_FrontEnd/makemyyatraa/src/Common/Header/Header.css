@@ -1,0 +1,34 @@
+/* Header.css */
+
+/* Header container styles */
+header {
+    background-color: #007BFF; /* Header background color */
+    color: #fff; /* Text color */
+    padding: 10px 0; /* Top and bottom padding */
+  }
+  
+  /* Navigation styles */
+  nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center; /* Center the navigation links horizontally */
+  }
+  
+  nav li {
+    margin: 0 15px; /* Add space between navigation links */
+  }
+  
+  nav a {
+    text-decoration: none;
+    color: inherit;
+    font-weight: bold;
+    transition: color 0.3s ease; /* Smooth color transition on hover */
+  
+    /* Navigation link hover effect */
+    &:hover {
+      color: #0056b3; /* Hover color */
+    }
+  }
+  
