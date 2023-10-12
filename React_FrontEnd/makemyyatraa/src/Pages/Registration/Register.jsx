@@ -3,7 +3,6 @@ import '../CSS/Registration.css';
 import { Container, Typography, TextField, Button, Grid, Checkbox } from '@mui/material';
 import axios from 'axios';
 const Register = () => {
-    const [isChecked, setIsChecked] = useState(false);
     const initialData = {
         name1: "",
         password: "",
@@ -17,7 +16,7 @@ const Register = () => {
     const handleSubmit = async(e) => {
         e.preventDefault();
         const myData = await callApi();
-        console.log("Registration data:", url);
+        console.log("Registration data:", myData);
     }
     const callApi = async() => {
         let data = [];

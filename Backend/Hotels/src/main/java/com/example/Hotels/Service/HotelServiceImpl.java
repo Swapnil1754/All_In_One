@@ -78,6 +78,12 @@ public class HotelServiceImpl implements HotelService {
         return repository.findByOwnerName(ownerName);
     }
 
+    @Override
+    public List<Hotel> getAll() {
+        List<Hotel> list = repository.findAll();
+        return list;
+    }
+
     private String registrationNumber() {
         return UUID.randomUUID().toString().replace("-", "").substring(0, 7).toUpperCase();
     }
