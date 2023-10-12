@@ -13,4 +13,5 @@ public interface HotelService {
     public Hotel addRoom(MultipartFile[] images, Room room, String registrationId) throws IOException;
     public Hotel getHotel(String registrationId);
     public List<Hotel> getHotels(String ownerName);
+    public List<Hotel> getAll();
 }
