@@ -12,6 +12,11 @@ const Register = () => {
         isOwner: false
     };
     const [formData, setFormData] = useState(initialData);
+    const [errors, setErrors] = useState({
+        password: "",
+        mobNo: "",
+        email: ""
+    })
     const url = process.env.REACT_APP_REGISTRATION_URL;
     const handleSubmit = async(e) => {
         e.preventDefault();
@@ -35,7 +40,29 @@ const Register = () => {
     return data;
     }
     const handleChange = (e) => {
+        const passwordRegex = /^[A-Za-z+_.-]+@[0-9]{1,}$/;
+        const mobNoRegex = /[+](91)[0-9]{10}$/;
+        const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
         const { name, value, type, checked } = e.target;
+        if(name === 'email') {
+            if(!emailRegex.test(value)) {
+                setErrors({...errors, email:"Please Enter a Valid Email Address...!!!"});
+            } else{
+                setErrors({...errors, email:''});
+            }
+        } else if(name === 'passowrd') {
+            if(!passwordRegex.test(value)) {
+                setErrors({...errors, password: "Please Enter Password in proper format...!!!"});
+            } else {
+                setErrors({...errors, password:''});
+            }
+        } else if(name === 'mobNo') {
+            if(!mobNoRegex.test(value)) {
+                setErrors({...errors, mobNo: "Invalid Mobile Number"});
+            } else {
+                setErrors({...errors, mobNo:''})
+            }
+        }
     setFormData({
       ...formData,
       [name]: type === 'checkbox' ? checked:value,
@@ -67,6 +94,7 @@ const Register = () => {
               value={formData.email}
               onChange={handleChange}
             />
+            {errors.email && <div className="error">{errors.email}</div>}
             </Grid>
           <Grid item xs={12}>
             <TextField
@@ -78,6 +106,7 @@ const Register = () => {
               value={formData.password}
               onChange={handleChange}
             />
+             {errors.password && <div className="error">{errors.password}</div>}
           </Grid>
           <Grid item xs={12}>
             <TextField
@@ -88,6 +117,7 @@ const Register = () => {
               value={formData.mobNo}
               onChange={handleChange}
             />
+             {errors.mobNo && <div className="error">{errors.mobNo}</div>}
             </Grid>
             <Grid item xs={12}>
             <TextField
