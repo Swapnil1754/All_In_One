@@ -1,0 +1,43 @@
+/* Toaster Container */
+.toaster {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+   }
+   
+   /* Individual Toast */
+   .toast {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 15px;
+    margin-top: 10px;
+    border-radius: 4px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    animation: slideIn 2.5s ease-in-out, slideOut 2.5s ease-in-out 2.5s forwards;
+   }
+   
+   /* Animation Keyframes */
+   @keyframes slideIn {
+    0% {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+   }
+   
+   @keyframes slideOut {
+    0% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+   }
