@@ -2,9 +2,14 @@ import React, { useState } from "react";
 import { Container, Typography, TextField, Button, Grid } from '@mui/material';
 import '../CSS/Login.css';
 import axios from "axios";
+import Toaster from "../../Common/Toaster/Toaster";
+import { useNavigate } from "react-router-dom";
 const Login = () => {
     const url = process.env.REACT_APP_LOGIN_URL;
+    const navigate = useNavigate();
     const [token, setToken] = useState('');
+    const [message, setMessage] = useState('');
+    const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState({
         userId: "",
         password: ""
@@ -34,15 +39,22 @@ const Login = () => {
         });
     }
     const handleSubmit = async (e) => {
+        try{
         e.preventDefault();
         const login = await callApi(formData.userId);
         setToken(login.token);
+        setMessage("Login Successful....!!!")
+        navigate('/home')
+        } catch(error) {
+            console.log("error", error);
+        }
     }
     return(
         <Container maxWidth="sm">
       <Typography variant="h4" align="center" gutterBottom>
         Login
       </Typography>
+      <Toaster message={message} />
       <form onSubmit={handleSubmit}>
         <Grid container spacing={2}>
           <Grid item xs={12}>
@@ -74,6 +86,26 @@ const Login = () => {
               fullWidth
             >
               Login
+            </Button>
+          </Grid>
+          <Grid item xs={12}>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              fullWidth
+            >
+              Login with Facebook
+            </Button>
+          </Grid>
+          <Grid item xs={12}>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              fullWidth
+            >
+              Login with Google
             </Button>
           </Grid>
         </Grid>
