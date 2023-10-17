@@ -9,9 +9,9 @@ import AddHotel from './Pages/Hotel/Add-Hotel';
 function App() {
   return (
     <Router>
-      <Header />
+      {/* <Header /> */}
       <Routes>
-        <Route path='/' element={<Home />}/>
+        <Route path='/home' element={<Home />}/>
         <Route path='/register' element={<Register />}/>
         <Route path='/login' element={<Login />} />
         <Route path='/display-hotel' element={<DisplayHotel />}/>

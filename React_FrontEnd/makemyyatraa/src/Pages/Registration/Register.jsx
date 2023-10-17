@@ -1,7 +1,10 @@
 import React, { useState } from "react";
-import '../CSS/Registration.css';
+// import '../CSS/Registration.css';
+import '../CSS/Register.css';
 import { Container, Typography, TextField, Button, Grid, Checkbox } from '@mui/material';
 import axios from 'axios';
+import Toaster from "../../Common/Toaster/Toaster";
+import { useNavigate } from "react-router-dom";
 const Register = () => {
     const initialData = {
         name1: "",
@@ -11,6 +14,8 @@ const Register = () => {
         city: "",
         isOwner: false
     };
+    const [message, setMessage] = useState('');
+    const navigate = useNavigate();
     const [formData, setFormData] = useState(initialData);
     const [errors, setErrors] = useState({
         password: "",
@@ -19,9 +24,9 @@ const Register = () => {
     })
     const url = process.env.REACT_APP_REGISTRATION_URL;
     const handleSubmit = async(e) => {
-        e.preventDefault();
+      e.preventDefault();
         const myData = await callApi();
-        console.log("Registration data:", myData);
+        console.log("Registration data:", myData.data.name1);
     }
     const callApi = async() => {
         let data = [];
@@ -33,6 +38,7 @@ const Register = () => {
             }
         }).then((response) => {
             data = response;
+            setMessage("Registration is Successfull...!!! Please proceed for Login...");
         })
     } catch(error) {
         console.log("Error", error);
@@ -69,89 +75,51 @@ const Register = () => {
     });
     }
     return (
-        <Container maxWidth="sm">
-      <Typography variant="h4" align="center" gutterBottom>
-        Registration
+      <div className="a">
+       <div className="b">
+          <span style={{'color':'white', 'fontSize':'35px'}}>All In One</span>
+          <div className="f">
+            <p style={{'color':'white'}}>"All In One" is your one-stop destination for seamless travel and dining experiences. Whether you're planning a getaway, booking a bus journey, or looking for a delightful restaurant, we've got you covered. Our platform offers a range of services, from finding the perfect hotel to hopping on a bus for your next adventure and discovering the finest restaurants for a memorable dining experience. With "All In One," convenience and choice come together to make your journey extraordinary. Explore, book, and savor every moment with us. Your ultimate travel and dining companion is here.</p>
+          </div>
+      </div>
+      <form className="c" onSubmit={handleSubmit}>
+        
+        <Grid container spacing={1}>
+        <Typography variant="h5" align="center" gutterBottom>
+      Create an Account
       </Typography>
-      <form onSubmit={handleSubmit}>
-        <Grid container spacing={2}>
         <Grid item xs={12}>
-            <TextField
-              label="Name"
-              variant="outlined"
-              fullWidth
-              name="name1"
-              value={formData.name1}
-              onChange={handleChange}
-            />
-            </Grid>
-          <Grid item xs={12}>
-            <TextField
-              label="Email"
-              variant="outlined"
-              fullWidth
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-            />
-            {errors.email && <div className="error">{errors.email}</div>}
-            </Grid>
-          <Grid item xs={12}>
-            <TextField
-              label="Password"
-              type="password"
-              variant="outlined"
-              fullWidth
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-            />
-             {errors.password && <div className="error">{errors.password}</div>}
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              label="Mobile No."
-              variant="outlined"
-              fullWidth
-              name="mobNo"
-              value={formData.mobNo}
-              onChange={handleChange}
-            />
-             {errors.mobNo && <div className="error">{errors.mobNo}</div>}
-            </Grid>
-            <Grid item xs={12}>
-            <TextField
-              label="City"
-              variant="outlined"
-              fullWidth
-              name="city"
-              value={formData.city}
-              onChange={handleChange}
-            />
-            </Grid>
-            <Grid item xs={12}>
-            <Checkbox
-              label="Is Owner"
-              variant="outlined"
-              name="isOwner"
-              fullWidth
-              checked={formData.isOwner}
-              onChange={handleChange}
-            /> Do You wan't to Register as Owner?
-            </Grid>
-          <Grid item xs={12}>
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              fullWidth
-            >
-              Register
-            </Button>
-          </Grid>
+          <TextField 
+          label="Full Name" variant="outlined" fullWidth name="name1" value={formData.name1} onChange={handleChange}/>
         </Grid>
+        <Grid item xs={12}>
+          <TextField 
+          label="Email" variant="outlined" fullWidth name="email" value={formData.email} onChange={handleChange}/>
+        </Grid>
+        <Grid item xs={12}>
+          <TextField 
+          label="Password" variant="outlined" fullWidth name="password" type="password" value={formData.password} onChange={handleChange}/>
+        </Grid>
+        <Grid item xs={12}>
+          <TextField 
+          label="Mobile Number" variant="outlined" fullWidth name="mobNo" value={formData.mobNo} onChange={handleChange}/>
+        </Grid>
+        <Grid item xs={12}>
+          <TextField 
+          label="City" variant="outlined" fullWidth name="city" value={formData.city} onChange={handleChange}/>
+        </Grid>
+        <Grid item xs={12}>
+          <Checkbox 
+           variant="outlined" fullWidth name="isOwner" checked={formData.isOwner} onChange={handleChange}/>Do You wan't to Register as Owner?
+        </Grid>
+        <Grid item xs={12}>
+          <button type="submit" className="e" variant="outlined" color="accent">Create Account</button>
+        </Grid>
+          Already have an account? <a href="/login">Sign In</a>
+        </Grid>
+        <Toaster message={message} />
       </form>
-    </Container>
+      </div>
     )
 }
 export default Register;
