@@ -33,13 +33,18 @@ public class HotelServiceImpl implements HotelService {
 
     @Override
     public Hotel addHotel(byte[] image, Hotel hotel) throws OwnerNotExistsException {
-        User user = ownerRepository.findUserByName1(hotel.getOwnerName());
-        if (user == null) {
-            throw new OwnerNotExistsException();
+        try {
+            User user = ownerRepository.findUserByName1(hotel.getOwnerName());
+            if (user == null) {
+                throw new OwnerNotExistsException();
+            }
+            hotel.setImage(image);
+            hotel.setRegistrationId(registrationNumber());
+            System.out.println("Hotel data" + hotel);
+            return repository.save(hotel);
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
         }
-        hotel.setImage(image);
-        hotel.setRegistrationId(registrationNumber());
-        return repository.save(hotel);
     }
 
     @Override

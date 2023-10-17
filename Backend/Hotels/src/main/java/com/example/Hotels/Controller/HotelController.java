@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -31,8 +32,9 @@ public class HotelController {
         this.hotelService = hotelService;
     }
     @PostMapping("/add-hotel")
-    public ResponseEntity<Hotel> addHotel(@RequestParam("file")MultipartFile file, @RequestParam String data) throws IOException, OwnerNotExistsException {
+    public ResponseEntity<Hotel> addHotel(@RequestParam("file")MultipartFile file, String data) throws IOException, OwnerNotExistsException {
     ObjectMapper objectMapper =new ObjectMapper();
+        System.out.println("-----------------------------------------------------------------------"+file.getBytes());
     Hotel hotel1 = objectMapper.readValue(data, Hotel.class);
         return new ResponseEntity<>(hotelService.addHotel(file.getBytes(), hotel1), HttpStatus.OK);
     }
