@@ -13,6 +13,7 @@ const DisplayHotel = () => {
             try {
             AsyncStorage.getItem('regId').then(async (value) => {
                 if(value) {
+                    console.log("get value", value);
                     setTimeout( async() => {
                     const reaponse = await axios.get(url+`${value}`);
                     setData(reaponse.data);
