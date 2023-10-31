@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import '../Cards/Cards.css';
+import { ReactComponent as LikeIcon } from '../Assets/red_like.svg';
+import { ReactComponent as DislikeIcon } from '../Assets/dislike.svg';
 const Cards = ({title, imgUrl, city}) => {
 const [liked, setLiked] = useState(false);
     const decodeBase64Image = (base64String) => {
@@ -24,7 +26,7 @@ const [liked, setLiked] = useState(false);
         <p>{city}</p>
         <button onClick={likedData}>
             {
-                liked ? (<span role="img" aria-label="Liked" style={{'color':'red'}}>❤️</span>)
+                liked ? (<span role="img" aria-label="Liked">❤️</span>)
                 :
                 (<span role="img" aria-label="Like">🤍</span>)
             }
