@@ -38,7 +38,12 @@ const Register = () => {
             }
         }).then((response) => {
             data = response;
-            setMessage("Registration is Successfull...!!! Please proceed for Login...");
+            const fullName = formData.name1;
+            const firstName = fullName.split(' ')[0];
+            setMessage(`Hello ${firstName} You Have Registered Successfully...!!!`);
+            setTimeout(() => {
+              navigate('/login')
+            }, 8000)
         })
     } catch(error) {
         console.log("Error", error);
@@ -77,15 +82,15 @@ const Register = () => {
     return (
       <div className="a">
        <div className="b">
-          <span style={{'color':'white', 'fontSize':'35px'}}>All In One</span>
+          <span style={{'color':'white', 'fontSize':'35px', 'fontFamily':'inherit'}}>All In One</span>
           <div className="f">
-            <p style={{'color':'white'}}>"All In One" is your one-stop destination for seamless travel and dining experiences. Whether you're planning a getaway, booking a bus journey, or looking for a delightful restaurant, we've got you covered. Our platform offers a range of services, from finding the perfect hotel to hopping on a bus for your next adventure and discovering the finest restaurants for a memorable dining experience. With "All In One," convenience and choice come together to make your journey extraordinary. Explore, book, and savor every moment with us. Your ultimate travel and dining companion is here.</p>
+            <p style={{'color':'white', 'fontFamily':'cursive'}}>"All In One" is your one-stop destination for seamless travel and dining experiences. Whether you're planning a getaway, booking a bus journey, or looking for a delightful restaurant, we've got you covered. Our platform offers a range of services, from finding the perfect hotel to hopping on a bus for your next adventure and discovering the finest restaurants for a memorable dining experience. With "All In One," convenience and choice come together to make your journey extraordinary. Explore, book, and savor every moment with us. Your ultimate travel and dining companion is here.</p>
           </div>
       </div>
       <form className="c" onSubmit={handleSubmit}>
         
         <Grid container spacing={1}>
-        <Typography variant="h5" align="center" gutterBottom>
+        <Typography variant="h6" align="center" gutterBottom>
       Create an Account
       </Typography>
         <Grid item xs={12}>
@@ -113,10 +118,10 @@ const Register = () => {
            variant="outlined" fullWidth name="isOwner" checked={formData.isOwner} onChange={handleChange}/>Do You wan't to Register as Owner?
         </Grid>
         <Grid item xs={12}>
-          <button type="submit" className="e" variant="outlined" color="accent">Create Account</button>
+          <Button type="submit" fullWidth variant="contained">Create Account</Button>
         </Grid>
-          Already have an account? <a href="/login">Sign In</a>
         </Grid>
+        <Grid>Already have an account? <a href="/login">Sign In</a></Grid>
         <Toaster message={message} />
       </form>
       </div>
