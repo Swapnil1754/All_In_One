@@ -9,12 +9,7 @@ const Header = ({ status }) => {
   const [x, setX] = useState(false);
   useEffect(() => {
     const logData = async () => {
-    const data0 = await AsyncStorage.getItem('Token');
-    if(data0){
-      setX(true);
-    }else{
-      setX(false);
-    }
+    const data0 = await AsyncStorage.getItem('Token').then(() => setX(true)).catch(() => console.log("No data", data0));
   }
   const logOut = () => {
     setX(false);
