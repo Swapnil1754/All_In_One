@@ -89,6 +89,11 @@ public class HotelServiceImpl implements HotelService {
         return list;
     }
 
+    @Override
+    public List<Hotel> getHotelsInCity(String city) {
+        return repository.findByCity(city);
+    }
+
     private String registrationNumber() {
         return UUID.randomUUID().toString().replace("-", "").substring(0, 7).toUpperCase();
     }

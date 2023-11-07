@@ -56,7 +56,11 @@ public class HotelController {
         return new ResponseEntity<>(hotelService.getHotel(registrationId),HttpStatus.OK);
     }
     @GetMapping("getAllHotels")
-    public ResponseEntity<?> getAllHotes() {
+    public ResponseEntity<?> getAllHotels() {
         return new ResponseEntity<>(hotelService.getAll(), HttpStatus.OK);
+    }
+    @GetMapping("city/{city}")
+    public ResponseEntity<?> getHotelsByCity(@PathVariable String city) {
+        return new ResponseEntity<>(hotelService.getHotelsInCity(city), HttpStatus.OK);
     }
 }

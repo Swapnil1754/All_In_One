@@ -9,25 +9,13 @@ import com.example.RegistrationService.Rabitmq.Domain.UserDTO;
 import com.example.RegistrationService.Repository.RegistrationRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
-import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
-import com.google.api.client.http.javanet.NetHttpTransport;
-import com.google.api.client.json.JsonFactory;
-import com.google.api.client.json.gson.GsonFactory;
-import com.google.common.reflect.TypeToken;
-import com.google.gson.Gson;
-import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
-import java.nio.charset.StandardCharsets;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Base64;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Map;
 import java.util.UUID;
 @Service
 public class RegistrationServiceImpl implements RegistrationService {
@@ -88,7 +76,7 @@ public class RegistrationServiceImpl implements RegistrationService {
     }
 
     @Override
-    public User getUserByEmail(String token) throws UserNotFoundException, JsonProcessingException {
+    public User getUserByToken(String token) throws UserNotFoundException, JsonProcessingException {
         System.out.println("Token: "+token);
     String email = getEmail(token);
         System.out.println("here "+email);
@@ -108,6 +96,19 @@ public class RegistrationServiceImpl implements RegistrationService {
         }
         throw new UserNotFoundException();
     }
+    @Override
+    public User getUserByEmail(String email) throws UserNotFoundException {
+    try {
+        User user = repository.findByEmail(email);
+        if (user == null) {
+            throw new UserNotFoundException();
+        } else {
+            return user;
+        }
+    } catch (Exception e) {
+        throw new UserNotFoundException();
+    }
+    }
 
     private static String getEmail(String token) throws JsonProcessingException {
     String clientId = "578349732074-ddo6roou2d4o05trh2ajmevnngudc39n.apps.googleusercontent.com";
@@ -115,28 +116,6 @@ public class RegistrationServiceImpl implements RegistrationService {
         System.out.println("paylod: "+ payLoad);
     String emailId = new ObjectMapper().readTree(new String(Base64.getDecoder().decode(payLoad))).get("email").asText();
     return emailId;
-//        try {
-//            String[] tokenParts = token.split("\\.");
-//            if (tokenParts.length < 2) {
-//                System.out.println("Invalid token");
-//                return "";
-//            }
-//
-//            String payload = new String(Base64.getUrlDecoder().decode(tokenParts[1]), StandardCharsets.UTF_8);
-//
-//            Gson gson = new Gson();
-//            Map<String, Object> payMap = gson.fromJson(payload, new TypeToken<Map<String, Object>>() {}.getType());
-//            JSONObject payloadJson = new JSONObject(payMap);
-//
-//            String userId = (String) payloadJson.get("sub");
-//            String email = (String) payloadJson.get("email");
-//
-//            System.out.println("User ID: " + userId);
-//            System.out.println("Email: " + email);
-//            return email;
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
     }
 
     private String alphaNumericRandom(int length) {

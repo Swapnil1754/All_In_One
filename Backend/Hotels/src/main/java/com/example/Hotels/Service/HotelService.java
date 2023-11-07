@@ -9,9 +9,11 @@ import java.io.IOException;
 import java.util.List;
 
 public interface HotelService {
-    public Hotel addHotel(byte[] image, Hotel hotel) throws OwnerNotExistsException;
-    public Hotel addRoom(MultipartFile[] images, Room room, String registrationId) throws IOException;
-    public Hotel getHotel(String registrationId);
-    public List<Hotel> getHotels(String ownerName);
-    public List<Hotel> getAll();
+    Hotel addHotel(byte[] image, Hotel hotel) throws OwnerNotExistsException;
+    Hotel addRoom(MultipartFile[] images, Room room, String registrationId) throws IOException;
+    Hotel getHotel(String registrationId);
+    List<Hotel> getHotels(String ownerName);
+    List<Hotel> getAll();
+    List<Hotel> getHotelsInCity(String city);
+
 }

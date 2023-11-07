@@ -37,7 +37,7 @@ const trial = (e) => {
         <div className="card-container">
             {data.map((item, index) => (
            <div key={index} onClick={(e) => trial(item)}>
-            <Cards title={item.hotelName} imgUrl={item.image} city={item.city} />
+            <Cards title={item.hotelName} imgUrl={item.image} disc={item.city} />
            </div>))
 }
 

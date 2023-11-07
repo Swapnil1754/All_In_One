@@ -8,10 +8,11 @@ import reactor.core.publisher.Mono;
 import java.security.NoSuchAlgorithmException;
 
 public interface RegistrationService {
-    public User registerUser(User user) throws Exception;
-    public User findUser(String userId,String password) throws Exception;
-    public User fetchUser(String userId) throws UserNotFoundException;
-    public User getUserByEmail(String email) throws UserNotFoundException, JsonProcessingException;
-    public User getUserByName(String name) throws UserNotFoundException;
+    User registerUser(User user) throws Exception;
+    User findUser(String userId,String password) throws Exception;
+    User fetchUser(String userId) throws UserNotFoundException;
+    User getUserByToken(String token) throws UserNotFoundException, JsonProcessingException;
+    User getUserByName(String name) throws UserNotFoundException;
+    User getUserByEmail(String email) throws UserNotFoundException;
 
 }
