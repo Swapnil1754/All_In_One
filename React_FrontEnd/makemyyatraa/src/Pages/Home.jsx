@@ -18,7 +18,6 @@ const Home = () => {
         try {
         const response = await axios.get(url);
         setData(response.data);
-        console.log('Res', response)
         return response;
         } catch(error) {
             console.log("Error", error)
@@ -29,7 +28,6 @@ const Home = () => {
     callApi();
 },[])
 const trial = (e) => {
-    console.log("Hi...", e)
     AsyncStorage.setItem('regId', e.registrationId)
     .then(() => { console.log("Data Saved Successfull...!!!")})
     .catch((error) => {console.log("Data Saving Failed...!!!")});
@@ -39,7 +37,7 @@ const trial = (e) => {
         <div className="card-container">
             {data.map((item, index) => (
            <div key={index} onClick={(e) => trial(item)}>
-            <Cards title={item.hotelName} imgUrl={item.image} city={item.city} />
+            <Cards title={item.hotelName} imgUrl={item.image} disc={item.city} />
            </div>))
 }
 

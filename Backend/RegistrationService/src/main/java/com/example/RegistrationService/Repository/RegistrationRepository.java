@@ -7,8 +7,8 @@ import reactor.core.publisher.Mono;
 
 @Repository
 public interface RegistrationRepository extends JpaRepository<User,String> {
-public User findByUserIdAndPassword(int userId,String password);
-public User findByUserId(String userId);
-public User findByEmail(String email);
-public User findByName1(String name);
+User findByUserIdAndPassword(int userId,String password);
+User findByUserId(String userId);
+User findByEmail(String email);
+User findByName1(String name);
 }

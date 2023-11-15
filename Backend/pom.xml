@@ -15,6 +15,7 @@
 	<name>MakeMyYatraa</name>
 	<description>Demo project for Spring Boot</description>
 	<modules>
+		<module>Admin</module>
 		<module>RegistrationService</module>
 		<module>CustomerService</module>
 		<module>EurekaServer</module>

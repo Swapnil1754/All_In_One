@@ -1,5 +1,6 @@
 package com.example.Hotels.Service;
 
+import com.example.Hotels.Domain.Aminities;
 import com.example.Hotels.Domain.Hotel;
 import com.example.Hotels.Domain.Room;
 import com.example.Hotels.Domain.User;
@@ -16,6 +17,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -48,7 +52,25 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
-    public Hotel addRoom(MultipartFile[] images, Room room, String registrationId) throws IOException {
+    public Hotel addRoom(List<Map<String, Object>> room, String registrationId) throws IOException {
+        Hotel hotel = repository.findByRegistrationId(registrationId);
+        for(Map<String, Object> x:room) {
+        Room room1 = new Room();
+            room1.setRoomId(roomRegistrationNumber());
+            room1.setRoomCatagory((String) x.get("roomCatagory"));
+            room1.setRoomType((String) x.get("roomType"));
+            double price = Double.parseDouble(x.get("price").toString());
+            room1.setPrice(price);
+            room1.setAminitiesList((List<String>) x.get("aminitiesList"));
+            Optional<Room>
+            hotel.getRooms().add(room1);
+        }
+        repository.save(hotel);
+        return hotel;
+    }
+
+    @Override
+    public Hotel addRoomImages(MultipartFile[] images, String registrationId, String roomCatagory) throws IOException {
         Hotel hotel = repository.findByRegistrationId(registrationId);
         List<List<Byte>> imgBytes = new ArrayList<>();
         byte[] imageB;
@@ -61,11 +83,17 @@ public class HotelServiceImpl implements HotelService {
             }
             imgBytes.add(bytes);
         }
-        room.setImages(imgBytes);
-        List<Room> rooms = hotel.getRooms();
-        rooms.add(room);
-        hotel.setRooms(rooms);
-        repository.save(hotel);
+        System.out.println("roomCatagory "+ roomCatagory);
+        Optional<Room> roomOptional = hotel.getRooms().stream().filter(x-> Objects.equals(x.getRoomCatagory(), roomCatagory)).findFirst();
+        if (roomOptional.isPresent()) {
+            Room room = roomOptional.get();
+            room.setImages(imgBytes);
+            hotel.getRooms().remove(roomOptional.get());
+            hotel.getRooms().add(room);
+            repository.save(hotel);
+        } else {
+            throw new RuntimeException("No room available");
+        }
         return hotel;
     }
 
@@ -89,7 +117,15 @@ public class HotelServiceImpl implements HotelService {
         return list;
     }
 
+    @Override
+    public List<Hotel> getHotelsInCity(String city) {
+        return repository.findByCity(city);
+    }
+
     private String registrationNumber() {
         return UUID.randomUUID().toString().replace("-", "").substring(0, 7).toUpperCase();
+    }
+    private String roomRegistrationNumber() {
+        return UUID.randomUUID().toString().replace("-", "").substring(0, 5).toUpperCase();
     }
 }
