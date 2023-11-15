@@ -5,7 +5,9 @@ import com.example.Hotels.Domain.Room;
 import com.example.Hotels.Exceptions.OwnerNotExistsException;
 import com.example.Hotels.Service.HotelService;
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.reflect.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +22,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 @RequestMapping("/api/hotel")
 @RestController
@@ -39,13 +44,17 @@ public class HotelController {
         return new ResponseEntity<>(hotelService.addHotel(file.getBytes(), hotel1), HttpStatus.OK);
     }
     @PutMapping("/{registrationId}/add-room")
-    public ResponseEntity<?> addRoom(@RequestParam("files") MultipartFile[] multipartFile, @RequestParam("data") String data, @PathVariable String registrationId) throws IOException {
+    public ResponseEntity<?> addRoom(@RequestParam("data") String data, @PathVariable String registrationId) throws IOException {
         System.out.println(registrationId);
         System.out.println(data);
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-        Room room = objectMapper.readValue(data, Room.class);
-        return new ResponseEntity<>(hotelService.addRoom(multipartFile,room,registrationId),HttpStatus.OK);
+        List room = objectMapper.readValue(data,List.class);
+        return new ResponseEntity<>(hotelService.addRoom(room,registrationId),HttpStatus.OK);
+    }
+    @PutMapping("room-image/{registrationId}/{roomCatagory}")
+    public ResponseEntity<?> addRoomImage(@RequestParam("files") MultipartFile[] multipartFiles, @PathVariable String registrationId, @PathVariable String roomCatagory) throws IOException {
+        return new ResponseEntity<>(hotelService.addRoomImages(multipartFiles, registrationId, roomCatagory), HttpStatus.OK);
     }
     @GetMapping("/get-hotels/{ownerName}")
     public ResponseEntity<List<Hotel>> getHotels(@PathVariable String ownerName) {

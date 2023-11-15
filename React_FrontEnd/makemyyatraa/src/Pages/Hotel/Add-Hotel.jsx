@@ -10,13 +10,17 @@ import {
   formStyles,
 } from '../CSS/AddHotelForm.styles';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const AddHotelForm = () => {
+  const navigate = useNavigate();
     const [formData, setFormData] = useState({
         ownerName: '',
         hotelName: '',
         rating: '',
         city: '',
+        rooms: [],
       });
       const [imgData1, setImgData1] = useState([]);
       const url = process.env.REACT_APP_ADD_HOTEL_URL;
@@ -34,8 +38,10 @@ const AddHotelForm = () => {
         if(imgData1) {
         form.append('file', imgData1);
         form.append('data', JSON.stringify(formData));
-        console.log('data', form);
           const responseData = await callApi(form);
+          console.log("responseData", responseData);
+          // await AsyncStorage.setItem('roomId', responseData.data.roomCatagory).then((value) => console.log("RoomId saved",value)).catch(() => console.log("RoomId saving failed..."))
+          navigate('/add-room');
       } else {
         console.log("Error found...")
       }
@@ -48,7 +54,9 @@ const AddHotelForm = () => {
             headers: {
               "Content-Type": "multipart/form-data"
             }
-          }).then((response) => {
+          }).then(async (response) => {
+            console.log("call", response.data.registrationId);
+            await AsyncStorage.setItem('roomId', response.data.registrationId).then((value) => console.log("RoomId saved",value)).catch(() => console.log("RoomId saving failed..."));
             return response;
           })
         } catch (error) {

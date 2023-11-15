@@ -11,6 +11,7 @@ import { store, persistor} from './Redux/store';
 import { PersistGate } from 'redux-persist/integration/react';
 import City from './Pages/Cities/City';
 import CityHotels from './Pages/Hotel/City-Hotels';
+import AddRoom from './Pages/Hotel/Rooms/Add-Room';
 function App() {
   return (
     <Provider store={store}>
@@ -25,6 +26,7 @@ function App() {
         <Route path='/display-hotel' element={<DisplayHotel />}/>
         <Route path='/add-hotel' element={<AddHotel/>} />
         <Route path='/city-hotels' element={<CityHotels />}/>
+        <Route path='/add-room' element={<AddRoom />} />
       </Routes>
     </Router>
     </PersistGate>
