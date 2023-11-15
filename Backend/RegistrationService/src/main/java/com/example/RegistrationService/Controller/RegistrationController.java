@@ -37,7 +37,7 @@ public class RegistrationController {
     public ResponseEntity<User> register(@RequestBody User user) throws IOException, UserAlreadyExistsException {
         String srtData = MaskData.maskFun(user);
         ObjectMapper objectMapper = new ObjectMapper();
-        User user1 = objectMapper.readValue(srtData,User.class);
+        User user1 = objectMapper.readValue(srtData, User.class);
         System.out.println(user1);
     try {
         responseEntity=new ResponseEntity<>(registrationService.registerUser(user1), HttpStatus.OK);
@@ -65,11 +65,11 @@ public class RegistrationController {
     }
     @GetMapping(path = "/google")
     public ResponseEntity<User> getUserByEmailId(@RequestParam String token) throws UserNotFoundException, JsonProcessingException {
-    return new ResponseEntity<>(registrationService.getUserByEmail(token), HttpStatus.OK);
+    return new ResponseEntity<>(registrationService.getUserByToken(token), HttpStatus.OK);
     }
     @GetMapping(path = "/facebook")
-    public ResponseEntity<User> getUserByName(@RequestParam String name) throws UserNotFoundException {
-    return new ResponseEntity<>(registrationService.getUserByName(name), HttpStatus.OK);
+    public ResponseEntity<User> getUserByName(@RequestParam String email) throws UserNotFoundException {
+    return new ResponseEntity<>(registrationService.getUserByEmail(email), HttpStatus.OK);
     }
 
 }

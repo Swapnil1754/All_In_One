@@ -18,11 +18,10 @@ import java.util.TreeMap;
 
 public class MaskData {
     public static String maskFun(Object object) throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
         String data = getJsonString(object);
         Map<String, String> maskMap = new TreeMap<>();
 //        maskMap.put("email", MaskingCostants.email);
-//        maskMap.put("mobNo",MaskingCostants.mobNo);
+        maskMap.put("mobNo",MaskingCostants.mobNo);
        return maskJsonResponse(data,maskMap);
     }
     public static String maskJsonResponse(String jsonData, Map<String, String> maskMap) throws JsonProcessingException {

@@ -2,31 +2,21 @@ import React, { useEffect, useState } from "react";
 import './Header.css';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigate } from "react-router-dom";
-
+import { useSelector, useDispatch } from "react-redux";
+import { updateLoginToken } from "../../Redux/actions";
 const Header = ({ status }) => {
   const [showOptions, setShowOptions] = useState(false);
   const navigate = useNavigate();
   const [x, setX] = useState(false);
+  const xD = useSelector((state) => state.loginToken);
+  const dispatch = useDispatch();
   useEffect(() => {
-    const logData = async () => {
-    const data0 = await AsyncStorage.getItem('Token');
-    if(data0){
-      setX(true);
-    }else{
-      setX(false);
+    if (xD != 900) {
+      setX(true)
     }
-  }
-  const logOut = () => {
-    setX(false);
-    navigate('/login');
-  }
-  if(x) {
-    logOut();
-  } else {
-    logData();
-  }
-  }, [status]);
+  })
   const handleButton = () => {
+    dispatch(updateLoginToken(900))
     AsyncStorage.removeItem('Token');
     setX(false);
   }
@@ -50,8 +40,8 @@ const Header = ({ status }) => {
                 <li>Profile</li>
                 <li>Setting</li>
                 {x ? (
-                  <li><a href="" onClick={handleButton}>LogOut</a></li>
-                ):(
+                  <li><a href="#" onClick={handleButton}>LogOut</a></li>
+                ) : (
                   <li><a href="/login">Login</a></li>
                 )
                 }

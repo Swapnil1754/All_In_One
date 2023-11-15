@@ -1,0 +1,33 @@
+.add-room-container {
+    max-width: 800px;
+    margin: auto;
+  }
+  
+  .room-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+  
+  .room-table th, .room-table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    /* text-align: center; */
+  }
+  
+  .room-table th {
+    background-color: #f2f2f2;
+  }
+  
+  .add-room-button, .submit-button {
+    padding: 10px;
+    margin-right: 10px;
+    cursor: pointer;
+  }
+  
+  .submit-button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+  }
+  
