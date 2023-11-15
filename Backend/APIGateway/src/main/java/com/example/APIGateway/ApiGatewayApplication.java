@@ -25,7 +25,8 @@ public class ApiGatewayApplication {
 		System.out.println("Hello");
 		return builder.routes().route(p->p.path("/api/v1/**").uri("lb://register-service"))
 				.route(p->p.path("/api/hotel/**").uri("lb://hotel-service"))
-				.route(p->p.path("/api/owner/**").uri("lb://owner-service")).build();
+				.route(p->p.path("/api/owner/**").uri("lb://owner-service"))
+				.route(p->p.path("/api/admin/**").uri("lb://admin-service")).build();
 	}
 	@Bean
 	public FilterRegistrationBean jwtFilter() {
