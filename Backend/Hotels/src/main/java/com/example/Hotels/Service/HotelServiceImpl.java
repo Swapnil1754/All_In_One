@@ -62,7 +62,6 @@ public class HotelServiceImpl implements HotelService {
             double price = Double.parseDouble(x.get("price").toString());
             room1.setPrice(price);
             room1.setAminitiesList((List<String>) x.get("aminitiesList"));
-            Optional<Room>
             hotel.getRooms().add(room1);
         }
         repository.save(hotel);
@@ -70,7 +69,7 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
-    public Hotel addRoomImages(MultipartFile[] images, String registrationId, String roomCatagory) throws IOException {
+    public Room addRoomImages(MultipartFile[] images, String registrationId, String roomCatagory) throws IOException {
         Hotel hotel = repository.findByRegistrationId(registrationId);
         List<List<Byte>> imgBytes = new ArrayList<>();
         byte[] imageB;
@@ -83,18 +82,21 @@ public class HotelServiceImpl implements HotelService {
             }
             imgBytes.add(bytes);
         }
-        System.out.println("roomCatagory "+ roomCatagory);
         Optional<Room> roomOptional = hotel.getRooms().stream().filter(x-> Objects.equals(x.getRoomCatagory(), roomCatagory)).findFirst();
         if (roomOptional.isPresent()) {
             Room room = roomOptional.get();
-            room.setImages(imgBytes);
+            if (room.getImages() == null) {
+                room.setImages(imgBytes);
+            } else {
+                room.getImages().addAll(imgBytes);
+            }
             hotel.getRooms().remove(roomOptional.get());
             hotel.getRooms().add(room);
             repository.save(hotel);
+            return room;
         } else {
             throw new RuntimeException("No room available");
         }
-        return hotel;
     }
 
     @Override
@@ -104,10 +106,6 @@ public class HotelServiceImpl implements HotelService {
 
     @Override
     public List<Hotel> getHotels(String ownerName) {
-        List<Hotel> list = repository.findByOwnerName(ownerName);
-        for (Hotel hotel : list) {
-            System.out.println(hotel);
-        }
         return repository.findByOwnerName(ownerName);
     }
 
@@ -120,6 +118,11 @@ public class HotelServiceImpl implements HotelService {
     @Override
     public List<Hotel> getHotelsInCity(String city) {
         return repository.findByCity(city);
+    }
+
+    @Override
+    public void deleteHotel(String registrationId) {
+        repository.delete(repository.findByRegistrationId(registrationId));
     }
 
     private String registrationNumber() {

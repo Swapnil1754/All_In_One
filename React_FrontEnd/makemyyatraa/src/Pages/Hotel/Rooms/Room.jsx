@@ -1,4 +1,5 @@
-import React from "react";
+import axios from "axios";
+import React, { useState } from "react";
 
 const Room = ({ room, onChange }) => {
   const handleChange = (e) => {
@@ -13,6 +14,31 @@ const Room = ({ room, onChange }) => {
 
     onChange({ ...room, aminitiesList: updatedAmenities });
   };
+  const [imge, setImg] = useState();
+  const imgUrl ="";
+  const imgHandle = (e) => {
+      const imgData = e.target.files;
+      return new Promise((resolve, reject) => {
+          setImg(imgData);
+          console.log("imgData", imgData);
+      })
+  }
+  const submitImg = () => {
+      const formData = new FormData();
+      for(const image of imge) {
+          formData.append('files', image)
+      }
+      try {
+          const response = axios.put(imgUrl, formData, {
+              headers: {
+                  'Content-Type': "multipart/form-data"
+              }
+          });
+          console.log("Success");
+      } catch(error) {
+          console.log("err", error)
+      }
+  }
 
   return (
     <tr>
@@ -71,14 +97,35 @@ const Room = ({ room, onChange }) => {
             <label>
               <input
                 type="checkbox"
-                name="ac"
-                checked={room.aminitiesList.includes("ac")}
-                onChange={() => handleAmenityChange("ac")}
+                name="swimming pool"
+                checked={room.aminitiesList.includes("swimming pool")}
+                onChange={() => handleAmenityChange("swimming pool")}
               />
-              Air Conditioning
+              Swimming Pool
             </label>
           </div>
-          {/* Add more amenities as needed */}
+          <div>
+            <label>
+              <input
+                type="checkbox"
+                name="breakfast"
+                checked={room.aminitiesList.includes("breakfast")}
+                onChange={() => handleAmenityChange("breakfast")}
+              />
+              Morning Breakfast
+            </label>
+          </div>
+          <div>
+            <label>
+              <input
+                type="checkbox"
+                name="dinner"
+                checked={room.aminitiesList.includes("dinner")}
+                onChange={() => handleAmenityChange("dinner")}
+              />
+              Dinner
+            </label>
+          </div>
         </div>
       </td>
     </tr>

@@ -77,7 +77,6 @@ public class RegistrationServiceImpl implements RegistrationService {
 
     @Override
     public User getUserByToken(String token) throws UserNotFoundException, JsonProcessingException {
-        System.out.println("Token: "+token);
     String email = getEmail(token);
         System.out.println("here "+email);
         User user = repository.findByEmail(email);
@@ -113,7 +112,6 @@ public class RegistrationServiceImpl implements RegistrationService {
     private static String getEmail(String token) throws JsonProcessingException {
     String clientId = "578349732074-ddo6roou2d4o05trh2ajmevnngudc39n.apps.googleusercontent.com";
     String payLoad = token.split("\\.")[1];
-        System.out.println("paylod: "+ payLoad);
     String emailId = new ObjectMapper().readTree(new String(Base64.getDecoder().decode(payLoad))).get("email").asText();
     return emailId;
     }
