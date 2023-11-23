@@ -11,6 +11,7 @@ import { ReactComponent as AppleIcon } from '../../Common/Assets/apple-logo.svg'
 import { ReactComponent as SmileyIcon } from '../../Common/Assets/smiley.svg';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateLoginToken } from "../../Redux/actions";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 const Login = () => {
   const url = process.env.REACT_APP_LOGIN_URL;
   const googleUrl = process.env.REACT_APP_GOOGLE_URL;
@@ -41,6 +42,11 @@ const Login = () => {
         const googleLogin = await googleApi(idToken)
         const fullName = await googleLogin.data.name1;
         const firstName = fullName.split(' ')[0];
+        console.log("fb", googleLogin.data.isOwner);
+        dispatch({ type: 'UPDATE_IS_OWNER', payload: googleLogin.data.isOwner});
+        if(googleLogin.data.isOwner){
+          await AsyncStorage.setItem('ownerName', fullName).then((value) => console.log("data Saved", value)).catch((err) => console.log("error", err))
+        }
         setMessage(
           <div>
             <span>Welcome Back {firstName}...!!! Have a Nice Day  <SmileyIcon className="smiley" /></span>
@@ -85,6 +91,10 @@ const Login = () => {
           dispatch({ type: 'UPDATE_LOGIN_TOKEN', payload: login.token });
           const fullName = await login.Name;
           const firstName = fullName.split(' ')[0];
+          if(login.isOwner){
+            await AsyncStorage.setItem('ownerName', fullName).then((value) => console.log("data Saved", value)).catch((err) => console.log("error", err))
+          }
+          dispatch({ type: 'UPDATE_IS_OWNER', payload: login.isOwner});
           setMessage(
             <div>
               <span>Welcome Back {firstName}...!!! Have a Nice Day  <SmileyIcon className="smiley" /></span>
@@ -180,6 +190,10 @@ const Login = () => {
           const fbResponse = await facebookApi(emailId);
           const fullName = fbResponse.data.name1;
           const firstName = fullName.split(' ')[0];
+        dispatch({ type: 'UPDATE_IS_OWNER', payload: fbResponse.data.isOwner});
+        if(fbResponse.data.isOwner){
+          await AsyncStorage.setItem('ownerName', fullName).then((value) => console.log("data Saved", value)).catch((err) => console.log("error", err))
+        }
           setMessage(
             <div>
               <span>Welcome Back {firstName}...!!! Have a Nice Day  <SmileyIcon className="smiley" /></span>

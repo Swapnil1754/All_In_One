@@ -11,6 +11,7 @@ import com.google.common.reflect.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -71,5 +72,9 @@ public class HotelController {
     @GetMapping("city/{city}")
     public ResponseEntity<?> getHotelsByCity(@PathVariable String city) {
         return new ResponseEntity<>(hotelService.getHotelsInCity(city), HttpStatus.OK);
+    }
+    @DeleteMapping("delete-hotel/{ownerName}")
+    public ResponseEntity<?> deleteHotel(@PathVariable String ownerName) {
+        return new ResponseEntity<>(hotelService, HttpStatus.OK);
     }
 }

@@ -12,10 +12,11 @@ import java.util.Map;
 public interface HotelService {
     Hotel addHotel(byte[] image, Hotel hotel) throws OwnerNotExistsException;
     Hotel addRoom(List<Map<String, Object>> room, String registrationId) throws IOException;
-    Hotel addRoomImages(MultipartFile[] images, String registrationId, String roomCatagory) throws IOException;
+    Room addRoomImages(MultipartFile[] images, String registrationId, String roomCatagory) throws IOException;
     Hotel getHotel(String registrationId);
     List<Hotel> getHotels(String ownerName);
     List<Hotel> getAll();
     List<Hotel> getHotelsInCity(String city);
+    void deleteHotel(String registrationId);
 
 }

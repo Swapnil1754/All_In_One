@@ -1,36 +1,79 @@
-import React, { useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import './Owner-Display.css';
+import { useNavigate } from "react-router-dom";
 const OwnerDisplay = () => {
-    const imgUrl = "http://localhost:9000/api/hotel/room-image/5CAA622/Standard";
-    const [imge, setImg] = useState();
-    const imgHandle = (e) => {
-        const imgData = e.target.files;
-        return new Promise((resolve, reject) => {
-            setImg(imgData);
-            console.log("imgData", imgData);
-        })
-    }
-    const submitImg = () => {
-        const formData = new FormData();
-        for(const image of imge) {
-            formData.append('files', image)
+    const [hotelData, setHotelData] = useState([{
+        ownerName: '',
+        hotelName: '',
+        rating: '',
+        city: '',
+        rooms: null,
+        image: [],
+    }]);
+    const navigate = useNavigate();
+    useEffect(() => {
+        const uri = process.env.REACT_APP_HOTEL_URL;
+        const callApi = async() => {
+            try{
+                await AsyncStorage.getItem('ownerName').then(async(value) => {
+                    if(value) {
+                        await axios.get(uri+`${value}`).then((data) => {
+                            setHotelData(data.data);
+                        }).catch((err) => console.log(err));
+                    } else{
+                        console.log("No Owner name")
+                    }
+                })
+            } catch(error) {
+                console.log(error);
+            }
         }
-        try {
-            const response = axios.put(imgUrl, formData, {
-                headers: {
-                    'Content-Type': "multipart/form-data"
-                }
-            });
-            console.log("Success");
-        } catch(error) {
-            console.log("err", error)
-        }
+        callApi()
+    }, [])
+    const editHotel = async(regId) => {
+        console.log("reg", regId);
+        await AsyncStorage.setItem('regId', regId).then(() => {
+            navigate('/hotel-profile')
+        }).catch(() => console.log("Error..."));
     }
-return(
-    <div>
-         <div>
-        <input type="file" multiple onChange={(e) => imgHandle(e)} />
-      </div>
-    </div>
-)
+    const addHotel = () => {
+        navigate('/add-hotel')
+    }
+    return(
+        <div className="owner-display-container">
+            <table className="room-table">
+                <thead>
+                    <tr>
+                        <th>Hotel Name</th>
+                        <th>Ratings</th>
+                        <th>City</th>
+                        <th>Rooms</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {hotelData.map((items, index) => (
+                        <tr>
+                            <td>{items.hotelName}</td>
+                            <td>{items.rating}</td>
+                            <td>{items.city}</td>
+                            <td>
+                                {items.rooms !== null && items.rooms.map((item, ind) => (
+                                    <ul key={ind}>
+                                        <li>{item.roomCatagory}</li>
+                                    </ul>
+                                ))}
+                            </td>
+                            <td><button className="edit-room-button" onClick={() => editHotel(items.registrationId)}>Edit</button></td>
+                            
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+            <button className="edit-room-button" onClick={addHotel}>Add New Hotel</button>
+        </div>
+    )
 }
 export default OwnerDisplay;
