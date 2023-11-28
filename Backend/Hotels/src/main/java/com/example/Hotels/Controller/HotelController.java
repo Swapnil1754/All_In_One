@@ -73,8 +73,13 @@ public class HotelController {
     public ResponseEntity<?> getHotelsByCity(@PathVariable String city) {
         return new ResponseEntity<>(hotelService.getHotelsInCity(city), HttpStatus.OK);
     }
-    @DeleteMapping("delete-hotel/{ownerName}")
-    public ResponseEntity<?> deleteHotel(@PathVariable String ownerName) {
-        return new ResponseEntity<>(hotelService, HttpStatus.OK);
+    @DeleteMapping("delete-hotel/{registrationId}")
+    public ResponseEntity<?> deleteHotel(@PathVariable String registrationId) {
+        return new ResponseEntity<>(hotelService.deleteHotel(registrationId), HttpStatus.OK);
     }
+    @PutMapping("/delete-room/{registrationId}/{roomId}")
+    public ResponseEntity<?> deleteRoom(@PathVariable String registrationId, @PathVariable String roomId) {
+        return new ResponseEntity<>(hotelService.deleteRoom(registrationId, roomId), HttpStatus.OK);
+    }
+
 }

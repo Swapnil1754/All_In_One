@@ -15,6 +15,7 @@ import AddRoom from './Pages/Hotel/Rooms/Add-Room';
 import HotelProfile from './Pages/Hotel/Owner/Hotel-Profile';
 import OwnerDisplay from './Pages/Hotel/Owner/Owner-Display';
 import EditRoom from './Pages/Hotel/Rooms/Edit-Room';
+import ConfirmHotelBooking from './Pages/Booking/Confirm-Hotel-Booking';
 function App() {
   return (
     <Provider store={store}>
@@ -33,6 +34,7 @@ function App() {
         <Route path='/edit-room' element={<EditRoom />} />
         <Route path='/hotel-profile' element={<HotelProfile /> } />
         <Route path='/owner-display' element={<OwnerDisplay /> } />
+        <Route path='/confirm-hotel-booking' element={<ConfirmHotelBooking />} />
       </Routes>
     </Router>
     </PersistGate>

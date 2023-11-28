@@ -121,8 +121,29 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
-    public void deleteHotel(String registrationId) {
-        repository.delete(repository.findByRegistrationId(registrationId));
+    public Boolean deleteHotel(String registrationId) {
+        try {
+            repository.delete(repository.findByRegistrationId(registrationId));
+            return true;
+        } catch (Exception e) {
+            throw new RuntimeException("Error while Deleting Hotel...");
+        }
+    }
+
+    @Override
+    public Hotel deleteRoom(String registrationId, String roomId) {
+        try {
+            Hotel hotel = repository.findByRegistrationId(registrationId);
+            Optional<Room> room = hotel.getRooms().stream().filter((x)->x.getRoomId().equals(roomId)).findFirst();
+            if (room.isPresent()){
+                hotel.getRooms().remove(room.get());
+                repository.save(hotel);
+                return hotel;
+            }
+            return hotel;
+        } catch (Exception e) {
+            throw new RuntimeException("Error while Deleting room...");
+        }
     }
 
     private String registrationNumber() {

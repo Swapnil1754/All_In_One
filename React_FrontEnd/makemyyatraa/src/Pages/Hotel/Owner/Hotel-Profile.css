@@ -1,100 +1,131 @@
 /* Hotel-Profile.css */
 
 .hotel-profile-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    padding: 20px;
+  display: flex;
+  flex-direction: column;
+  max-width: 800px;
+  margin: 0 auto; /* Center the container */
+  background-color: #e7e0e0;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.hotel-image {
+  width: 100%;
+  max-height: 250px;
+  object-fit: cover;
+  border-radius: 8px 8px 0 0;
+}
+
+.hotel-details {
+  background-color: #e4dcdb;
+  justify-content: center; /* Center the content horizontally */
+  align-items: center;
+  padding: 20px;
+}
+
+.hotel-info {
+  padding: 20px; /* Add some padding for better spacing */
+  text-align: center; /* Center the text */
+}
+
+.hotel-name {
+  font-size: 24px;
+  margin-bottom: 10px;
+  color: #fff; /* Set text color to white */
+}
+
+.hotel-rating {
+  font-size: 18px;
+  color: #fff; /* Set text color to white */
+}
+
+.room-list {
+  margin-top: 20px;
+  text-align: center; /* Center the text */
+}
+
+.room-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.room-table th,
+.room-table td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.room-table th {
+  background-color: #f2f2f2;
+}
+
+.edit-room-button,
+.delete-room-button,
+.add-room-button {
+  padding: 8px 12px;
+  margin-right: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  border: none;
+  border-radius: 4px;
+  outline: none;
+}
+
+.edit-room-button {
+  background-color: #3498db;
+  color: #fff;
+}
+
+.delete-room-button {
+  background-color: #e74c3c;
+  color: #fff;
+}
+
+.add-room-button {
+  background-color: #2ecc71;
+  color: #fff;
+}
+
+/* Toaster Styles */
+.toaster-container {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  z-index: 9999;
+}
+
+.toaster {
+  padding: 10px;
+  /* background-color: #2ecc71; */
+  color: #fff;
+  border-radius: 4px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 300px;
+  animation: slideIn 0.5s ease-out, fadeOut 0.5s 2.5s ease-out forwards;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-100%);
   }
-  
-  .hotel-image {
-    width: 100%;
-    max-width: 400px;
-    height: auto;
-    border-radius: 8px;
-    margin-bottom: 20px;
+  to {
+    transform: translateY(0);
   }
-  
-  .hotel-details {
-    text-align: center;
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
   }
-  
-  .hotel-name {
-    font-size: 24px;
-    margin-bottom: 10px;
+  to {
+    opacity: 0;
   }
-  
-  .hotel-rating {
-    font-size: 18px;
-    color: #666;
-    margin-bottom: 20px;
-  }
-  
-  .room-list {
-    width: 100%;
-    max-width: 800px;
-  }
-  
-  .room-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-  }
-  
-  .room-table th, .room-table td {
-    border: 1px solid #ddd;
-    padding: 12px;
-    text-align: left;
-  }
-  
-  .room-table th {
-    background-color: #f2f2f2;
-  }
-  
-  .edit-room-button-container {
-    display: flex;
-  }
-  
-  .edit-room-button, .delete-room-button {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin: 5px;
-  }
-  
-  .edit-room-button:hover, .delete-room-button:hover {
-    background-color: #45a049;
-  }
-  .delete-room-button {
-    background-color: rgb(155, 139, 139);
-    color: white;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin: 5px;
-  }
-  
-  .delete-room-button:hover {
-    background-color: #d8c709;
-  }
-  .add-room-button {
-    background-color: rgb(84, 13, 225);
-    color: white;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin: 5px;
-  }
-  
-  .add-room-button:hover {
-    background-color: #150343;
-  }
-  
-  /* Add more styles as needed */
-  
+}
