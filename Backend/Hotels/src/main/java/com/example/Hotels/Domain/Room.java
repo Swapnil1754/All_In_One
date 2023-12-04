@@ -29,4 +29,5 @@ public class Room {
 
     private List<List<Byte>> images;
     private List<String> aminitiesList;
+    private List<String> termsAndConditions;
 }

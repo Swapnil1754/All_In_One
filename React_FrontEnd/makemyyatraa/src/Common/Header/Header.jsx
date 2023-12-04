@@ -40,6 +40,7 @@ const Header = ({ status }) => {
       <nav>
         <ul>
           <li><a href="/" style={{ fontFamily: 'cursive' }}>AllInOne.com</a></li>
+          {/* <li><img src="/AllInOne_logo.png" alt="" style={{height:'50px'}} /></li> */}
           <div className="menu">
             <div className="menu-icon" onClick={toggleOption}>
               <div className="bar"></div>
@@ -49,7 +50,7 @@ const Header = ({ status }) => {
             {showOptions && (
               <ul className="menu-options">
                 {isOwner ? (
-                  <li><a href="#" onClick={ownerProfile}>Owner Profile</a></li>
+                  <li><a href="#" onClick={ownerProfile}>Profile</a></li>
                 ) : (
                   <li>Profile</li>
                 )}

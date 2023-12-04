@@ -50,7 +50,10 @@ const DisplayHotel = () => {
         const blob = new Blob([new Uint8Array(imagedata)], { type: 'image/*' });
         return URL.createObjectURL(blob);
       };
-    const confirmBooking = () => {
+    const confirmBooking = async(roomData) => {
+      await AsyncStorage.setItem('hotelName', data.hotelName);
+      const rooM = JSON.stringify(roomData);
+      await AsyncStorage.setItem('roomData', rooM);
       navigate('/confirm-hotel-booking')
     }
       return (
@@ -75,7 +78,7 @@ const DisplayHotel = () => {
                   data.rooms.map((room, index) => (
                     <li key={index} className="room-item">
                       <p>Category: {room.roomCatagory}</p>
-                      <button className="book-room-button" onClick={confirmBooking}>Book Room</button>
+                      <button className="book-room-button" onClick={() => confirmBooking(room)}>Book Room</button>
                       <p>Type: {room.roomType}</p>
                       <p>Price Rs. {room.price}</p>
                       <h4>Images:</h4>

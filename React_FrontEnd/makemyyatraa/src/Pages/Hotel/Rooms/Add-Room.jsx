@@ -48,9 +48,9 @@ const AddRoom = () => {
   }
 
   return (
-    <div className="add-room-container">
+    <div className="add-room-container1">
       <h2>Add Rooms to Your Hotel</h2>
-      <table className="room-table">
+      <table className="room-table1">
         <thead>
           <tr>
             <th>Room Category</th>
@@ -65,8 +65,8 @@ const AddRoom = () => {
           ))}
         </tbody>
       </table>
-      <button className="add-room-button" onClick={addRoom}>Add Room</button>
-      <button className="submit-button" onClick={handleSubmit}>Submit</button>
+      <button className="add-room-button1" onClick={addRoom}>Add Room</button>
+      <button className="submit-button1" onClick={handleSubmit}>Submit</button>
       <Toaster message={message} />
     </div>
   );

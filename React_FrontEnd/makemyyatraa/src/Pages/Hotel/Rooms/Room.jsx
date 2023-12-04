@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
+import './Room.css';
 
 const Room = ({ room, onChange }) => {
   const handleChange = (e) => {
@@ -70,7 +71,7 @@ const Room = ({ room, onChange }) => {
         />
       </td>
       <td>
-        <div>
+        <div className="aminity">
           <div>
             <label>
               <input
