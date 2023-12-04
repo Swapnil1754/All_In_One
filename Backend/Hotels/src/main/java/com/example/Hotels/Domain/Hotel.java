@@ -23,6 +23,6 @@ public class Hotel {
     private String city;
     private double rating;
     private byte[] image;
-    private List<Menu> menus;
+//    private List<Menu> menus;
     private List<Room> rooms;
 }

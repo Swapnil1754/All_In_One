@@ -5,6 +5,7 @@ import { Typography, TextField, Button, Grid, Checkbox } from '@mui/material';
 import '../CSS/City.css';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigate } from "react-router-dom";
+import CityCards from "../../Common/Cards/City-Cards";
 const City = () => {
     const [data, setData] = useState([]);
     const navigate = useNavigate();
@@ -37,7 +38,7 @@ navigate("/city-hotels")
         <div className="card-container">
             {data.map((item, index) => (
                 <div key={index} onClick={(e) => hotelsByCity(item)}>
-                    <Cards title={item.cityName} imgUrl={item.cityImage} disc={item.state} />
+                    <CityCards title={item.cityName} imgUrl={item.cityImage} disc={item.state} />
                 </div>
             ))}
         </div>

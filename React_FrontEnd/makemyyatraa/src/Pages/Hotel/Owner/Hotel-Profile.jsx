@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import './Hotel-Profile.css'; // Import your custom CSS file for styling
 import EditRoom from "../Rooms/Edit-Room";
 import { useNavigate } from "react-router-dom";
+import Toaster from "../../../Common/Toaster/Toaster";
 
 const HotelProfile = () => {
     const [formData, setFormData] = useState({
@@ -15,7 +16,10 @@ const HotelProfile = () => {
         rooms: [],
         image: [],
     });
+    const [message, setMessage] = useState();
     const navigate = useNavigate();
+    const deleteRoomUrl = process.env.REACT_APP_DELETE_ROOM_URL;
+    const deleteHotelUrl = process.env.REACT_APP_DELETE_HOTEL_URL;
     const selectRoom = (room, event) => {
         event.preventDefault();
         try {
@@ -30,7 +34,6 @@ const HotelProfile = () => {
     useEffect(() => {
         const callApi = async () => {
             const regid = await AsyncStorage.getItem('regId');
-            // const regid = '0D72924';
             const uri = process.env.REACT_APP_GET_HOTEL_URL;
             try {
                 await axios.get(uri + `${regid}`, {
@@ -66,6 +69,30 @@ const HotelProfile = () => {
     const imgData = {
         imgUrl: decodeBase64Image(formData.image)
     }
+    const deleteRoom = async(roomId) => {
+        const regid = await AsyncStorage.getItem('regId');
+        const response = await axios.put(deleteRoomUrl+`${regid}/${roomId}`);
+        console.log("Room deletion", response.data);
+        setFormData(response.data);
+        return response.data;
+    }
+    const deleteHotel = async() => {
+        const regid = await AsyncStorage.getItem('regId');
+        try {
+        const response = await axios.delete(deleteHotelUrl+`${regid}`);
+        // setFormData(response.data);
+        setMessage("Hotel has been deleted successfully...!!!");
+        setTimeout(() => {
+            navigate('/owner-display');
+        }, 3000)
+        } catch(err) {
+            console.log(err);
+        }
+    }
+    const addRoom = async() => {
+        await AsyncStorage.setItem('registrationId',`${formData.registrationId}`);
+        navigate("/add-room");
+    }
 
     return (
         <div className="hotel-profile-container">
@@ -90,7 +117,7 @@ const HotelProfile = () => {
                                 <tr key={index}>
                                     <td>{item.roomCatagory}</td>
                                     <td>{item.roomType}</td>
-                                    <td>${item.price}</td>
+                                    <td>Rs.{item.price}</td>
                                     <td>
                                         <ul>
                                             {item.aminitiesList.map((aminity, ind) => (
@@ -98,15 +125,17 @@ const HotelProfile = () => {
                                             ))}
                                         </ul>
                                     </td>
-                                    <td><button className="edit-room-button" onClick={(e) => selectRoom(item, e)}>Add Room Images</button>
-                                    <button className="delete-room-button">Delete Room</button>
+                                    <td><button className="edit-room-button" onClick={(e) => selectRoom(item, e)}>Add Images</button>
+                                    <button className="delete-room-button" onClick={() => deleteRoom(item.roomId)}>Delete Room</button>
                                     </td>
                                 </tr>))}
                         </tbody>
                     </table>
-                    <button className="add-room-button">Add New Room</button>
+                    <button className="add-room-button" onClick={addRoom}>Add New Room</button>
+                    <button className="delete-room-button" onClick={deleteHotel}>Delete Hotel</button>
                 </div>
             </div>
+            <Toaster message={message} />
         </div>
     );
 }

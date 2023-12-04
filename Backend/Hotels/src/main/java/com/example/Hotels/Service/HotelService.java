@@ -17,6 +17,7 @@ public interface HotelService {
     List<Hotel> getHotels(String ownerName);
     List<Hotel> getAll();
     List<Hotel> getHotelsInCity(String city);
-    void deleteHotel(String registrationId);
+    Boolean deleteHotel(String registrationId);
+    Hotel deleteRoom(String registrationId, String roomId);
 
 }

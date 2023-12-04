@@ -1,5 +1,5 @@
 .card-container {
-    background-color: rgb(247, 242, 242);
+    background-color: rgb(172, 172, 184);
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between; /* Distribute cards evenly */
@@ -7,7 +7,8 @@
   }
   
   .card {
-    width: calc(55%-10px); /*Adjust the width based on the number of cards per row and gap*/
+    width: 350px;
+    height: 350px;
     border: 1px solid #ddd; /* Add styling to the card */
     padding: 10px; /* Add padding to the card */
   }

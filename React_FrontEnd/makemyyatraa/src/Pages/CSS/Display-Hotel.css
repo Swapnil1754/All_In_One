@@ -1,2 +1,115 @@
+/* Display-Hotel.css */
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .header {
+    background-color: #3498db;
+    color: #fff;
+    padding: 10px;
+    text-align: left;
+    border-radius: 8px 8px 0 0;
+    position: relative;
+  }
+  
+  .hotel-image {
+    width: 100%;
+    max-height: 300px;
+    object-fit: cover;
+    border-radius: 0 0 8px 8px;
+  }
+  
+  /* .hotel-details {
+    color: #333;
+    font-size: 18px;
+    position: absolute;
+    top: 140%;
+    left: 90%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    text-align: left;
+  } */
+  
+  .hotel-details p {
+    margin: 5px 0;
+  }
+  
+  .rating-city {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 20px;
+  }
+  
+  .rooms-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .room-item {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+  }
+  
+  .room-images {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 10px -10px;
+  }
+  
+  .room-images img {
+    width: calc(33.333% - 20px);
+    max-height: 150px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin: 10px;
+  }
+  
+  /* Spinner styles */
+  .spinner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+  
+  .spinner img {
+    width: 50px;
+    height: 50px;
+  }
+  
+  /* Media query for responsiveness */
+  @media (max-width: 600px) {
+    .hotel-details {
+      font-size: 16px;
+    }
+  
+    .room-images img {
+      width: 100%;
+    }
+  }
+  /* Add the following styles at the end of your existing CSS file */
+
+.room-item {
+  position: relative;
+}
+
+.book-room-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 10px;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 14px;
+  border: none;
+  border-radius: 4px;
+  outline: none;
+  background-color: #3498db;
+  color: #fff;
+}
 
   
