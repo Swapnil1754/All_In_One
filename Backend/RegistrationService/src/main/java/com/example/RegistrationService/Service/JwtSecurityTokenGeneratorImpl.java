@@ -11,14 +11,15 @@ import java.util.Map;
 @Service
 public class JwtSecurityTokenGeneratorImpl implements JwtSecurityTokenGenerator{
     @Override
-    public Map<String, String> generateToken(User user) {
+    public Map<String, Object> generateToken(User user) {
         String jwtToken = null;
         jwtToken = Jwts.builder().setSubject(user.getEmail()).setIssuedAt(new Date())
                 .signWith(SignatureAlgorithm.HS256,"secretkey").compact();
-        Map<String,String> map = new HashMap<>();
+        Map<String,Object> map = new HashMap<>();
         map.put("token", jwtToken);
         map.put("message","User Successfully Logged In...!!!");
         map.put("Name", user.getName1());
+        map.put("isOwner", user.isOwner());
         return map;
     }
 }

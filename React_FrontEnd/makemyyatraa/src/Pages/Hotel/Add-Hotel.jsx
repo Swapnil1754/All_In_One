@@ -1,5 +1,5 @@
 // AddHotelForm.js
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, Typography, TextField, Button, Paper, InputLabel, FormControl, Input } from '@mui/material';
 import { css } from '@emotion/react';
 import {
@@ -34,13 +34,10 @@ const AddHotelForm = () => {
       const form = new FormData();
       const handleSubmit = async (event) => {
         event.preventDefault();
-        // Add your form submission logic here
         if(imgData1) {
         form.append('file', imgData1);
         form.append('data', JSON.stringify(formData));
           const responseData = await callApi(form);
-          console.log("responseData", responseData);
-          // await AsyncStorage.setItem('roomId', responseData.data.roomCatagory).then((value) => console.log("RoomId saved",value)).catch(() => console.log("RoomId saving failed..."))
           navigate('/add-room');
       } else {
         console.log("Error found...")
@@ -56,7 +53,7 @@ const AddHotelForm = () => {
             }
           }).then(async (response) => {
             console.log("call", response.data.registrationId);
-            await AsyncStorage.setItem('roomId', response.data.registrationId).then((value) => console.log("RoomId saved",value)).catch(() => console.log("RoomId saving failed..."));
+            await AsyncStorage.setItem('registrationId', response.data.registrationId).then((value) => console.log("RoomId saved",value)).catch(() => console.log("RoomId saving failed..."));
             return response;
           })
         } catch (error) {
@@ -79,6 +76,15 @@ const AddHotelForm = () => {
       
       })
     }
+    useEffect(() => {
+      const getOwnerName = async () => {
+        await AsyncStorage.getItem('ownerName').then(async(value) => {
+          setFormData({...formData,
+          ownerName: value});
+        })
+      }
+      getOwnerName();
+    }, [])
       
 
   return (

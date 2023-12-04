@@ -1,6 +1,7 @@
 /* Common styles for both PC and mobile */
 header {
   background-color: #181936;
+  position: relative;
   color: #fff;
   padding: 7px 0; /* Increase the padding for better mobile touch interactions */
   display: flex;

@@ -4,22 +4,28 @@ import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import './AddRoom.css'; // Import your custom CSS file for styling
 import { useNavigate } from "react-router-dom";
+import Toaster from "../../../Common/Toaster/Toaster";
 
 const AddRoom = () => {
     const navigate = useNavigate();
   const [roomsList, setRoomsList] = useState([
-    { roomCatagory: '', roomType: '', price: '', aminitiesList: [] },
+    { roomCatagory: '', roomType: '', price: '', aminitiesList: [], images: [] },
   ]);
+  const [message, setMessage] = useState();
   const url = process.env.REACT_APP_ADD_ROOM_URL;
 
   const addRoom = () => {
-    setRoomsList([...roomsList, { roomCatagory: '', roomType: '', price: '', aminitiesList: [] }]);
+    setRoomsList([...roomsList, { roomCatagory: '', roomType: '', price: '', aminitiesList: [], images: [] }]);
   }
 
   const handleSubmit = async () => {
-    await AsyncStorage.getItem('roomId').then(async (value) => {
+    await AsyncStorage.getItem('registrationId').then(async (value) => {
       await callApi(value);
-      navigate('/add-room');
+      setMessage("Rooms Saved Successfully...!!!");
+      setTimeout(() => {
+        navigate('/owner-display');
+      }, 5000)
+      
     }).catch((error) => console.log("Error while Putting..", error))
   }
 
@@ -42,9 +48,9 @@ const AddRoom = () => {
   }
 
   return (
-    <div className="add-room-container">
+    <div className="add-room-container1">
       <h2>Add Rooms to Your Hotel</h2>
-      <table className="room-table">
+      <table className="room-table1">
         <thead>
           <tr>
             <th>Room Category</th>
@@ -59,8 +65,9 @@ const AddRoom = () => {
           ))}
         </tbody>
       </table>
-      <button className="add-room-button" onClick={addRoom}>Add Room</button>
-      <button className="submit-button" onClick={handleSubmit}>Submit</button>
+      <button className="add-room-button1" onClick={addRoom}>Add Room</button>
+      <button className="submit-button1" onClick={handleSubmit}>Submit</button>
+      <Toaster message={message} />
     </div>
   );
 }

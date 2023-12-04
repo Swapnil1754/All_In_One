@@ -7,7 +7,7 @@
   }
   
   .card {
-    width: calc(55%-10px); /*Adjust the width based on the number of cards per row and gap*/
+    width: calc(45%-10px); /*Adjust the width based on the number of cards per row and gap*/
     border: 1px solid #ddd; /* Add styling to the card */
     padding: 10px; /* Add padding to the card */
   }

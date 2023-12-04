@@ -12,6 +12,11 @@ import { PersistGate } from 'redux-persist/integration/react';
 import City from './Pages/Cities/City';
 import CityHotels from './Pages/Hotel/City-Hotels';
 import AddRoom from './Pages/Hotel/Rooms/Add-Room';
+import HotelProfile from './Pages/Hotel/Owner/Hotel-Profile';
+import OwnerDisplay from './Pages/Hotel/Owner/Owner-Display';
+import EditRoom from './Pages/Hotel/Rooms/Edit-Room';
+import ConfirmHotelBooking from './Pages/Booking/Confirm-Hotel-Booking';
+import HotelBill from './Pages/Bill/Hotel-Bill';
 function App() {
   return (
     <Provider store={store}>
@@ -27,6 +32,11 @@ function App() {
         <Route path='/add-hotel' element={<AddHotel/>} />
         <Route path='/city-hotels' element={<CityHotels />}/>
         <Route path='/add-room' element={<AddRoom />} />
+        <Route path='/edit-room' element={<EditRoom />} />
+        <Route path='/hotel-profile' element={<HotelProfile /> } />
+        <Route path='/owner-display' element={<OwnerDisplay /> } />
+        <Route path='/confirm-hotel-booking' element={<ConfirmHotelBooking />} />
+        <Route path='/hotel-bill' element={<HotelBill />} />
       </Routes>
     </Router>
     </PersistGate>
