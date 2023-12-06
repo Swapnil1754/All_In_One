@@ -6,6 +6,7 @@ import  Razorpay from 'react-razorpay';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigate } from 'react-router-dom';
 import Spinner from '../../Common/Spinner/Spinner';
+import { differenceInDays } from 'date-fns';
 const ConfirmBooking = () => {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
@@ -14,17 +15,17 @@ const ConfirmBooking = () => {
   const [orderId, setOrderId] = useState();
   const [room, setRoom] = useState();
   const [cost, setCost] = useState();
+  const [noOfDays, setnoOfDays] = useState(0);
   const navigate = useNavigate();
 const paymentUrl = process.env.REACT_APP_INITIATE_PAYMENT_URL;
-const billGenerateUrl = process.env.REACT_APP_HOTEL_BOOKING_BILL_GENERATOR;
 const hotelBill = {
   roomCatagory: room && room.roomCatagory,
   roomType: room && room.roomType,
   fromDate: startDate,
   toDate: endDate,
   noOfPeoples: adults,
-  // noOfDays: ,
-  noOfrooms: rooms,
+  noOfDays: noOfDays,
+  noOfRooms: rooms,
   cost: '',
 }
 useEffect(() => {
@@ -37,8 +38,10 @@ useEffect(() => {
   getRoom();
 }, [])
   const handleConfirm = async () => {
+    const days = differenceInDays(endDate, startDate);
+    setnoOfDays(days);
     const formData = new FormData();
-    formData.append("amount", JSON.stringify(room.price*rooms));
+    formData.append("amount", JSON.stringify(room.price*rooms*days));
     formData.append("currency", "INR");
     try{
     await axios.post(paymentUrl, formData, {
@@ -105,13 +108,6 @@ useEffect(() => {
   const handleCancel = () => {
     console.log('Booking Canceled!');
   };
-  const handlePaymentSuccess = () => {
-    console.log("Payment Successful...")
-  }
-  const handlePaymentError = () => {
-    console.log("Payment failed...!!!");
-  }
-
   return (
     <div className="confirm-booking-container">
       <h2>Confirm Your Booking</h2>

@@ -1,5 +1,6 @@
 package com.example.BookingService.Domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,6 +20,7 @@ import java.util.Date;
 public class HotelBooking {
     @Id
     private String bookingId;
+    @JsonProperty("hotelName")
     private String hotelName;
     private String roomCatagory;
     private String roomType;
@@ -26,5 +28,6 @@ public class HotelBooking {
     private Date toDate;
     private int noOfPeoples;
     private int noOfDays;
+    private int noOfRooms;
     private double cost;
 }

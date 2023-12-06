@@ -2,6 +2,7 @@ package com.example.BookingService.Controller;
 
 import com.example.BookingService.Domain.HotelBooking;
 import com.example.BookingService.Service.BookingService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.razorpay.Order;
 import com.razorpay.RazorpayClient;
 import com.razorpay.RazorpayException;
@@ -39,6 +40,7 @@ public class BookingController {
     }
     @PostMapping("generate/hotel-bill")
     public ResponseEntity<?> generateBill(@RequestBody HotelBooking booking) {
+        System.out.println(booking);
         return new ResponseEntity<>(service.generateHotelBill(booking), HttpStatus.OK);
     }
 }

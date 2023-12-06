@@ -26,6 +26,7 @@
 		<module>Holidays</module>
 		<module>Train</module>
 		<module>Owner</module>
+		<module>EmailService</module>
 		<module>BookingService</module>
 	</modules>
 	<properties>

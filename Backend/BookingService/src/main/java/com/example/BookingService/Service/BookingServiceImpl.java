@@ -16,29 +16,24 @@ public class BookingServiceImpl implements BookingService{
         this.repository = repository;
     }
     private String billIdGenerator() {
-        return UUID.randomUUID().toString().replace("-", "").substring(0, 10).toUpperCase();
+        return UUID.randomUUID().toString().replace("-", "").substring(0, 15).toUpperCase();
     }
 
     @Override
     public HotelBooking generateHotelBill(HotelBooking booking) {
         try {
-            HotelBooking book = repository.findById(booking.getBookingId()).get();
-            if(book.getBookingId() == null) {
-                book.setBookingId(billIdGenerator());
-                book.setHotelName(booking.getHotelName());
-                book.setRoomCatagory(booking.getRoomCatagory());
-                book.setRoomType(booking.getRoomType());
-                book.setFromDate(booking.getFromDate());
-                book.setToDate(booking.getToDate());
-                book.setNoOfPeoples(booking.getNoOfPeoples());
-                book.setNoOfDays(booking.getNoOfDays());
-                book.setCost(booking.getCost());
-                repository.save(book);
-                return book;
-            } else {
-                throw new RuntimeException("Booking Id already exists...");
-            }
-
+            HotelBooking book = new HotelBooking();
+            book.setBookingId(billIdGenerator());
+            book.setHotelName(booking.getHotelName());
+            book.setRoomCatagory(booking.getRoomCatagory());
+            book.setRoomType(booking.getRoomType());
+            book.setNoOfDays(booking.getNoOfDays());
+            book.setNoOfPeoples(booking.getNoOfPeoples());
+            book.setFromDate(booking.getFromDate());
+            book.setToDate(booking.getToDate());
+            book.setCost(booking.getCost());
+            book.setNoOfRooms(booking.getNoOfRooms());
+            return repository.save(book);
         } catch (Exception e) {
             throw new RuntimeException("Error while generating bill...");
         }
