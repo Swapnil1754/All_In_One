@@ -3,7 +3,7 @@ import './Header.css';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { updateLoginToken } from "../../Redux/actions";
+import { updateLoginToken, updateUser } from "../../Redux/actions";
 import { updateIsOwner } from '../../Redux/actions';
 const Header = ({ status }) => {
   const [showOptions, setShowOptions] = useState(false);
@@ -24,6 +24,7 @@ const Header = ({ status }) => {
   const handleButton = () => {
     dispatch(updateLoginToken(900));
     dispatch(updateIsOwner(false));
+    dispatch(updateUser(null));
     AsyncStorage.removeItem('Token');
     setX(false);
   }

@@ -17,6 +17,7 @@ import OwnerDisplay from './Pages/Hotel/Owner/Owner-Display';
 import EditRoom from './Pages/Hotel/Rooms/Edit-Room';
 import ConfirmHotelBooking from './Pages/Booking/Confirm-Hotel-Booking';
 import HotelBill from './Pages/Bill/Hotel-Bill';
+import ForgetPassword from './Pages/Registration/Forget-Password';
 function App() {
   return (
     <Provider store={store}>
@@ -28,6 +29,7 @@ function App() {
         <Route path='/city' element={<City />}/>
         <Route path='/register' element={<Register />}/>
         <Route path='/login' element={<Login />} />
+        <Route path='/forget-password' element={<ForgetPassword />} />
         <Route path='/display-hotel' element={<DisplayHotel />}/>
         <Route path='/add-hotel' element={<AddHotel/>} />
         <Route path='/city-hotels' element={<CityHotels />}/>

@@ -14,5 +14,6 @@ public interface RegistrationService {
     User getUserByToken(String token) throws UserNotFoundException, JsonProcessingException;
     User getUserByName(String name) throws UserNotFoundException;
     User getUserByEmail(String email) throws UserNotFoundException;
+    User updatePassword(String userName, String password);
 
 }

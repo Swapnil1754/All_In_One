@@ -9,6 +9,7 @@ import com.example.RegistrationService.Rabitmq.Domain.UserDTO;
 import com.example.RegistrationService.Repository.RegistrationRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -107,6 +108,22 @@ public class RegistrationServiceImpl implements RegistrationService {
     } catch (Exception e) {
         throw new UserNotFoundException();
     }
+    }
+
+    @Override
+    public User updatePassword(String userName, String password) {
+        try {
+            User user = repository.findByEmail(userName);
+            User user1 = new User();
+            UserDTO userDTO = new UserDTO();
+            BeanUtils.copyProperties(user, user1);
+            user1.setPassword(password);
+            BeanUtils.copyProperties(user1, userDTO);
+            producer.sendMessageToRabbitMq(userDTO);
+            return repository.save(user1);
+        } catch (Exception e) {
+            throw new RuntimeException("User Not Found...");
+        }
     }
 
     private static String getEmail(String token) throws JsonProcessingException {

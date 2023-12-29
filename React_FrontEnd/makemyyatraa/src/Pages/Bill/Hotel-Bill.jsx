@@ -3,10 +3,13 @@ import React, { useEffect, useState } from "react";
 import './Hotel-Bill.css';
 import html2pdf from 'html2pdf.js';
 import axios from "axios";
+import { useSelector } from "react-redux";
 const HotelBill = () => {
     const [hotelName, setHotelName] = useState();
     const [hotelBill, setHotelBill] = useState();
+    const email = useSelector((state) => state.user.email);
     const [bill, setBill] = useState({
+        userName: email,
         hotelName: '',
         roomCatagory: '',
         roomType: '',
@@ -30,6 +33,7 @@ const HotelBill = () => {
             if (storedHotelBill) {
               const hotelData = JSON.parse(storedHotelBill);
               const hotlName = storedHotelName || '';
+              console.log("stored", storedHotelBill);
               setBill({
                 ...bill,
                 hotelName: hotlName,
@@ -131,7 +135,7 @@ const HotelBill = () => {
         <p>Thank you for choosing {hotelName}! We hope you have a pleasant stay.</p>
       </div>
       </div>
-      <button onClick={downloadPdf}>Download Payment Receipt</button>
+      <button className="button1" onClick={downloadPdf}>Download Payment Receipt</button>
     </div>
     );
 

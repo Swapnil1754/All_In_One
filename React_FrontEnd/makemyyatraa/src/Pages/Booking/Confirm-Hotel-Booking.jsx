@@ -2,11 +2,9 @@ import React, { useEffect, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import '../Booking/Confirm-Hotel-Booking.css';
 import axios from 'axios';
-import  Razorpay from 'react-razorpay';
+import { useSelector, useDispatch } from "react-redux";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigate } from 'react-router-dom';
-import Spinner from '../../Common/Spinner/Spinner';
-import { differenceInDays } from 'date-fns';
 const ConfirmBooking = () => {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
@@ -15,7 +13,7 @@ const ConfirmBooking = () => {
   const [orderId, setOrderId] = useState();
   const [room, setRoom] = useState();
   const [cost, setCost] = useState();
-  const [noOfDays, setnoOfDays] = useState(0);
+  const [noOfDays, setnoOfDays] = useState(1);
   const navigate = useNavigate();
 const paymentUrl = process.env.REACT_APP_INITIATE_PAYMENT_URL;
 const hotelBill = {
@@ -28,8 +26,11 @@ const hotelBill = {
   noOfRooms: rooms,
   cost: '',
 }
+const emailData = useSelector((state) => state.user);
 useEffect(() => {
+
   const getRoom = () => {
+    console.log("email", emailData);
        AsyncStorage.getItem('roomData').then(async(value) => {
           const roomData = await JSON.parse(value);
           setRoom(roomData);
@@ -38,7 +39,7 @@ useEffect(() => {
   getRoom();
 }, [])
   const handleConfirm = async () => {
-    const days = differenceInDays(endDate, startDate);
+    const days = Math.round((endDate.getTime() - startDate.getTime())/(1000*60*60*24));
     setnoOfDays(days);
     const formData = new FormData();
     formData.append("amount", JSON.stringify(room.price*rooms*days));
@@ -50,7 +51,6 @@ useEffect(() => {
         }
     }).then(async(value) => {
         if(value) {
-            console.log("value", value.data)
             setOrderId(value.data.id);
             if(value.data.status === 'created') {
                 const options = {
@@ -69,7 +69,7 @@ useEffect(() => {
                         setTimeout(() => {
                           const amt = value.data.amount/100;
                           setCost(amt);
-                          const billData = {...hotelBill, cost: amt,}
+                          const billData = {...hotelBill, cost: amt, noOfDays: days}
                         AsyncStorage.setItem('hotelBill', JSON.stringify(billData)).then(() => {
                           navigate('/hotel-bill')
                         }).catch((err) => console.log(err))

@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -70,6 +71,10 @@ public class RegistrationController {
     @GetMapping(path = "/facebook")
     public ResponseEntity<User> getUserByName(@RequestParam String email) throws UserNotFoundException {
     return new ResponseEntity<>(registrationService.getUserByEmail(email), HttpStatus.OK);
+    }
+    @PutMapping("/forget-password/{userName}")
+    public ResponseEntity<?> forgetPassword(@PathVariable String userName, @RequestParam(name = "password") String password) {
+    return new ResponseEntity<>(registrationService.updatePassword(userName, password), HttpStatus.OK);
     }
 
 }

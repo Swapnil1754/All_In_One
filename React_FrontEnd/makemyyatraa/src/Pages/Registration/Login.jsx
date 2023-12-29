@@ -44,6 +44,7 @@ const Login = () => {
         const firstName = fullName.split(' ')[0];
         console.log("fb", googleLogin.data.isOwner);
         dispatch({ type: 'UPDATE_IS_OWNER', payload: googleLogin.data.isOwner});
+        dispatch({type: 'UPDATE_USER', payload: googleLogin.data});
         if(googleLogin.data.isOwner){
           await AsyncStorage.setItem('ownerName', fullName).then((value) => console.log("data Saved", value)).catch((err) => console.log("error", err))
         }
@@ -89,6 +90,7 @@ const Login = () => {
         try {
           const login = await callApi(formData.userId);
           dispatch({ type: 'UPDATE_LOGIN_TOKEN', payload: login.token });
+          dispatch({type: 'UPDATE_USER', payload: login});
           const fullName = await login.Name;
           const firstName = fullName.split(' ')[0];
           if(login.isOwner){
@@ -191,6 +193,7 @@ const Login = () => {
           const fullName = fbResponse.data.name1;
           const firstName = fullName.split(' ')[0];
         dispatch({ type: 'UPDATE_IS_OWNER', payload: fbResponse.data.isOwner});
+        dispatch({type: 'UPDATE_USER', payload: fbResponse.data});
         if(fbResponse.data.isOwner){
           await AsyncStorage.setItem('ownerName', fullName).then((value) => console.log("data Saved", value)).catch((err) => console.log("error", err))
         }
@@ -206,7 +209,9 @@ const Login = () => {
       }
     }, { scope: 'public_profile,email' });
   };
-
+const forgetPassword = () => {
+  navigate('/forget-password');
+}
 
 
   return (
@@ -231,7 +236,7 @@ const Login = () => {
             <Grid item xs={12}>
               <Button fullWidth onClick={() => setLogInit(true)} variant="contained">LOGIN</Button>
             </Grid>
-            <a href="" style={{ 'marginLeft': '35%', 'marginTop': '5%' }}>Forget Password ?</a>
+            <a href="" style={{ 'marginLeft': '35%', 'marginTop': '5%' }} onClick={forgetPassword}>Forget Password ?</a>
             <Grid className="v">
               <Grid><hr className="t" /><span> OR </span><hr className="t" /></Grid>
               <div className="icon">
