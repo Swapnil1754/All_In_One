@@ -3,7 +3,6 @@ import '../CSS/City-Hotels.css';
 import { Typography, TextField, Button, Grid, Checkbox } from '@mui/material';
 import Cards from "../../Common/Cards/Cards";
 import axios from "axios";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigate } from "react-router-dom";
 const CityHotels = () => {
     const [hotelData, setHotelData] = useState([]);
@@ -11,33 +10,30 @@ const CityHotels = () => {
     const navigate = useNavigate();
     useEffect(() => {
         const url = process.env.REACT_APP_GET_HOTEL_BY_CITY_URL;
-        const callApi = () => {
+        const callApi = async () => {
             try {
-                AsyncStorage.getItem("cityName").then(async (value) => {
-                    if(value) {
-                        await axios.get(url+`${value}`, {
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'Accept': 'application/json'
-                            }
-                        }).then(async (response) => {
-                            setHotelData(await response.data);
-                            setCitydata(value);
-                        })
-                    } else {
-                        console.log("Value is not available");
-                    }
-                })
-            } catch(error) {
+                const value = localStorage.getItem("cityName");
+                if (value) {
+                    const response = await axios.get(url + `${value}`, {
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        }
+                    });
+                    console.log('response', response.data);
+                    setHotelData(response.data);
+                    setCitydata(value);
+                } else {
+                    console.log("Value is not available");
+                }
+            } catch (error) {
                 console.log("Error", error);
             }
-        }
+        };        
         callApi();
     }, []);
     const trial = (e) => {
-        AsyncStorage.setItem('regId', e.registrationId)
-        .then(() => { console.log("Data Saved Successfull...!!!")})
-        .catch((error) => {console.log("Data Saving Failed...!!!")});
+        localStorage.setItem('regId', e.registrationId);
         navigate('/display-hotel')
     }
     return(

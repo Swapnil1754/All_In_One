@@ -13,6 +13,7 @@ const ForgetPassword = () => {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
   const otpUrl = process.env.REACT_APP_GET_OTP_URL;
+  const otpBySmsUrl = process.env.REACT_APP_GET_OTP_BY_SMS_URL;
   const forgetPasswordUrl = process.env.REACT_APP_FORGET_PASSWORD_URL;
 
   const fadeIn = useSpring({
@@ -29,9 +30,21 @@ const ForgetPassword = () => {
       const response = await axios.get(otpUrl + email);
       setVerify(response.data);
       setGetOtp(true);
+      console.log('otp: ', response.data);
       return response.data;
     } catch (error) {
       console.log(error);
+    }
+  }
+  const submitSms = async () => {
+    try {
+      const response = await axios.get(otpBySmsUrl + email);
+      setVerify(response.data);
+      setGetOtp(true);
+      console.log('otp: ', response.data);
+      return response.data;
+    } catch(err) {
+      console.log(err)
     }
   }
 
@@ -86,9 +99,12 @@ const ForgetPassword = () => {
         )}
         {!getOtp && (
           <>
-            <TextField label="Enter Registered Email Id" fullWidth value={email} onChange={handleChange} margin="normal" />
+            <TextField label="Enter Registered Email Id or Mobile Number" fullWidth value={email} onChange={handleChange} margin="normal" />
             <Button variant="contained" color="primary" fullWidth onClick={submitEmail}>
-              Get OTP
+              Get OTP By Mail
+            </Button><br />
+            <Button variant="contained" color="primary" fullWidth onClick={submitSms}>
+              Get OTP By SMS
             </Button>
           </>
         )}

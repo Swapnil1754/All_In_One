@@ -4,6 +4,7 @@ import com.example.BookingService.Domain.HotelBooking;
 import com.example.BookingService.Kafka.KafkaProducer;
 import com.example.BookingService.Repository.BookingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -23,12 +24,14 @@ public class BookingServiceImpl implements BookingService{
     }
 
     @Override
+    @Async("asyncEmail")
     public HotelBooking generateHotelBill(HotelBooking booking) {
         try {
             String key = "my-key";
             HotelBooking book = new HotelBooking();
             book.setBookingId(billIdGenerator());
             book.setUserName(booking.getUserName());
+            book.setMobNo(booking.getMobNo());
             book.setHotelName(booking.getHotelName());
             book.setRoomCatagory(booking.getRoomCatagory());
             book.setRoomType(booking.getRoomType());

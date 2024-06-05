@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Cards from "../Common/Cards/Cards";
 import { useNavigate } from "react-router-dom";
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import './CSS/Home.css';
 import { Paper, Tabs, Tab } from "@mui/material";
 import { useSpring, animated } from "react-spring";
@@ -24,6 +23,7 @@ const Home = () => {
     useEffect(() => {
         const url = process.env.REACT_APP_GET_ALL_HOTELS_URL;
         const callApi = async () => {
+            console.log(url);
             setLoading(true);
             try {
                 const response = await axios.get(url);
@@ -38,9 +38,7 @@ const Home = () => {
     }, [])
 
     const trial = (e) => {
-        AsyncStorage.setItem('regId', e.registrationId)
-            .then(() => { console.log("Data Saved Successfully...!!!") })
-            .catch((error) => { console.log("Data Saving Failed...!!!") });
+        localStorage.setItem('regId', e.registrationId);
         navigate('/display-hotel')
     }
 

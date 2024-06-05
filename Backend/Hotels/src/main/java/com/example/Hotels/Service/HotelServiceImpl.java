@@ -38,7 +38,7 @@ public class HotelServiceImpl implements HotelService {
     @Override
     public Hotel addHotel(byte[] image, Hotel hotel) throws OwnerNotExistsException {
         try {
-            User user = ownerRepository.findUserByName1(hotel.getOwnerName());
+            Optional<User> user = ownerRepository.findUserByName1(hotel.getOwnerName());
             if (user == null) {
                 throw new OwnerNotExistsException();
             }

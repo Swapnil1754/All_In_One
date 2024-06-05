@@ -4,6 +4,7 @@ import com.example.EmailService.Domain.HotelBooking;
 import com.example.EmailService.Domain.Otp;
 import com.example.EmailService.Service.EmailService;
 import com.example.EmailService.Service.Pdfservice;
+import com.example.EmailService.Service.SmsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,11 +23,13 @@ public class EmailController {
     @Autowired
     private Pdfservice pdfservice;
     private EmailService emailService;
+    private SmsService smsService;
     @Autowired
 
-    public EmailController(Pdfservice pdfservice, EmailService emailService) {
+    public EmailController(Pdfservice pdfservice, EmailService emailService, SmsService smsService) {
         this.pdfservice = pdfservice;
         this.emailService = emailService;
+        this.smsService = smsService;
     }
     @PostMapping("/send-bill-by-email")
     public void sendBillByEmail(HotelBooking bill) {
@@ -46,6 +49,10 @@ public class EmailController {
     public ResponseEntity<String> getOtpByMail(@PathVariable String userName) {
         Otp otp = new Otp(userName, otpGenerator(), "OTP Verification for AllInOne.com");
         return new ResponseEntity<>(emailService.sendSimpleMail(otp), HttpStatus.OK);
+    }
+    @GetMapping("/get-otpBySms/{mobileNumber}")
+    public ResponseEntity<String> getOtpBySms(@PathVariable String mobileNumber) {
+        return new ResponseEntity<>(smsService.sendOtpBySms(otpGenerator(), mobileNumber), HttpStatus.OK);
     }
     private String otpGenerator() {
        return UUID.randomUUID().toString().replace("-", "").substring(0, 6).toUpperCase();

@@ -15,8 +15,14 @@ spring:
             allowedOrigins: "*"
             allowedMethods: "*"
             allowedHeaders: "*"
+#    config:
+#      uri: http://config-server:9000
+#      import-check:
+#        enabled: false
 eureka:
   client:
-    defaultZone: http://${EUREKA_SERVER_IP:localhost}:${EUREKA_SERVER_PORT:8761}/eureka
+    serviceUrl:
+#      defaultZone: http://eureka-server:8761/eureka
+      defaultZone: http://${EUREKA_SERVER_IP:localhost}:${EUREKA_SERVER_PORT:8761}/eureka
     fetchRegistry: true
     registerWithEureka: true

@@ -17,6 +17,7 @@ import javax.crypto.SecretKey;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Base64;
+import java.util.Optional;
 import java.util.UUID;
 @Service
 public class RegistrationServiceImpl implements RegistrationService {
@@ -54,7 +55,7 @@ public class RegistrationServiceImpl implements RegistrationService {
     }
     @Override
     public User findUser(String userId,String password) throws Exception {
-    if (repository.findById(userId).isEmpty()) {
+    if (repository.findById(userId) == null) {
         throw new UserNotFoundException();
     } else {
         User user = repository.findByUserId(userId);
@@ -70,7 +71,7 @@ public class RegistrationServiceImpl implements RegistrationService {
 
     @Override
     public User fetchUser(String userId) throws UserNotFoundException {
-        if (repository.findById(userId).isEmpty()) {
+        if (repository.findById(userId) == null) {
             throw new UserNotFoundException();
         }
         return repository.findById(userId).get();
@@ -111,9 +112,9 @@ public class RegistrationServiceImpl implements RegistrationService {
     }
 
     @Override
-    public User updatePassword(String userName, String password) {
+    public User updatePassword(String email, String mobNo, String password) {
         try {
-            User user = repository.findByEmail(userName);
+            User user = repository.findByEmailOrMobNo(email, mobNo);
             User user1 = new User();
             UserDTO userDTO = new UserDTO();
             BeanUtils.copyProperties(user, user1);
@@ -124,6 +125,25 @@ public class RegistrationServiceImpl implements RegistrationService {
         } catch (Exception e) {
             throw new RuntimeException("User Not Found...");
         }
+    }
+
+    @Override
+    public Optional<User> updateUserProfile(User user) {
+    User user1 = repository.findByEmailOrMobNo(user.getEmail(), user.getMobNo());
+    User user2 = new User();
+    UserDTO dto = new UserDTO();
+    if (user1 == null) {
+        BeanUtils.copyProperties(user, user1);
+        repository.save(user1);
+        return Optional.of(user1);
+    } else {
+        BeanUtils.copyProperties(user1, user2);
+        user2.setMobNo(user.getMobNo());
+        BeanUtils.copyProperties(user2, dto);
+        producer.sendMessageToRabbitMq(dto);
+        repository.save(user2);
+        return Optional.of(user2);
+    }
     }
 
     private static String getEmail(String token) throws JsonProcessingException {

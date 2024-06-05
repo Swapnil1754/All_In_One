@@ -1,4 +1,3 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import Room from "../Rooms/Room";
 import React, { useEffect, useState } from "react";
@@ -24,7 +23,7 @@ const HotelProfile = () => {
         event.preventDefault();
         try {
           const selectedRoomString = JSON.stringify(room);
-          AsyncStorage.setItem('room', selectedRoomString);
+          localStorage.setItem('room', selectedRoomString);
           navigate('/edit-room');
         } catch (error) {
           console.error('Error storing room:', error);
@@ -33,7 +32,7 @@ const HotelProfile = () => {
       
     useEffect(() => {
         const callApi = async () => {
-            const regid = await AsyncStorage.getItem('regId');
+            const regid = await localStorage.getItem('regId');
             const uri = process.env.REACT_APP_GET_HOTEL_URL;
             try {
                 await axios.get(uri + `${regid}`, {
@@ -70,14 +69,14 @@ const HotelProfile = () => {
         imgUrl: decodeBase64Image(formData.image)
     }
     const deleteRoom = async(roomId) => {
-        const regid = await AsyncStorage.getItem('regId');
+        const regid = await localStorage.getItem('regId');
         const response = await axios.put(deleteRoomUrl+`${regid}/${roomId}`);
         console.log("Room deletion", response.data);
         setFormData(response.data);
         return response.data;
     }
     const deleteHotel = async() => {
-        const regid = await AsyncStorage.getItem('regId');
+        const regid = await localStorage.getItem('regId');
         try {
         const response = await axios.delete(deleteHotelUrl+`${regid}`);
         // setFormData(response.data);
@@ -90,7 +89,7 @@ const HotelProfile = () => {
         }
     }
     const addRoom = async() => {
-        await AsyncStorage.setItem('registrationId',`${formData.registrationId}`);
+        await localStorage.setItem('registrationId',`${formData.registrationId}`);
         navigate("/add-room");
     }
 

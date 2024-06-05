@@ -29,6 +29,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public List<City> getAllCities() {
+        System.out.println("reaching");
         return cityRepository.findAll();
     }
 

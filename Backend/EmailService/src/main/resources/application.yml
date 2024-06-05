@@ -3,14 +3,15 @@ server:
 spring:
   data:
     mongodb:
-      uri: mongodb://localhost:27017/MakeMyYatraa
+      uri: mongodb://mongo:27017/MakeMyYatraa
   application:
     name: email-service
   kafka:
     bootstrap-servers: localhost:9092
     consumer:
-      group-id: my-group
+      group-id:  my-group
       value-serializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+      auto-offset-reset: earliest
   mail:
     host: smtp.gmail.com
     port: 587

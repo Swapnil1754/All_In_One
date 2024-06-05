@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import './Header.css';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { updateLoginToken, updateUser } from "../../Redux/actions";
@@ -25,7 +24,7 @@ const Header = ({ status }) => {
     dispatch(updateLoginToken(900));
     dispatch(updateIsOwner(false));
     dispatch(updateUser(null));
-    AsyncStorage.removeItem('Token');
+    localStorage.removeItem('Token');
     setX(false);
   }
   const toggleOption = () => {

@@ -9,6 +9,7 @@ import com.example.RegistrationService.Service.MaskService;
 import com.example.RegistrationService.Service.RegistrationService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.xmlbeans.impl.xb.xsdschema.PatternDocument;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
+import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -74,7 +78,19 @@ public class RegistrationController {
     }
     @PutMapping("/forget-password/{userName}")
     public ResponseEntity<?> forgetPassword(@PathVariable String userName, @RequestParam(name = "password") String password) {
-    return new ResponseEntity<>(registrationService.updatePassword(userName, password), HttpStatus.OK);
+    String email = "", mobile = "";
+    Pattern pattern = Pattern.compile("^[A-Za-z0-9+_.-]+@(.+)$");
+    Matcher matcher = pattern.matcher(userName);
+    if(matcher.find()) {
+        email = userName;
+    } else{
+        mobile = userName;
+    }
+    return new ResponseEntity<>(registrationService.updatePassword(email, mobile, password), HttpStatus.OK);
+    }
+    @PutMapping("/update/profile")
+    public ResponseEntity<Optional<User>> updateUserProfile(@RequestBody User user) {
+    return new ResponseEntity<>(registrationService.updateUserProfile(user), HttpStatus.OK);
     }
 
 }

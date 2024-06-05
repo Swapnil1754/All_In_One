@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import Cards from "../../Common/Cards/Cards";
 import { Typography, TextField, Button, Grid, Checkbox } from '@mui/material';
 import '../CSS/City.css';
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigate } from "react-router-dom";
 import CityCards from "../../Common/Cards/City-Cards";
 const City = () => {
@@ -20,6 +19,9 @@ const City = () => {
             }
         });
         setData(response.data);
+        data.forEach((e) => {
+            console.log("e", e.cityName);
+        })
         return response;
     } catch(error) {
         console.log("Error", error);
@@ -28,7 +30,7 @@ const City = () => {
     callApi();
 }, []);
 const hotelsByCity = (e) => {
-    AsyncStorage.setItem("cityName", e.cityName).then(() => console.log("City name Saved..")).catch(() => console.log("Error while saving City Name..."))
+    localStorage.setItem("cityName", e.cityName);
 console.log("e", e.cityName);
 navigate("/city-hotels")
 }

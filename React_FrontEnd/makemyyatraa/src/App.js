@@ -13,7 +13,7 @@ import City from './Pages/Cities/City';
 import CityHotels from './Pages/Hotel/City-Hotels';
 import AddRoom from './Pages/Hotel/Rooms/Add-Room';
 import HotelProfile from './Pages/Hotel/Owner/Hotel-Profile';
-import OwnerDisplay from './Pages/Hotel/Owner/Owner-Display';
+import OwnerDisplay from './Pages/Hotel/Owner/Display/Owner-Display';
 import EditRoom from './Pages/Hotel/Rooms/Edit-Room';
 import ConfirmHotelBooking from './Pages/Booking/Confirm-Hotel-Booking';
 import HotelBill from './Pages/Bill/Hotel-Bill';

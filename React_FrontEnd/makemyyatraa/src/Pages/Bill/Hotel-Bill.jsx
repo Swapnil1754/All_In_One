@@ -1,4 +1,3 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useEffect, useState } from "react";
 import './Hotel-Bill.css';
 import html2pdf from 'html2pdf.js';
@@ -8,8 +7,10 @@ const HotelBill = () => {
     const [hotelName, setHotelName] = useState();
     const [hotelBill, setHotelBill] = useState();
     const email = useSelector((state) => state.user.email);
+    const mobNo = useSelector((state) => state.user.mobNo)
     const [bill, setBill] = useState({
         userName: email,
+        mobNo: mobNo,
         hotelName: '',
         roomCatagory: '',
         roomType: '',
@@ -24,12 +25,12 @@ const HotelBill = () => {
     useEffect(() => {
         const getData = async () => {
           try {
-            const storedHotelName = await AsyncStorage.getItem('hotelName');
+            const storedHotelName = localStorage.getItem('hotelName');
             if (storedHotelName) {
               setHotelName(storedHotelName);
             }
     
-            const storedHotelBill = await AsyncStorage.getItem('hotelBill');
+            const storedHotelBill = localStorage.getItem('hotelBill');
             if (storedHotelBill) {
               const hotelData = JSON.parse(storedHotelBill);
               const hotlName = storedHotelName || '';
@@ -63,10 +64,10 @@ const HotelBill = () => {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json'
                 }
-              }).then((valu) => {
-                console.log("Final", valu.data);
-                setHotelBill(valu.data)
-              }).catch((er) => console.log("err", er));
+              });
+
+                console.log("Final", response);
+                setHotelBill(response.data);
               return response;
             }
         }

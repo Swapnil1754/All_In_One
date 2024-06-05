@@ -11,7 +11,6 @@ import { ReactComponent as AppleIcon } from '../../Common/Assets/apple-logo.svg'
 import { ReactComponent as SmileyIcon } from '../../Common/Assets/smiley.svg';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateLoginToken } from "../../Redux/actions";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 const Login = () => {
   const url = process.env.REACT_APP_LOGIN_URL;
   const googleUrl = process.env.REACT_APP_GOOGLE_URL;
@@ -39,14 +38,21 @@ const Login = () => {
         const accessToken = urlParams.get('access_token');
         const idToken = urlParams.get('id_token');
         dispatch({ type: 'UPDATE_LOGIN_TOKEN', payload: accessToken });
-        const googleLogin = await googleApi(idToken)
+        const googleLogin = await googleApi(idToken);
+        console.log("login", googleLogin);
         const fullName = await googleLogin.data.name1;
         const firstName = fullName.split(' ')[0];
-        console.log("fb", googleLogin.data.isOwner);
         dispatch({ type: 'UPDATE_IS_OWNER', payload: googleLogin.data.isOwner});
         dispatch({type: 'UPDATE_USER', payload: googleLogin.data});
         if(googleLogin.data.isOwner){
-          await AsyncStorage.setItem('ownerName', fullName).then((value) => console.log("data Saved", value)).catch((err) => console.log("error", err))
+          console.log("fb", fullName);
+          // await localStorage.setItem('ownerName', fullName).then((value) => console.log("data Saved", value)).catch((err) => console.log("error", err))
+          try {
+            localStorage.setItem('ownerName', fullName);
+            console.log("data saves", fullName);
+          } catch (error) {
+            console.log("error", error);
+          }
         }
         setMessage(
           <div>
@@ -89,12 +95,13 @@ const Login = () => {
       const handleSubmit = async (e) => {
         try {
           const login = await callApi(formData.userId);
+          console.log("log", login);
           dispatch({ type: 'UPDATE_LOGIN_TOKEN', payload: login.token });
           dispatch({type: 'UPDATE_USER', payload: login});
           const fullName = await login.Name;
           const firstName = fullName.split(' ')[0];
           if(login.isOwner){
-            await AsyncStorage.setItem('ownerName', fullName).then((value) => console.log("data Saved", value)).catch((err) => console.log("error", err))
+            await localStorage.setItem('ownerName', fullName);
           }
           dispatch({ type: 'UPDATE_IS_OWNER', payload: login.isOwner});
           setMessage(
@@ -130,7 +137,8 @@ const Login = () => {
         params: {
           token: gToken
         }
-      })
+      });
+      console.log("google", response)
       return response;
     } catch (error) {
       console.log("Error", error);
@@ -195,7 +203,7 @@ const Login = () => {
         dispatch({ type: 'UPDATE_IS_OWNER', payload: fbResponse.data.isOwner});
         dispatch({type: 'UPDATE_USER', payload: fbResponse.data});
         if(fbResponse.data.isOwner){
-          await AsyncStorage.setItem('ownerName', fullName).then((value) => console.log("data Saved", value)).catch((err) => console.log("error", err))
+          await localStorage.setItem('ownerName', fullName).then((value) => console.log("data Saved", value)).catch((err) => console.log("error", err))
         }
           setMessage(
             <div>

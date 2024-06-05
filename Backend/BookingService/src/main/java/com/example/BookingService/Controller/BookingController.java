@@ -44,7 +44,7 @@ public class BookingController {
     @PostMapping("generate/hotel-bill")
     public ResponseEntity<?> generateBill(@RequestBody HotelBooking booking) {
         System.out.println(booking);
-        smsService.sendSms("+918380993390", "Hey Hi...");
+        smsService.sendSms("+918097510328", "Hey..." + booking.getUserName() + " Your Booking for " + booking.getHotelName() + " is Successful...!!!");
         return new ResponseEntity<>(service.generateHotelBill(booking), HttpStatus.OK);
     }
 }

@@ -16,6 +16,7 @@ import java.util.Date;
 public class HotelBooking {
     private String bookingId;
     private String userName;
+    private String mobNo;
     @JsonProperty("hotelName")
     private String hotelName;
     private String roomCatagory;

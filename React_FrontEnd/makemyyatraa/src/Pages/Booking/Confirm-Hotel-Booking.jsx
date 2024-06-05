@@ -3,7 +3,6 @@ import DatePicker from 'react-datepicker';
 import '../Booking/Confirm-Hotel-Booking.css';
 import axios from 'axios';
 import { useSelector, useDispatch } from "react-redux";
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigate } from 'react-router-dom';
 const ConfirmBooking = () => {
   const [startDate, setStartDate] = useState(new Date());
@@ -31,10 +30,9 @@ useEffect(() => {
 
   const getRoom = () => {
     console.log("email", emailData);
-       AsyncStorage.getItem('roomData').then(async(value) => {
-          const roomData = await JSON.parse(value);
+       const value = localStorage.getItem('roomData');
+          const roomData = JSON.parse(value);
           setRoom(roomData);
-      }).catch((err) => console.log(err));
   }
   getRoom();
 }, [])
@@ -70,9 +68,8 @@ useEffect(() => {
                           const amt = value.data.amount/100;
                           setCost(amt);
                           const billData = {...hotelBill, cost: amt, noOfDays: days}
-                        AsyncStorage.setItem('hotelBill', JSON.stringify(billData)).then(() => {
-                          navigate('/hotel-bill')
-                        }).catch((err) => console.log(err))
+                        localStorage.setItem('hotelBill', JSON.stringify(billData));
+                          navigate('/hotel-bill');
                         }, 1000);
                     },
                     prefill:{

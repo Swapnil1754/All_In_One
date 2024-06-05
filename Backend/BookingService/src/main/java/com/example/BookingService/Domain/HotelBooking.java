@@ -21,6 +21,8 @@ public class HotelBooking {
     @Id
     private String bookingId;
     private String userName;
+    @JsonProperty("mobNo")
+    private String mobNo;
     @JsonProperty("hotelName")
     private String hotelName;
     private String roomCatagory;
