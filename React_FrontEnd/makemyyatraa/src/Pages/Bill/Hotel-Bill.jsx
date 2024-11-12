@@ -20,6 +20,7 @@ const HotelBill = () => {
         noOfRooms: '',
         noOfDays: '',
         cost: '',
+        message: '',
     });
     const billGenerateUrl = process.env.REACT_APP_HOTEL_BOOKING_BILL_GENERATOR;
     useEffect(() => {

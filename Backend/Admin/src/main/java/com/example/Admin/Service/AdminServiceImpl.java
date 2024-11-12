@@ -37,4 +37,11 @@ public class AdminServiceImpl implements AdminService {
     public boolean deleteCity(String cityName) {
         return false;
     }
+
+    @Override
+    public List<City> searchCity(String city) {
+        List<City> cities = cityRepository.findByCityNameContaining(city);
+        System.out.println("cities: " +cities);
+        return cities;
+    }
 }

@@ -41,6 +41,20 @@
 			<artifactId>client</artifactId>
 			<version>8.0.0-rc1</version>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-websocket</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-amqp</artifactId>
+		</dependency>
+
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter-data-elasticsearch</artifactId>
+			</dependency>
+			<!-- Other specific dependencies for this microservice -->
 
 		<dependency>
 			<groupId>org.projectlombok</groupId>

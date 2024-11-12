@@ -46,11 +46,12 @@ public class RegistrationServiceImpl implements RegistrationService {
         userDTO.setActivated(user.isActivated());
         userDTO.setEmail(user.getEmail());
         userDTO.setName1(user.getName1());
-        userDTO.setMobNo(user.getMobNo());
+        userDTO.setMobNo(String.valueOf(user.getMobNo()));
         userDTO.setPassword(user.getPassword());
         userDTO.setCity(user.getCity());
             repository.save(user);
             producer.sendMessageToRabbitMq(userDTO);
+        System.out.println("Mob No: " + userDTO.getMobNo());
     return user;
     }
     @Override

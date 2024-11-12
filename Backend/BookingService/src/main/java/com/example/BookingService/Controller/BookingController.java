@@ -3,7 +3,6 @@ package com.example.BookingService.Controller;
 import com.example.BookingService.Domain.HotelBooking;
 import com.example.BookingService.Service.BookingService;
 import com.example.BookingService.Service.SmsService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.razorpay.Order;
 import com.razorpay.RazorpayClient;
 import com.razorpay.RazorpayException;
@@ -43,8 +42,9 @@ public class BookingController {
     }
     @PostMapping("generate/hotel-bill")
     public ResponseEntity<?> generateBill(@RequestBody HotelBooking booking) {
-        System.out.println(booking);
         smsService.sendSms("+918097510328", "Hey..." + booking.getUserName() + " Your Booking for " + booking.getHotelName() + " is Successful...!!!");
-        return new ResponseEntity<>(service.generateHotelBill(booking), HttpStatus.OK);
+        HotelBooking booking1 = service.generateHotelBill(booking);
+        System.out.println("booking1: " + booking1 );
+        return new ResponseEntity<>(booking1, HttpStatus.OK);
     }
 }

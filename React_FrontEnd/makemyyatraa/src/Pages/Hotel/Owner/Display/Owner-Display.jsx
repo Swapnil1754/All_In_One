@@ -57,7 +57,12 @@ const OwnerDisplay = () => {
     return (
         <div className="owner-display-container">
             <UserProfile userData={userData} />
-            <HotelTable hotelData={hotelData} editHotel={editHotel} />
+            {hotelData.length ? (
+    <HotelTable hotelData={hotelData} editHotel={editHotel} />
+) : (
+    <div className="no-data">No hotels available. Click "Add New Hotel" to get started.</div>
+)}
+
             <div className="buttons-container">
                 <button className="add-hotel-button" onClick={addHotel}>Add New Hotel</button>
             </div>

@@ -33,4 +33,5 @@ public class HotelBooking {
     private int noOfDays;
     private int noOfRooms;
     private double cost;
+    private String message;
 }

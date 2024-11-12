@@ -12,9 +12,15 @@ spring:
       globalcors:
         cors-configurations:
           '[/**]':
-            allowedOrigins: "*"
+            allowedOrigins: "http://localhost:3000"
             allowedMethods: "*"
             allowedHeaders: "*"
+            allowCredentials: true
+      routes:
+        - id: notification-service
+          uri: lb://notification-service
+          predicates:
+            - Path=/api/notification/v1/**, /ws/**
 #    config:
 #      uri: http://config-server:9000
 #      import-check:

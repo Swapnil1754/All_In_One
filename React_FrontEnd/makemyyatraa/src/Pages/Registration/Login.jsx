@@ -244,9 +244,20 @@ const forgetPassword = () => {
             <Grid item xs={12}>
               <Button fullWidth onClick={() => setLogInit(true)} variant="contained">LOGIN</Button>
             </Grid>
-            <a href="" style={{ 'marginLeft': '35%', 'marginTop': '5%' }} onClick={forgetPassword}>Forget Password ?</a>
+            <Grid container justifyContent="center" className="forgot-password-container">
+            <a href="" className="forgot-password-link" onClick={forgetPassword}>
+             Forget Password ?
+            </a>
+            </Grid>
+
+
             <Grid className="v">
-              <Grid><hr className="t" /><span> OR </span><hr className="t" /></Grid>
+            <Grid container alignItems="center" justifyContent="center" className="or-divider">
+              <hr className="t" />
+              <span className="or-text"> OR </span>
+               <hr className="t" />
+            </Grid>
+
               <div className="icon">
                 <div>
                   <a href="#" onClick={handleFacebookLogin} target="_blank" rel="noopener noreferrer">
