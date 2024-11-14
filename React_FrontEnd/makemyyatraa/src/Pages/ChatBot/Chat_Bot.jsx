@@ -1,81 +1,64 @@
-// src/components/ChatBot/ChatBot.jsx
-import React, { useState } from "react";
-import axios from "axios";
-import "./Chat_Bot.css";
-import {ReactComponent as Chat_Bot } from '../../Common/Assets/chat-bot-svgrepo-com (1).svg';
-const ChatBot = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState([]);
-  const [input, setInput] = useState("");
-  const openAiUrl = process.env.REACT_APP_OPENAI_URL;
-  const openAiKey = process.env.REACT_APP_CHATBOT_APIKEY;
+import React, { useState } from 'react';
+import './Chat_Bot.css';
+import { FaComments } from 'react-icons/fa'; // Import an icon from react-icons library
 
-  const toggleChatBot = () => {
-    setIsOpen(!isOpen);
+const Chatbot = () => {
+  const [message, setMessage] = useState('');
+  const [responses, setResponses] = useState([]);
+  const [isOpen, setIsOpen] = useState(false); // For toggling chat window
+
+  const sendMessage = async () => {
+    if (!message.trim()) return; // Prevent sending empty messages
+
+    const response = await fetch('http://localhost:5005/webhooks/rest/webhook', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ sender: 'user', message }),
+    });
+    const data = await response.json();
+    setResponses((prevResponses) => [
+      ...prevResponses,
+      { sender: 'user', text: message },
+      ...data,
+    ]);
+    setMessage('');
   };
-  
-const handleSend = async () => {
-    if (input.trim()) {
-      const newMessage = { role: "user", content: input };
-      setMessages([...messages, newMessage]);
-  
-      try {
-        const response = await axios.post(
-          openAiUrl,
-          {
-            model: "gpt-3.5-turbo",
-            messages: [...messages, newMessage],
-            max_tokens: 100,
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${openAiKey}`,
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        const botReply = response.data.choices[0].message.content;
-        setMessages([...messages, newMessage, { role: "bot", content: botReply }]);
-        setInput("");
-      } catch (error) {
-        console.error("Error:", error.response?.data || error.message);
-      }
-    }
+
+  const clearChat = () => {
+    setResponses([]);
   };
-  
 
   return (
-    <div className="chatbot-container">
+    <div>
+      <button className="chatbot-icon" onClick={() => setIsOpen(!isOpen)}>
+        <FaComments size={24} color="white" />
+      </button>
+
       {isOpen && (
-        <div className="chat-window">
-          <div className="chat-header">
-            <h4>Chatbot</h4>
-            <button onClick={toggleChatBot}>X</button>
-          </div>
-          <div className="chat-body">
-            {messages.map((msg, index) => (
-              <div key={index} className={msg.role === "user" ? "user-msg" : "bot-msg"}>
-                {msg.content}
-              </div>
+        <div className="chatbot-window">
+          <div className="chatbot-messages">
+            {responses.map((res, index) => (
+              <p key={index} className={res.sender === 'user' ? 'user-message' : 'bot-message'}>
+                {res.text}
+              </p>
             ))}
           </div>
-          <div className="chat-footer">
+          <div className="chatbot-input">
             <input
               type="text"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder="Type a message..."
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              placeholder="Type your message..."
             />
-            <button onClick={handleSend}>Send</button>
+            <button onClick={sendMessage}>Send</button>
+            <button onClick={clearChat} className="clear-chat">Clear</button>
           </div>
         </div>
       )}
-      <button className="chatbot-button" onClick={toggleChatBot}>
-        {/* <img src="/chat-" alt="Chatbot" /> */}
-        <Chat_Bot />
-      </button>
     </div>
   );
 };
 
-export default ChatBot;
+export default Chatbot;
