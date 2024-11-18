@@ -32,32 +32,39 @@ const Chatbot = () => {
 
   return (
     <div>
-      <button className="chatbot-icon" onClick={() => setIsOpen(!isOpen)}>
-        <FaComments size={24} color="white" />
-      </button>
+  <button className="chatbot-icon" onClick={() => setIsOpen(!isOpen)}>
+    <FaComments size={24} color="white" />
+  </button>
 
-      {isOpen && (
-        <div className="chatbot-window">
-          <div className="chatbot-messages">
-            {responses.map((res, index) => (
-              <p key={index} className={res.sender === 'user' ? 'user-message' : 'bot-message'}>
-                {res.text}
-              </p>
-            ))}
-          </div>
-          <div className="chatbot-input">
-            <input
-              type="text"
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              placeholder="Type your message..."
-            />
-            <button onClick={sendMessage}>Send</button>
-            <button onClick={clearChat} className="clear-chat">Clear</button>
-          </div>
-        </div>
-      )}
+  {isOpen && (
+    <div className="chatbot-window">
+      <div className="chatbot-messages">
+        {responses.map((res, index) => (
+          <p key={index} className={res.sender === 'user' ? 'user-message' : 'bot-message'}>
+            {res.text}
+          </p>
+        ))}
+      </div>
+      <div className="chatbot-input">
+        <input
+          type="text"
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          placeholder="Type your message..."
+          onKeyPress={(e) => {
+            if (e.key === 'Enter') {
+              sendMessage();
+              e.preventDefault(); // Prevents Enter key from inserting a new line
+            }
+          }}
+        />
+        <button onClick={sendMessage}>Send</button>
+        <button onClick={clearChat} className="clear-chat">Clear</button>
+      </div>
     </div>
+  )}
+</div>
+
   );
 };
 
