@@ -37,16 +37,26 @@ const CityHotels = () => {
         navigate('/display-hotel')
     }
     return(
-        <Grid>
-            <Typography variant="h5" align="center" gutterBottom>Showing Results for {cityData}</Typography>
-        <div className="card-container">
-            {hotelData.map((item, index) => (
-                <div key={index} onClick={() => trial(item)}>
-                    <Cards title={item.hotelName} imgUrl={item.image} ratings={item.rating} disc={item.city} />
-                </div>
-            ))}
-        </div>
-        </Grid>
+        <Grid className="city-hotels-grid">
+         {/* <div> */}
+  <Typography variant="h5" className="city-hotels-title" align="center" gutterBottom>
+    Showing Results for {cityData}
+  </Typography>
+  <div className="card-container">
+    {hotelData.map((item, index) => (
+      <div key={index} onClick={() => trial(item)} className="city-hotels-card">
+        <Cards 
+          title={item.hotelName} 
+          imgUrl={item.image} 
+          ratings={item.rating} 
+          disc={item.city} 
+        />
+      </div>
+    ))}
+  </div>
+  {/* </div> */}
+ </Grid>
+
     )
 }
 export default CityHotels;

@@ -74,6 +74,13 @@ const Header = () => {
       setLoading(false);
     }
   };
+  // To get city Data
+  const renderCityData = (e) => {
+    localStorage.removeItem("cityName");
+    localStorage.setItem("cityName", e.cityName);
+    // setCityQuery("");
+    navigate("/city-hotels");
+  }
 
   return (
     <header className="header-container">
@@ -93,7 +100,7 @@ const Header = () => {
             {suggestions.length > 0 && (
               <ul className="search-suggestions">
               {suggestions.map((city, index) => (
-                <li key={index}>
+                <li key={index} onClick={() => renderCityData(city)}>
                   <strong>{city.cityName}</strong>, {city.state} - {city.nation}
                 </li>
               ))}
