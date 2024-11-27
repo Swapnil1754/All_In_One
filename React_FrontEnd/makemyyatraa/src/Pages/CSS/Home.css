@@ -1,5 +1,5 @@
 .card-container {
-    background-color: rgb(247, 242, 242);
+    background-color: rgb(243, 242, 247);
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between; /* Distribute cards evenly */
@@ -7,8 +7,17 @@
   }
   
   .card {
-    width: calc(55%-10px); /*Adjust the width based on the number of cards per row and gap*/
+    width: calc(45%-10px); /*Adjust the width based on the number of cards per row and gap*/
     border: 1px solid #ddd; /* Add styling to the card */
     padding: 10px; /* Add padding to the card */
   }
+  .home-container {
+    background: linear-gradient(to right, #e1e896, #d7bda7);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Add any additional styles as needed */
+  
   

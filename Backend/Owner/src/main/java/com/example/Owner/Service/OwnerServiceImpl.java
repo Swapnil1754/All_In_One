@@ -1,6 +1,7 @@
 package com.example.Owner.Service;
 
 import com.example.Owner.Domain.User;
+import com.example.Owner.Exceptions.OwnerNotFoundException;
 import com.example.Owner.Repository.CustomerRepository;
 import com.example.Owner.Repository.OwnerRepository;
 import com.example.Owner.Utils.SecurityUtils;
@@ -17,6 +18,9 @@ public class OwnerServiceImpl implements OwnerService {
 
     @Override
     public User saveUser(User user) {
+        if (user.getUserId().isEmpty()) {
+            throw new OwnerNotFoundException("Owner does not Exists...");
+        }
         if (user.isOwner()) {
             return repository.save(user).block();
         }

@@ -27,7 +27,7 @@ public class Room {
     @JsonProperty("price")
     private double price;
 
-    @JsonIgnore
     private List<List<Byte>> images;
     private List<String> aminitiesList;
+    private List<String> termsAndConditions;
 }

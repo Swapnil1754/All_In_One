@@ -5,5 +5,5 @@ import com.example.RegistrationService.Domain.User;
 import java.util.Map;
 
 public interface JwtSecurityTokenGenerator {
-    Map<String,String> generateToken(User user);
+    Map<String,Object> generateToken(User user);
 }

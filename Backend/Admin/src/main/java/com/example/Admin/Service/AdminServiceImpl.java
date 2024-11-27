@@ -29,11 +29,19 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public List<City> getAllCities() {
+        System.out.println("reaching");
         return cityRepository.findAll();
     }
 
     @Override
     public boolean deleteCity(String cityName) {
         return false;
+    }
+
+    @Override
+    public List<City> searchCity(String city) {
+        List<City> cities = cityRepository.findByCityNameContaining(city);
+        System.out.println("cities: " +cities);
+        return cities;
     }
 }

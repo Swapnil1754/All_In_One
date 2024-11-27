@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import '../Cards/Cards.css';
 import { ReactComponent as LikeIcon } from '../Assets/red_like.svg';
 import { ReactComponent as DislikeIcon } from '../Assets/dislike.svg';
-const Cards = ({title, imgUrl, disc}) => {
+import HotelStars from "../Stars/Hotel-Stars";
+const Cards = ({title, imgUrl, ratings, disc}) => {
 const [liked, setLiked] = useState(false);
     const decodeBase64Image = (base64String) => {
         const binaryData = atob(base64String);
@@ -23,6 +24,7 @@ const [liked, setLiked] = useState(false);
     <div className="card">
         <img src={imgData.imgUrl1} alt={title}/>
         <h2>{title}</h2>
+        <HotelStars rating={ratings} />
         <p>{disc}</p>
         <button onClick={likedData}>
             {

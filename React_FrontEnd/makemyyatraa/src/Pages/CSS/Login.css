@@ -3,112 +3,134 @@
   width: 100%;
   max-width: 35%;
   display: inline-block;
-  margin: 14px;
+  margin: 1rem;
 }
 
 .v {
-  width: 100%;
-  max-width: 90%;
-  height: auto;
-  margin-left: 5%;
-  margin-top: 10px;
-  padding-top: 10px;
-  padding-left: 15px;
-}
-
-.w {
-  width: 100%;
-  height: 40px;
-  border-radius: 5px;
+  width: 90%;
+  margin: 1rem auto;
+  max-width: 90vw;
 }
 
 .x {
-  width: fit-content;
-  height: auto;
-  border: 1px solid;
-  padding-top: 30px;
-  padding-left: 5%;
-  padding-right: 5%;
-  background-image: url('..//../Common/Assets/pxfuel.jpg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  min-height: 80%;
+  width: 100%;
+  padding: 2rem 5vw;
+  background: url('..//../Common/Assets/pxfuel.jpg') center/cover no-repeat;
+  min-height: 92vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 20px;
+  box-sizing: border-box;
 }
 
 .y {
   width: 100%;
-  height: auto;
-  margin-right: 8%;
-  align-items: center;
-  /* padding-top: 10%; */
-  font-family: Georgia;
+  font-family: Georgia, serif;
   color: aliceblue;
+  padding-top: 2%;
+  text-align: center;
+  box-sizing: border-box;
 }
 
 .z {
   width: 50%;
-  height: auto;
-  padding-top: 5px;
   background: rgba(210, 210, 215, 0.6);
-  padding: 20px;
+  padding: 1.5rem;
   border-radius: 10px;
-}
-
-.social-icon {
-  width: 24px;
-  height: 24px;
-  fill: #101112;
+  max-width: 80vw;
+  box-sizing: border-box;
 }
 
 .icon {
   display: flex;
-  padding-left: 30%;
-  margin-bottom: 10px;
+  justify-content: center;
+  margin-bottom: 0.5rem;
+}
+
+.social-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  margin: 0 1rem;
 }
 
 .smiley {
-  width: 24px;
-  height: 24px;
-  margin-left: 10px;
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-left: 0.5rem;
   vertical-align: middle;
 }
 
-/* Responsive adjustments for PC and mobile */
+.forgot-password-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.forgot-password-link {
+  color: #22262b; /* Link color */
+  text-decoration: none;
+  font-weight: bold;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.forgot-password-link:hover {
+  background-color: rgba(0, 123, 255, 0.1); /* Light blue background on hover */
+}
+
+
+/* Responsive adjustments */
 @media (max-width: 768px) {
+  .t {
+    max-width: 90%;
+    margin: 0.5rem auto;
+  }
+
   .x {
-    padding-top: 10px;
-    padding-left: 10px;
-    padding-right: 10px;
+    padding: 1rem 2vw;
   }
 
   .y {
-    width: 100%;
-    margin-right: 0;
-    padding-top: 10%;
+    padding-top: 5%;
   }
 
   .z {
     width: 100%;
-    padding-top: 10px;
+    padding-top: 0.5rem;
   }
 
   .social-icon {
-    width: 20px;
-    height: 20px;
-  }
-
-  .icon {
-    padding-left: 10%;
+    width: 1rem;
+    height: 1rem;
   }
 
   .smiley {
-    width: 20px;
-    height: 20px;
-    margin-left: 5px;
+    width: 1rem;
+    height: 1rem;
   }
 }
+
+.or-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  text-align: center;
+  margin: 1rem 0;
+}
+
+.or-divider .t {
+  flex-grow: 1; /* Allow hr elements to grow and fill available space */
+  max-width: 35%; /* Restrict the maximum width for each hr */
+  border: none;
+  border-top: 1px solid #ccc;
+  margin: 0 10px;
+}
+
+.or-divider .or-text {
+  font-weight: bold;
+  padding: 0 1rem;
+  color: #555;
+}
+

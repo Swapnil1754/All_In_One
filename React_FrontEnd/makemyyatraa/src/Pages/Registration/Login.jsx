@@ -38,9 +38,22 @@ const Login = () => {
         const accessToken = urlParams.get('access_token');
         const idToken = urlParams.get('id_token');
         dispatch({ type: 'UPDATE_LOGIN_TOKEN', payload: accessToken });
-        const googleLogin = await googleApi(idToken)
+        const googleLogin = await googleApi(idToken);
+        console.log("login", googleLogin);
         const fullName = await googleLogin.data.name1;
         const firstName = fullName.split(' ')[0];
+        dispatch({ type: 'UPDATE_IS_OWNER', payload: googleLogin.data.isOwner});
+        dispatch({type: 'UPDATE_USER', payload: googleLogin.data});
+        if(googleLogin.data.isOwner){
+          console.log("fb", fullName);
+          // await localStorage.setItem('ownerName', fullName).then((value) => console.log("data Saved", value)).catch((err) => console.log("error", err))
+          try {
+            localStorage.setItem('ownerName', fullName);
+            console.log("data saves", fullName);
+          } catch (error) {
+            console.log("error", error);
+          }
+        }
         setMessage(
           <div>
             <span>Welcome Back {firstName}...!!! Have a Nice Day  <SmileyIcon className="smiley" /></span>
@@ -82,9 +95,15 @@ const Login = () => {
       const handleSubmit = async (e) => {
         try {
           const login = await callApi(formData.userId);
+          console.log("log", login);
           dispatch({ type: 'UPDATE_LOGIN_TOKEN', payload: login.token });
+          dispatch({type: 'UPDATE_USER', payload: login});
           const fullName = await login.Name;
           const firstName = fullName.split(' ')[0];
+          if(login.isOwner){
+            await localStorage.setItem('ownerName', fullName);
+          }
+          dispatch({ type: 'UPDATE_IS_OWNER', payload: login.isOwner});
           setMessage(
             <div>
               <span>Welcome Back {firstName}...!!! Have a Nice Day  <SmileyIcon className="smiley" /></span>
@@ -118,7 +137,8 @@ const Login = () => {
         params: {
           token: gToken
         }
-      })
+      });
+      console.log("google", response)
       return response;
     } catch (error) {
       console.log("Error", error);
@@ -180,6 +200,11 @@ const Login = () => {
           const fbResponse = await facebookApi(emailId);
           const fullName = fbResponse.data.name1;
           const firstName = fullName.split(' ')[0];
+        dispatch({ type: 'UPDATE_IS_OWNER', payload: fbResponse.data.isOwner});
+        dispatch({type: 'UPDATE_USER', payload: fbResponse.data});
+        if(fbResponse.data.isOwner){
+          await localStorage.setItem('ownerName', fullName).then((value) => console.log("data Saved", value)).catch((err) => console.log("error", err))
+        }
           setMessage(
             <div>
               <span>Welcome Back {firstName}...!!! Have a Nice Day  <SmileyIcon className="smiley" /></span>
@@ -192,7 +217,9 @@ const Login = () => {
       }
     }, { scope: 'public_profile,email' });
   };
-
+const forgetPassword = () => {
+  navigate('/forget-password');
+}
 
 
   return (
@@ -217,9 +244,20 @@ const Login = () => {
             <Grid item xs={12}>
               <Button fullWidth onClick={() => setLogInit(true)} variant="contained">LOGIN</Button>
             </Grid>
-            <a href="" style={{ 'marginLeft': '35%', 'marginTop': '5%' }}>Forget Password ?</a>
+            <Grid container justifyContent="center" className="forgot-password-container">
+            <a href="" className="forgot-password-link" onClick={forgetPassword}>
+             Forget Password ?
+            </a>
+            </Grid>
+
+
             <Grid className="v">
-              <Grid><hr className="t" /><span> OR </span><hr className="t" /></Grid>
+            <Grid container alignItems="center" justifyContent="center" className="or-divider">
+              <hr className="t" />
+              <span className="or-text"> OR </span>
+               <hr className="t" />
+            </Grid>
+
               <div className="icon">
                 <div>
                   <a href="#" onClick={handleFacebookLogin} target="_blank" rel="noopener noreferrer">
