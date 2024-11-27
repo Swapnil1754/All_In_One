@@ -2,10 +2,8 @@ import React, { useEffect, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import '../Booking/Confirm-Hotel-Booking.css';
 import axios from 'axios';
-import  Razorpay from 'react-razorpay';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from 'react-router-dom';
-import Spinner from '../../Common/Spinner/Spinner';
 const ConfirmBooking = () => {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
@@ -14,31 +12,35 @@ const ConfirmBooking = () => {
   const [orderId, setOrderId] = useState();
   const [room, setRoom] = useState();
   const [cost, setCost] = useState();
+  const [noOfDays, setnoOfDays] = useState(1);
   const navigate = useNavigate();
 const paymentUrl = process.env.REACT_APP_INITIATE_PAYMENT_URL;
-const billGenerateUrl = process.env.REACT_APP_HOTEL_BOOKING_BILL_GENERATOR;
 const hotelBill = {
   roomCatagory: room && room.roomCatagory,
   roomType: room && room.roomType,
   fromDate: startDate,
   toDate: endDate,
   noOfPeoples: adults,
-  // noOfDays: ,
-  noOfrooms: rooms,
+  noOfDays: noOfDays,
+  noOfRooms: rooms,
   cost: '',
 }
+const emailData = useSelector((state) => state.user);
 useEffect(() => {
+
   const getRoom = () => {
-       AsyncStorage.getItem('roomData').then(async(value) => {
-          const roomData = await JSON.parse(value);
+    console.log("email", emailData);
+       const value = localStorage.getItem('roomData');
+          const roomData = JSON.parse(value);
           setRoom(roomData);
-      }).catch((err) => console.log(err));
   }
   getRoom();
 }, [])
   const handleConfirm = async () => {
+    const days = Math.round((endDate.getTime() - startDate.getTime())/(1000*60*60*24));
+    setnoOfDays(days);
     const formData = new FormData();
-    formData.append("amount", JSON.stringify(room.price*rooms));
+    formData.append("amount", JSON.stringify(room.price*rooms*days));
     formData.append("currency", "INR");
     try{
     await axios.post(paymentUrl, formData, {
@@ -47,7 +49,6 @@ useEffect(() => {
         }
     }).then(async(value) => {
         if(value) {
-            console.log("value", value.data)
             setOrderId(value.data.id);
             if(value.data.status === 'created') {
                 const options = {
@@ -66,10 +67,9 @@ useEffect(() => {
                         setTimeout(() => {
                           const amt = value.data.amount/100;
                           setCost(amt);
-                          const billData = {...hotelBill, cost: amt,}
-                        AsyncStorage.setItem('hotelBill', JSON.stringify(billData)).then(() => {
-                          navigate('/hotel-bill')
-                        }).catch((err) => console.log(err))
+                          const billData = {...hotelBill, cost: amt, noOfDays: days}
+                        localStorage.setItem('hotelBill', JSON.stringify(billData));
+                          navigate('/hotel-bill');
                         }, 1000);
                     },
                     prefill:{
@@ -105,13 +105,6 @@ useEffect(() => {
   const handleCancel = () => {
     console.log('Booking Canceled!');
   };
-  const handlePaymentSuccess = () => {
-    console.log("Payment Successful...")
-  }
-  const handlePaymentError = () => {
-    console.log("Payment failed...!!!");
-  }
-
   return (
     <div className="confirm-booking-container">
       <h2>Confirm Your Booking</h2>

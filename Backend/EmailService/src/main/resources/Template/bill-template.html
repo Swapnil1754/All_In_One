@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>AllInOne.com</title>
+    <link rel="stylesheet" href="../css/styles.css" />
+</head>
+<body>
+<h1>Hotel Booking Receipt</h1>
+<div class="bill-container">
+    <div class="bill-container" id="bill-data">
+        <div class="bill-header">
+             <img src="/AllInOne_logo.png" alt="" class="logo" />
+             <h2>${booking.hotelName}</h2>
+            <p>Booking Receipt</p>
+        </div>
+        <div class="bill-details">
+            <div class="detail-row">
+                <span>Booking Id: </span>
+                <span>${booking.bookingId}</span>
+            </div>
+            <div class="detail-row">
+                <span>Room Category:</span>
+                <span>${booking.roomCategory}</span>
+            </div>
+            <div class="detail-row">
+                <span>Room Type:</span>
+                <span>${booking.roomType}</span>
+            </div>
+            <div class="detail-row">
+                <span>Check-in Date:</span>
+                <span>${booking.fromDate}</span>
+            </div>
+            <div class="detail-row">
+                <span>Check-out Date:</span>
+                <span>${booking.toDate}</span>
+            </div>
+            <div class="detail-row">
+                <span>No of Days:</span>
+                <span>${booking.noOfDays}</span>
+            </div>
+            <div class="detail-row">
+                <span>Number of Adults:</span>
+                <span>${booking.noOfPeople}</span>
+            </div>
+            <div class="detail-row">
+                <span>Number of Rooms:</span>
+                <span>${booking.noOfRooms}</span>
+            </div>
+        </div>
+
+        <div class="bill-total">
+            <div class="detail-row">
+                <span>Total Amount:</span>
+                <span>${booking.cost} INR</span>
+            </div>
+        </div>
+
+        <div class="bill-footer">
+            <p>Thank you for choosing <a>AllinOne.com</a>! We hope you have a pleasant stay.</p>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+

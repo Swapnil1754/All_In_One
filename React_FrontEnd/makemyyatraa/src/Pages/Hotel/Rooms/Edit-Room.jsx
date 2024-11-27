@@ -1,4 +1,3 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import { Container, Typography, TextField, Button } from '@mui/material';
 import React, { useEffect, useState } from "react";
@@ -9,7 +8,7 @@ const EditRoom = () => {
   useEffect(() => {
     const getRoom = async () => {
       try {
-        const getRoomData = await AsyncStorage.getItem('room');
+        const getRoomData = await localStorage.getItem('room');
         const roomData = JSON.parse(getRoomData);
         setRoom(roomData);
       } catch (err) {
@@ -29,7 +28,7 @@ const EditRoom = () => {
 
   const submitImg = async (e) => {
     e.preventDefault();
-    const regid = await AsyncStorage.getItem('regId');
+    const regid = await localStorage.getItem('regId');
     const formData = new FormData();
 
     for (const image of imge) {

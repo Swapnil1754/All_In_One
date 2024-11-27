@@ -4,7 +4,11 @@ import com.example.Hotels.Domain.Aminities;
 import com.example.Hotels.Domain.Hotel;
 import com.example.Hotels.Domain.Room;
 import com.example.Hotels.Domain.User;
+import com.example.Hotels.Exceptions.HotelNotFoundException;
+import com.example.Hotels.Exceptions.InvalidCityException;
+import com.example.Hotels.Exceptions.InvalidDataException;
 import com.example.Hotels.Exceptions.OwnerNotExistsException;
+import com.example.Hotels.Exceptions.RoomNotFoundException;
 import com.example.Hotels.Repository.HotelRepository;
 import com.example.Hotels.Repository.OwnerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,36 +40,40 @@ public class HotelServiceImpl implements HotelService {
 
 
     @Override
-    public Hotel addHotel(byte[] image, Hotel hotel) throws OwnerNotExistsException {
+    public Hotel addHotel(byte[] image, Hotel hotel) {
+        Optional<User> user = ownerRepository.findUserByName1(hotel.getOwnerName());
+        if (!user.isPresent()) {
+            throw new OwnerNotExistsException("Owner does not Exists...");
+        }
         try {
-            User user = ownerRepository.findUserByName1(hotel.getOwnerName());
-            if (user == null) {
-                throw new OwnerNotExistsException();
-            }
             hotel.setImage(image);
             hotel.setRegistrationId(registrationNumber());
             System.out.println("Hotel data" + hotel);
             return repository.save(hotel);
         } catch (Exception e) {
-            throw new RuntimeException(e.getMessage());
+            throw new HotelNotFoundException(e.getMessage());
         }
     }
 
     @Override
-    public Hotel addRoom(List<Map<String, Object>> room, String registrationId) throws IOException {
-        Hotel hotel = repository.findByRegistrationId(registrationId);
-        for(Map<String, Object> x:room) {
-        Room room1 = new Room();
-            room1.setRoomId(roomRegistrationNumber());
-            room1.setRoomCatagory((String) x.get("roomCatagory"));
-            room1.setRoomType((String) x.get("roomType"));
-            double price = Double.parseDouble(x.get("price").toString());
-            room1.setPrice(price);
-            room1.setAminitiesList((List<String>) x.get("aminitiesList"));
-            hotel.getRooms().add(room1);
+    public Hotel addRoom(List<Map<String, Object>> room, String registrationId) {
+        try {
+            Hotel hotel = repository.findByRegistrationId(registrationId);
+            for (Map<String, Object> x : room) {
+                Room room1 = new Room();
+                room1.setRoomId(roomRegistrationNumber());
+                room1.setRoomCatagory((String) x.get("roomCatagory"));
+                room1.setRoomType((String) x.get("roomType"));
+                double price = Double.parseDouble(x.get("price").toString());
+                room1.setPrice(price);
+                room1.setAminitiesList((List<String>) x.get("aminitiesList"));
+                hotel.getRooms().add(room1);
+            }
+            repository.save(hotel);
+            return hotel;
+        } catch (Exception exception) {
+            throw new InvalidDataException("Entered data is invalid: "+exception.getMessage());
         }
-        repository.save(hotel);
-        return hotel;
     }
 
     @Override
@@ -95,29 +103,47 @@ public class HotelServiceImpl implements HotelService {
             repository.save(hotel);
             return room;
         } else {
-            throw new RuntimeException("No room available");
+            throw new RoomNotFoundException("No room available");
         }
     }
 
     @Override
     public Hotel getHotel(String registrationId) {
-        return repository.findByRegistrationId(registrationId);
+        try {
+            return repository.findByRegistrationId(registrationId);
+        } catch (Exception e) {
+            throw new HotelNotFoundException("Hotel does not Exists...");
+        }
     }
 
     @Override
     public List<Hotel> getHotels(String ownerName) {
-        return repository.findByOwnerName(ownerName);
+        try {
+            return repository.findByOwnerName(ownerName);
+        } catch (OwnerNotExistsException e) {
+            throw new OwnerNotExistsException("Owner does not exists: " + e.getMessage());
+        } catch (Exception e) {
+            throw new HotelNotFoundException("Hotels does not found");
+        }
     }
 
     @Override
     public List<Hotel> getAll() {
-        List<Hotel> list = repository.findAll();
-        return list;
+        try {
+            List<Hotel> list = repository.findAll();
+            return list;
+        } catch (Exception e) {
+            throw new HotelNotFoundException("Hotels does not found");
+        }
     }
 
     @Override
     public List<Hotel> getHotelsInCity(String city) {
-        return repository.findByCity(city);
+        try {
+            return repository.findByCity(city);
+        } catch (Exception e) {
+            throw new InvalidCityException("Invalid City...: "+e.getMessage());
+        }
     }
 
     @Override
@@ -126,7 +152,7 @@ public class HotelServiceImpl implements HotelService {
             repository.delete(repository.findByRegistrationId(registrationId));
             return true;
         } catch (Exception e) {
-            throw new RuntimeException("Error while Deleting Hotel...");
+            throw new HotelNotFoundException("Error while Deleting Hotel..."+e.getMessage());
         }
     }
 
@@ -142,7 +168,7 @@ public class HotelServiceImpl implements HotelService {
             }
             return hotel;
         } catch (Exception e) {
-            throw new RuntimeException("Error while Deleting room...");
+            throw new RoomNotFoundException("Error while Deleting room..."+e.getMessage());
         }
     }
 

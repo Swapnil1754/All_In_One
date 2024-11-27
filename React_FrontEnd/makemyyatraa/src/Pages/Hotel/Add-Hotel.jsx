@@ -11,7 +11,6 @@ import {
 } from '../CSS/AddHotelForm.styles';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const AddHotelForm = () => {
   const navigate = useNavigate();
@@ -53,7 +52,7 @@ const AddHotelForm = () => {
             }
           }).then(async (response) => {
             console.log("call", response.data.registrationId);
-            await AsyncStorage.setItem('registrationId', response.data.registrationId).then((value) => console.log("RoomId saved",value)).catch(() => console.log("RoomId saving failed..."));
+            localStorage.setItem('registrationId', response.data.registrationId);
             return response;
           })
         } catch (error) {
@@ -78,10 +77,11 @@ const AddHotelForm = () => {
     }
     useEffect(() => {
       const getOwnerName = async () => {
-        await AsyncStorage.getItem('ownerName').then(async(value) => {
+       const value = localStorage.getItem('ownerName');
+       if(value) {
           setFormData({...formData,
           ownerName: value});
-        })
+       }
       }
       getOwnerName();
     }, [])
