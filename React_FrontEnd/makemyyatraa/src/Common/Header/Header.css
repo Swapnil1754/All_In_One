@@ -1,96 +1,144 @@
-/* Common styles for both PC and mobile */
-header {
+/* Header-specific container styles */
+.header-container {
   background-color: #181936;
   color: #fff;
-  padding: 7px 0; /* Increase the padding for better mobile touch interactions */
+  padding: 25px 0;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  width: 100%;
-}
-nav {
-  width: 100%;
+  justify-content: space-between;
+  position: relative;
 }
 
-nav ul {
+/* Specific header nav styling */
+.header-nav {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.header-nav-list {
+  display: flex;
+  list-style: none;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.header-logo {
+  margin-left: 28%;
+  font-family: cursive;
+  font-weight: bold;
+  color: aliceblue;
+}
+
+/* Styling for search suggestions dropdown */
+.search-suggestions {
+  position: absolute;
+  top: 100%;
+  left: 0; /* Align with the input box */
+  width: 50%; /* Match the width of the input */
   list-style: none;
   padding: 0;
+  margin-left: 25%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  z-index: 10;
+}
+
+/* Search container styling */
+.search-container {
+  flex: 1;
   display: flex;
-  width: 100%;
+  justify-content: center;
+  max-width: 70%;
+  margin-left: 9%;
+  position: relative; /* Allows positioning of absolute elements inside */
 }
 
-nav li {
-  margin: 0 86% 0 2%; /* Reduce the margin for better mobile spacing */
-}
-
-nav a {
-  text-decoration: none;
+.search-container input[type="text"] {
+  width: 50%;
+  padding: 8px;
+  background-color: rgba(255, 255, 255, 0.2);
   color: #fff;
-  font-weight: bold;
-  transition: color 0.3s ease;
+  border: none;
+  border-radius: 5px;
+  outline: none;
+  position: relative; /* For direct alignment with suggestions */
 }
 
-/* Menu icon styles */
-.menu-icon {
-  display: flex;
-  flex-direction: column;
+
+/* Notification icon styling */
+.notification-icon {
+  position: absolute;
   cursor: pointer;
+  margin-left: 93%;
 }
 
-.bar {
+/* Menu container styling */
+.menu {
+  cursor: pointer;
+  position: absolute;
+  margin-left: 96%;
+}
+
+.menu-options {
+  position: absolute;
+  top: 50px; /* Adjusted for better positioning */
+  right: 0;
+  background-color: #333;
+  color: #fff;
+  list-style: none;
+  padding: 10px 0;
+  margin: 0;
+  width: 180px; /* Slightly increased width for better spacing */
+  border-radius: 4px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  z-index: 100; /* Ensures it stays on top */
+  display: none; /* Default is hidden */
+}
+
+.menu-options li {
+  padding: 10px;
+  text-align: left;
+}
+
+.menu-options li:hover {
+  background-color: #444; /* Hover effect */
+}
+
+.menu-options a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.menu-icon .bar {
   width: 20px;
   height: 2px;
   background-color: #fff;
   margin: 4px 0;
 }
 
-/* Menu options styles */
-.menu-options {
-  position: absolute;
-  top: 60px; /* Adjust the top positioning for better mobile display */
-  right: 10px;
-  background-color: #333;
-  color: #fff;
-  list-style: none;
-  width: 150px; /* Increase the width for better mobile touch interactions */
-  border-radius: 4px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+/* Show menu when toggled */
+.menu.active .menu-options {
+  display: block; /* Show the menu when the active class is added */
 }
 
-.menu-options li {
-  margin: 10px 0;
-  cursor: pointer;
-  text-align: right;
-}
-
-.menu-options a {
-  text-decoration: none;
-  color: #fff;
-}
-
-/* Responsive adjustments for mobile screens */
 @media (max-width: 768px) {
-  nav ul {
-    flex-direction: column; /* Display navigation links vertically on mobile */
+  .header-nav-list {
+    flex-direction: column;
+    align-items: center;
   }
 
-  nav li {
-    margin: 10px 0; /* Add vertical spacing for mobile */
+  .search-container input[type="text"] {
+    width: 80%;
   }
 
-  .menu {
-    margin-left: 10px; /* Adjust the menu icon's position for better mobile display */
-  }
-
-  .menu-icon {
-    margin: 10px 0; /* Add spacing between the menu icon and links */
+  .search-suggestions {
+    left: 10%;
+    width: 80%;
   }
 
   .menu-options {
-    top: 60px; /* Adjust the top positioning for better mobile display */
-    right: 10px;
+    width: 100%; /* Make the menu full-width on smaller screens */
+    right: 0;
   }
 }

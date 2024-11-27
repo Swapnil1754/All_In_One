@@ -1,0 +1,132 @@
+version: '3.3'
+services:
+  frontend:
+    build:
+      context: React_FrontEnd/makemyyatraa
+    ports:
+      - 3000:3000
+    networks:
+      -  all_in_one_all_in_one_mynetwork
+    hostname: frontend
+  mongo:
+    image: mongo:latest
+    container_name: mongodbservice
+    networks:
+      -  all_in_one_all_in_one_mynetwork
+    hostname: mongo
+  eurekaserver:
+    image: eureka-server:latest
+    container_name: eureka-server
+    build:
+      context: Backend/EurekaServer
+    restart: "no"
+    environment:
+      EUREKA_SERVER_PORT: 8761
+    ports:
+      - 8761:8761
+    networks:
+      -  all_in_one_all_in_one_mynetwork
+    hostname: eurekaserver
+  cloudapiservice:
+    container_name: api-gateway-service
+    build:
+      context: Backend/APIGateway
+    restart: "no"
+    ports:
+      - 9000:9000
+    networks:
+      - all_in_one_all_in_one_mynetwork
+    environment:
+      API_GATEWAY_PORT: 9000
+      EUREKA_SERVER_IP: eurekaserver
+      EUREKA_SERVER_PORT: 8761
+    depends_on:
+      - eurekaserver
+    hostname: api-gateway-service
+  adminservice:
+    container_name: admin-service
+    build:
+      context: Backend/Admin
+    ports:
+      - 8000:8000
+    networks:
+      -  all_in_one_all_in_one_mynetwork
+    restart: "no"
+    depends_on:
+      - mongo
+      - eurekaserver
+      - cloudapiservice
+    hostname: admin-service
+  bookingservice:
+    container_name: booking-service
+    build:
+      context: Backend/BookingService
+    ports:
+      - 8082:8082
+    networks:
+      -  all_in_one_all_in_one_mynetwork
+    restart: "no"
+    depends_on:
+      - mongo
+      - eurekaserver
+      - cloudapiservice
+    hostname: booking-service
+  emailservice:
+    container_name: email-service
+    build:
+      context: Backend/EmailService
+    ports:
+      - 8081:8081
+    networks:
+      -  all_in_one_all_in_one_mynetwork
+    restart: "no"
+    depends_on:
+      - mongo
+      - eurekaserver
+      - cloudapiservice
+    hostname: email-service
+  hotelservice:
+    container_name: hotel-service
+    build:
+      context: Backend/Hotels
+    ports:
+      - 8087:8087
+    networks:
+      -  all_in_one_all_in_one_mynetwork
+    restart: "no"
+    depends_on:
+      - mongo
+      - eurekaserver
+      - cloudapiservice
+    hostname: hotel-service
+  ownerservice:
+    container_name: owner-service
+    build:
+      context: Backend/Owner
+    ports:
+      - 8083:8083
+    networks:
+      -  all_in_one_all_in_one_mynetwork
+    restart: "no"
+    depends_on:
+      - mongo
+      - eurekaserver
+      - cloudapiservice
+    hostname: owner-service
+  registerservice:
+    container_name: register-service
+    build:
+      context: Backend/RegistrationService
+    ports:
+      - 8088:8088
+    networks:
+      -  all_in_one_all_in_one_mynetwork
+    restart: "no"
+    depends_on:
+      - mongo
+      - eurekaserver
+      - cloudapiservice
+    hostname: register-service
+networks:
+  all_in_one_all_in_one_mynetwork:
+    driver: bridge

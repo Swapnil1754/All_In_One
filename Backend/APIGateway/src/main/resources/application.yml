@@ -12,11 +12,23 @@ spring:
       globalcors:
         cors-configurations:
           '[/**]':
-            allowedOrigins: "*"
+            allowedOrigins: "http://localhost:3000"
             allowedMethods: "*"
             allowedHeaders: "*"
+            allowCredentials: true
+      routes:
+        - id: notification-service
+          uri: lb://notification-service
+          predicates:
+            - Path=/api/notification/v1/**, /ws/**
+#    config:
+#      uri: http://config-server:9000
+#      import-check:
+#        enabled: false
 eureka:
   client:
-    defaultZone: http://${EUREKA_SERVER_IP:localhost}:${EUREKA_SERVER_PORT:8761}/eureka
+    serviceUrl:
+#      defaultZone: http://eureka-server:8761/eureka
+      defaultZone: http://${EUREKA_SERVER_IP:localhost}:${EUREKA_SERVER_PORT:8761}/eureka
     fetchRegistry: true
     registerWithEureka: true

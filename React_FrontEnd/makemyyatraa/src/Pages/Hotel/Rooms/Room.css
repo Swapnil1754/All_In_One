@@ -1,0 +1,79 @@
+/* Room.css */
+
+/* Container styling */
+tr {
+    border-bottom: 1px solid #ddd;
+  }
+  
+  /* Input styling */
+  input {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  
+  /* Amenity checkbox styling */
+  .aminity {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .label-container {
+    width: 50%;
+    margin-bottom: 8px;
+  }
+  
+  label {
+    display: flex;
+    align-items: center;
+    margin-right: 16px;
+  }
+  
+  .checkbox-label {
+    margin-left: 8px;
+  }
+  
+  input[type="checkbox"] {
+    margin: 0;
+  }
+  
+  /* Image upload styling */
+  .input-file-container {
+    margin-top: 10px;
+  }
+  
+  /* Add your own styling for the file input button */
+  .input-file-container input[type="file"] {
+    display: none;
+  }
+  
+  .file-upload-button {
+    padding: 8px 12px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  /* Image preview styling */
+  .image-preview {
+    margin-top: 10px;
+  }
+  
+  .image-preview img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+  }
+  
+  /* Additional styling for responsiveness */
+  @media screen and (max-width: 600px) {
+    .label-container {
+      width: 100%;
+    }
+  }
+  

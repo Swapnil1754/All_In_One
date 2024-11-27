@@ -1,0 +1,15 @@
+server:
+  port: 8090
+spring:
+  application:
+    name: notification-service
+  cloud:
+    gcp:
+      credentials:
+        location: classpath:make-my-yatraa-8d0ee3db40f7.json # This should be under `spring.cloud.gcp.credentials`
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://${EUREKA_SERVER_IP:localhost}:${EUREKA_SERVER_PORT:8761}/eureka
+    fetchRegistry: true
+    registerWithEureka: true
