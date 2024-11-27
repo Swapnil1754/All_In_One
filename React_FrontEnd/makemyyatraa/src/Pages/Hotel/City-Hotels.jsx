@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import '../CSS/City-Hotels.css';
-import { Typography, TextField, Button, Grid, Checkbox } from '@mui/material';
+import { Typography, Grid } from '@mui/material';
 import Cards from "../../Common/Cards/Cards";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
