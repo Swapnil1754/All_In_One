@@ -1,26 +1,70 @@
+/* Main card container */
 .card {
-    border: 1px solid #ddd;
-    border-radius: 8px;
+    width: 280px;
+    background-color: rgba(226, 211, 211, 0.7); /* Set to white with 70% opacity */
+    border-radius: 10px;
     overflow: hidden;
-    margin: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-   }
-   
-   .card img {
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin: 20px;
+  }
+  
+  /* Hover effect for card */
+  .card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Image styling */
+  .card img {
     width: 100%;
-    max-height: 50%;
+    height: 180px;
     object-fit: cover;
-   }
-   
-   .card h2 {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    transition: opacity 0.3s ease;
+  }
+  
+  /* Title styling */
+  .card h2 {
     font-size: 1.5rem;
-    margin: 10px;
-   }
-   
-   .card p {
-    margin: 10px;
-   }
-   .icon1{
-    width: 24px;
-    height: 24px;
-   }
+    font-weight: 600;
+    color: #333333;
+    margin: 12px 0;
+  }
+  
+  /* Description styling */
+  .card p {
+    font-size: 0.95rem;
+    color: #666666;
+    margin: 8px 16px;
+    line-height: 1.4;
+  }
+  
+  /* Rating section styling */
+  .card .rating {
+    margin: 8px 0;
+  }
+  
+  /* Like button styling */
+  .card button {
+    background-color: transparent;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+  }
+  
+  .card button:hover {
+    transform: scale(1.2);
+  }
+  
+  /* Add padding around the bottom button for spacing */
+  .card button {
+    padding-bottom: 16px;
+  }
+  

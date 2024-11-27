@@ -26,12 +26,12 @@ public class OwnerController {
         System.out.println("Reaching");
         return service.getUserWithAuthorities()
                 .map(User::new)
-                .switchIfEmpty(Mono.error(new OwnerNotFoundException()));
+                .switchIfEmpty(Mono.error(new OwnerNotFoundException("Owner does not Exist...")));
     }
     @GetMapping("/activate")
     public Mono<Void> activateUser(@RequestParam(value = "key") String key) {
         return service.activateRegistration(key)
-                .switchIfEmpty(Mono.error(new OwnerNotFoundException()))
+                .switchIfEmpty(Mono.error(new OwnerNotFoundException("Owner does not Exist...")))
                 .then();
     }
     @GetMapping("/hello")

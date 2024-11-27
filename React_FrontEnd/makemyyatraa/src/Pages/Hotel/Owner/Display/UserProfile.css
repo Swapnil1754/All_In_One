@@ -1,0 +1,31 @@
+.user-data {
+    margin-bottom: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: white;
+}
+
+.user-data h2 {
+    margin-bottom: 10px;
+    font-size: 24px;
+}
+
+.user-data p {
+    margin: 5px 0;
+    font-size: 16px;
+}
+
+.edit-profile-button {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.edit-profile-button:hover {
+    background-color: #218838;
+}

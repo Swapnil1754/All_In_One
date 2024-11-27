@@ -6,19 +6,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 @ToString
 @Getter
 @Setter
-@Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "User_Registration")
+@Document
 public class User {
     @Id
     private String userId;
@@ -26,9 +23,9 @@ public class User {
     private boolean isOwner;
     @JsonProperty("isActivated")
     private boolean isActivated;
-    @Column(unique = true)
+    @Indexed(unique = true)
     private String email;
-    @Column(unique = true)
+    @Indexed(unique = true)
     private String name1;
     private String mobNo;
     private String password;

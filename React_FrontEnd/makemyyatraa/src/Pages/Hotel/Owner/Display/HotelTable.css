@@ -1,0 +1,42 @@
+.hotel-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.hotel-table th, .hotel-table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+}
+
+.hotel-table th {
+    background-color: #f2f2f2;
+    font-size: 18px;
+}
+
+.hotel-table td {
+    font-size: 16px;
+}
+
+.hotel-table ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.hotel-table li {
+    padding: 2px 0;
+}
+
+.edit-room-button {
+    padding: 8px 16px;
+    background-color: #ffc107;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.edit-room-button:hover {
+    background-color: #e0a800;
+}

@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 @Getter
@@ -24,6 +25,7 @@ public class User {
     @JsonIgnore
     private String activationKey;
     private String email;
+    @Indexed(unique = true)
     private String name1;
     private String mobNo;
     private String password;

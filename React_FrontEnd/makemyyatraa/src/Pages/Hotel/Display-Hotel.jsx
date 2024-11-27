@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import Spinner from "../../Common/Spinner/Spinner";
 import '../CSS/Display-Hotel.css';
 import { useNavigate } from "react-router-dom";
@@ -12,7 +11,7 @@ const DisplayHotel = () => {
     useEffect(() => {
         const callApi = async () => {
             try {
-            await AsyncStorage.getItem('regId').then(async (value) => {
+            const value = localStorage.getItem('regId');
                 if(value) {
                     const reaponse = await axios.get(url+`${value}`).then(async (val) => {
                         if(val) {
@@ -27,7 +26,7 @@ const DisplayHotel = () => {
                     console.log("error")
                     setLoading(false)
                 }
-            })
+            
             } catch(error) {
                 console.log("Error", error)
             }
@@ -51,9 +50,9 @@ const DisplayHotel = () => {
         return URL.createObjectURL(blob);
       };
     const confirmBooking = async(roomData) => {
-      await AsyncStorage.setItem('hotelName', data.hotelName);
+      await localStorage.setItem('hotelName', data.hotelName);
       const rooM = JSON.stringify(roomData);
-      await AsyncStorage.setItem('roomData', rooM);
+      await localStorage.setItem('roomData', rooM);
       navigate('/confirm-hotel-booking')
     }
       return (

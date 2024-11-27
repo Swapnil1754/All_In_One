@@ -2,6 +2,7 @@ package com.example.BookingService.Controller;
 
 import com.example.BookingService.Domain.HotelBooking;
 import com.example.BookingService.Service.BookingService;
+import com.example.BookingService.Service.SmsService;
 import com.razorpay.Order;
 import com.razorpay.RazorpayClient;
 import com.razorpay.RazorpayException;
@@ -20,10 +21,12 @@ import java.util.Map;
 @RequestMapping("/api/booking")
 public class BookingController {
     private BookingService service;
+    private SmsService smsService;
     @Autowired
 
-    public BookingController(BookingService service) {
+    public BookingController(BookingService service, SmsService smsService) {
         this.service = service;
+        this.smsService = smsService;
     }
     @PostMapping("initiatePayment")
     public String payNow(@RequestBody Map<String, Object> map) throws RazorpayException {
@@ -39,6 +42,9 @@ public class BookingController {
     }
     @PostMapping("generate/hotel-bill")
     public ResponseEntity<?> generateBill(@RequestBody HotelBooking booking) {
-        return new ResponseEntity<>(service.generateHotelBill(booking), HttpStatus.OK);
+        smsService.sendSms("+918097510328", "Hey..." + booking.getUserName() + " Your Booking for " + booking.getHotelName() + " is Successful...!!!");
+        HotelBooking booking1 = service.generateHotelBill(booking);
+        System.out.println("booking1: " + booking1 );
+        return new ResponseEntity<>(booking1, HttpStatus.OK);
     }
 }
