@@ -2,6 +2,7 @@ package com.example.RegistrationService.Service;
 
 import com.example.RegistrationService.Domain.User;
 import com.example.RegistrationService.Encryption.UPISecurity;
+import com.example.RegistrationService.Exceptions.InvalidDataInputException;
 import com.example.RegistrationService.Exceptions.UserAlreadyExistsException;
 import com.example.RegistrationService.Exceptions.UserNotFoundException;
 import com.example.RegistrationService.Producer.Producer;
@@ -38,7 +39,7 @@ public class RegistrationServiceImpl implements RegistrationService {
         user.setUserId(userId1);
         user.setPassword(pass);
     if (repository.findById(user.getUserId()).isPresent()){
-        throw new UserAlreadyExistsException();
+        throw new UserAlreadyExistsException("User Already Exists...");
     }
         UserDTO userDTO = new UserDTO();
         userDTO.setUserId(user.getUserId());
@@ -56,37 +57,39 @@ public class RegistrationServiceImpl implements RegistrationService {
     }
     @Override
     public User findUser(String userId,String password) throws Exception {
-    if (repository.findById(userId) == null) {
-        throw new UserNotFoundException();
-    } else {
-        User user = repository.findByUserId(userId);
-        String password1 = user.getPassword();
-        String pass = password.replaceAll("\"","");
-        String password2 = upiSecurity.encrypt(pass,key);
-        if (password1.equals(password2)) {
-            return user;
-        }else
-        return null;
+        try {
+            User user = repository.findByUserId(userId);
+            String password1 = user.getPassword();
+            String pass = password.replaceAll("\"", "");
+            String password2 = upiSecurity.encrypt(pass, key);
+            if (password1.equals(password2)) {
+                return user;
+            } else
+                return null;
+        } catch (Exception e) {
+            throw new UserNotFoundException("User Does Not Exists in System...!!!");
         }
     }
 
     @Override
-    public User fetchUser(String userId) throws UserNotFoundException {
-        if (repository.findById(userId) == null) {
-            throw new UserNotFoundException();
-        }
+    public User fetchUser(String userId) {
+    try {
+        repository.findById(userId);
         return repository.findById(userId).get();
+    } catch (Exception e) {
+        throw new UserNotFoundException("User Does Not Exists in System...!!!");
+    }
     }
 
     @Override
-    public User getUserByToken(String token) throws UserNotFoundException, JsonProcessingException {
+    public User getUserByToken(String token) throws JsonProcessingException {
     String email = getEmail(token);
         System.out.println("here "+email);
         User user = repository.findByEmail(email);
         if (user!=null) {
             return user;
-        }else {
-            throw new UserNotFoundException();
+        } else {
+            throw new UserNotFoundException("User Does Not Exists in System...!!!");
         }
     }
 
@@ -96,19 +99,19 @@ public class RegistrationServiceImpl implements RegistrationService {
         if (user != null) {
             return user;
         }
-        throw new UserNotFoundException();
+        throw new UserNotFoundException("User Does Not Exists in System...!!!");
     }
     @Override
-    public User getUserByEmail(String email) throws UserNotFoundException {
+    public User getUserByEmail(String email) {
     try {
         User user = repository.findByEmail(email);
         if (user == null) {
-            throw new UserNotFoundException();
+            throw new UserNotFoundException("User Does Not Exists in System...!!!");
         } else {
             return user;
         }
     } catch (Exception e) {
-        throw new UserNotFoundException();
+        throw new InvalidDataInputException("Invalid Data Entered...");
     }
     }
 
@@ -124,7 +127,7 @@ public class RegistrationServiceImpl implements RegistrationService {
             producer.sendMessageToRabbitMq(userDTO);
             return repository.save(user1);
         } catch (Exception e) {
-            throw new RuntimeException("User Not Found...");
+            throw new UserNotFoundException("User Not Found...");
         }
     }
 

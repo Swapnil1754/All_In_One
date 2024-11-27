@@ -47,7 +47,7 @@ public class RegistrationController {
     try {
         responseEntity=new ResponseEntity<>(registrationService.registerUser(user1), HttpStatus.OK);
     }catch (UserAlreadyExistsException e) {
-        throw new UserAlreadyExistsException();
+        throw new UserAlreadyExistsException("user Already Exists...");
     }catch(Exception e){
         throw new RuntimeException();
     }
@@ -58,7 +58,7 @@ public class RegistrationController {
     try {
         responseEntity = new ResponseEntity<>(tokenGenerator.generateToken(registrationService.findUser(userId,password)), HttpStatus.OK);
     }catch (UserNotFoundException e){
-        throw new UserNotFoundException();
+        throw new UserNotFoundException("User Does Not Exists in System...!!!"+e.getMessage());
     }catch (Exception e) {
         throw new RuntimeException();
     }
