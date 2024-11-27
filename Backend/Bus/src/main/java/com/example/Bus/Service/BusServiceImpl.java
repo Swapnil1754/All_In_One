@@ -2,6 +2,9 @@ package com.example.Bus.Service;
 
 import com.example.Bus.Domain.Bus;
 import com.example.Bus.Domain.User;
+import com.example.Bus.Exception.BusAlreadyExistsException;
+import com.example.Bus.Exception.BusNotFoundException;
+import com.example.Bus.Exception.UserNotFoundException;
 import com.example.Bus.Repository.BusRepository;
 import com.example.Bus.Repository.OwnerRepository;
 import org.springframework.beans.BeanUtils;
@@ -29,7 +32,7 @@ public class BusServiceImpl implements BusService {
         try {
             User user = ownerRepository.findUserByName1(bus.getOperatorName());
             if (user == null) {
-                throw new RuntimeException("User Not Exists...");
+                throw new UserNotFoundException("User Not Exists...");
             }
             Bus bus1 = new Bus();
             BeanUtils.copyProperties(bus, bus1);
@@ -47,20 +50,24 @@ public class BusServiceImpl implements BusService {
             bus1.setImages(imgBytes);
             return repository.save(bus1);
         } catch (Exception e) {
-            throw new RuntimeException("Error...." + e.getMessage());
+            throw new BusAlreadyExistsException("Error while adding bus....:" + e.getMessage());
         }
     }
 
     @Override
     public Bus getBusByBusId(String busId) {
-        return repository.findById(busId).get();
+        try {
+            return repository.findById(busId).get();
+        } catch (Exception e) {
+            throw new BusNotFoundException("Bus does Not exists: " + e.getMessage());
+        }
     }
 
     @Override
     public List<Bus> getBusByOperator(String operator) {
         User user = ownerRepository.findUserByName1(operator);
         if (user == null) {
-            throw new RuntimeException("user not exists...");
+            throw new UserNotFoundException("user not exists...");
         }
         return repository.findByOperatorName(operator);
     }
@@ -71,7 +78,7 @@ public class BusServiceImpl implements BusService {
             repository.delete(repository.findById(busId).get());
             return true;
         } catch (Exception e) {
-            throw new RuntimeException("Bus not exists...");
+            throw new BusNotFoundException("Bus not exists...: " + e.getMessage());
         }
     }
 }

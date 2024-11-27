@@ -1,6 +1,7 @@
 package com.example.BookingService.Service;
 
 import com.example.BookingService.Domain.HotelBooking;
+import com.example.BookingService.Exceptions.GenerateBillException;
 import com.example.BookingService.Kafka.KafkaProducer;
 import com.example.BookingService.RabbitMQ.DTO.Notification;
 //import com.example.BookingService.RabbitMQ.Producer.Producer;
@@ -63,7 +64,7 @@ public class BookingServiceImpl implements BookingService{
             repository.save(book);
             return book;
         } catch (Exception e) {
-            throw new RuntimeException("Error while generating bill...");
+            throw new GenerateBillException("Error while generating bill..."+ e.getMessage());
         }
     }
 }

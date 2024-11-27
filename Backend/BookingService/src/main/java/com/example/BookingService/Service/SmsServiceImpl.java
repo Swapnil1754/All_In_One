@@ -1,5 +1,6 @@
 package com.example.BookingService.Service;
 
+import com.example.BookingService.Exceptions.SendSMSException;
 import com.vonage.client.VonageClient;
 import com.vonage.client.sms.MessageStatus;
 import com.vonage.client.sms.SmsSubmissionResponse;
@@ -28,7 +29,7 @@ public class SmsServiceImpl implements SmsService {
                 System.out.println("Error while processing message..." + response.getMessages().get(0).getErrorText());
             }
         } catch (Exception s) {
-            throw new RuntimeException(s.getMessage());
+            throw new SendSMSException(s.getMessage());
         }
     }
 }
