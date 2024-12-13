@@ -8,6 +8,7 @@ import com.example.RegistrationService.Exceptions.UserNotFoundException;
 import com.example.RegistrationService.Producer.Producer;
 import com.example.RegistrationService.Rabitmq.Domain.UserDTO;
 import com.example.RegistrationService.Repository.RegistrationRepository;
+import com.example.common_data.Annotations.DataAudit;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.BeanUtils;
@@ -31,29 +32,23 @@ public class RegistrationServiceImpl implements RegistrationService {
     public RegistrationServiceImpl(RegistrationRepository repository) throws NoSuchAlgorithmException {
         this.repository = repository;
     }
-
+    @DataAudit
     @Override
-    public User registerUser(User user) throws Exception {
+    public UserDTO registerUser(UserDTO userDTO) throws Exception {
         String userId1 = uniqueAlphaNumeric(10);
-        String pass = upiSecurity.encrypt(user.getPassword(), key);
-        user.setUserId(userId1);
-        user.setPassword(pass);
-    if (repository.findById(user.getUserId()).isPresent()){
+        String pass = upiSecurity.encrypt(userDTO.getPassword(), key);
+        userDTO.setUserId(userId1);
+        userDTO.setPassword(pass);
+    if (repository.findById(userDTO.getUserId()).isPresent()){
         throw new UserAlreadyExistsException("User Already Exists...");
     }
-        UserDTO userDTO = new UserDTO();
-        userDTO.setUserId(user.getUserId());
-        userDTO.setOwner(user.isOwner());
-        userDTO.setActivated(user.isActivated());
-        userDTO.setEmail(user.getEmail());
-        userDTO.setName1(user.getName1());
-        userDTO.setMobNo(String.valueOf(user.getMobNo()));
-        userDTO.setPassword(user.getPassword());
-        userDTO.setCity(user.getCity());
-            repository.save(user);
-            producer.sendMessageToRabbitMq(userDTO);
-        System.out.println("Mob No: " + userDTO.getMobNo());
-    return user;
+        User user = new User();
+    BeanUtils.copyProperties(userDTO, user);
+        user.setMobNo(userDTO.getOriginalData().getIfPresent("mobNo"));
+        user.setEmail(userDTO.getOriginalData().getIfPresent("email"));
+        repository.save(user);
+            producer.sendMessageToRabbitMq(user);
+    return userDTO;
     }
     @Override
     public User findUser(String userId,String password) throws Exception {
@@ -124,7 +119,7 @@ public class RegistrationServiceImpl implements RegistrationService {
             BeanUtils.copyProperties(user, user1);
             user1.setPassword(password);
             BeanUtils.copyProperties(user1, userDTO);
-            producer.sendMessageToRabbitMq(userDTO);
+            producer.sendMessageToRabbitMq(user1);
             return repository.save(user1);
         } catch (Exception e) {
             throw new UserNotFoundException("User Not Found...");
@@ -144,7 +139,7 @@ public class RegistrationServiceImpl implements RegistrationService {
         BeanUtils.copyProperties(user1, user2);
         user2.setMobNo(user.getMobNo());
         BeanUtils.copyProperties(user2, dto);
-        producer.sendMessageToRabbitMq(dto);
+        producer.sendMessageToRabbitMq(user2);
         repository.save(user2);
         return Optional.of(user2);
     }

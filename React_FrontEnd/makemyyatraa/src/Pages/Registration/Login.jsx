@@ -11,11 +11,13 @@ import { ReactComponent as AppleIcon } from '../../Common/Assets/apple-logo.svg'
 import { ReactComponent as SmileyIcon } from '../../Common/Assets/smiley.svg';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateLoginToken } from "../../Redux/actions";
+import { useAuth } from "../../AuthProvider";
 const Login = () => {
   const url = process.env.REACT_APP_LOGIN_URL;
   const googleUrl = process.env.REACT_APP_GOOGLE_URL;
   const facebookUrl = process.env.REACT_APP_FACEBOOK_URL;
   const navigate = useNavigate();
+  const {login} = useAuth();
   const [message, setMessage] = useState('');
   const [logInit, setLogInit] = useState(false);
   const [appleInit, setAppleInit] = useState(false);
@@ -39,7 +41,6 @@ const Login = () => {
         const idToken = urlParams.get('id_token');
         dispatch({ type: 'UPDATE_LOGIN_TOKEN', payload: accessToken });
         const googleLogin = await googleApi(idToken);
-        console.log("login", googleLogin);
         const fullName = await googleLogin.data.name1;
         const firstName = fullName.split(' ')[0];
         dispatch({ type: 'UPDATE_IS_OWNER', payload: googleLogin.data.isOwner});
@@ -60,6 +61,7 @@ const Login = () => {
           </div>
         );
         setTimeout(() => {
+          login();
           navigate('/city')
         }, 6000);
         window.location.hash = '';
@@ -94,22 +96,22 @@ const Login = () => {
     if (logInit) {
       const handleSubmit = async (e) => {
         try {
-          const login = await callApi(formData.userId);
-          console.log("log", login);
-          dispatch({ type: 'UPDATE_LOGIN_TOKEN', payload: login.token });
-          dispatch({type: 'UPDATE_USER', payload: login});
-          const fullName = await login.Name;
+          const logIn = await callApi(formData.userId);
+          dispatch({ type: 'UPDATE_LOGIN_TOKEN', payload: logIn.token });
+          dispatch({type: 'UPDATE_USER', payload: logIn});
+          const fullName = await logIn.Name;
           const firstName = fullName.split(' ')[0];
-          if(login.isOwner){
+          if(logIn.isOwner){
             await localStorage.setItem('ownerName', fullName);
           }
-          dispatch({ type: 'UPDATE_IS_OWNER', payload: login.isOwner});
+          dispatch({ type: 'UPDATE_IS_OWNER', payload: logIn.isOwner});
           setMessage(
             <div>
               <span>Welcome Back {firstName}...!!! Have a Nice Day  <SmileyIcon className="smiley" /></span>
             </div>
           );
           setTimeout(() => {
+            login();
             navigate('/city')
           }, 6000);
         } catch (error) {
@@ -211,6 +213,7 @@ const Login = () => {
             </div>
           );
           setTimeout(() => {
+            login();
             navigate('/city')
           }, 6000);
         });

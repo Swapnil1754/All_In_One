@@ -22,7 +22,7 @@ const HotelTable = ({ hotelData, editHotel }) => {
                         <td>
                             {items.rooms && items.rooms.map((room, ind) => (
                                 <ul key={ind}>
-                                    <li>{room.roomCatagory}</li>
+                                    <li>{room.roomCategory}</li>
                                 </ul>
                             ))}
                         </td>

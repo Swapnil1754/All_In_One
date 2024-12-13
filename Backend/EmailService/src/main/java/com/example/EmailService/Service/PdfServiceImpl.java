@@ -51,7 +51,7 @@ public class PdfServiceImpl implements Pdfservice {
             // Replace placeholders with actual data
             content.replace(content.indexOf("${booking.hotelName}"), content.indexOf("${booking.hotelName}") + "${booking.hotelName}".length(), String.valueOf(booking.getHotelName()));
             content.replace(content.indexOf("${booking.bookingId}"), content.indexOf("${booking.bookingId}") + "${booking.bookingId}".length(), String.valueOf(booking.getBookingId()));
-            content.replace(content.indexOf("${booking.roomCategory}"), content.indexOf("${booking.roomCategory}") + "${booking.roomCategory}".length(), String.valueOf(booking.getRoomCatagory()));
+            content.replace(content.indexOf("${booking.roomCategory}"), content.indexOf("${booking.roomCategory}") + "${booking.roomCategory}".length(), String.valueOf(booking.getRoomCategory()));
             content.replace(content.indexOf("${booking.roomType}"), content.indexOf("${booking.roomType}") + "${booking.roomType}".length(), String.valueOf(booking.getRoomType()));
             content.replace(content.indexOf("${booking.fromDate}"), content.indexOf("${booking.fromDate}") + "${booking.fromDate}".length(), String.valueOf(booking.getFromDate()));
             content.replace(content.indexOf("${booking.toDate}"), content.indexOf("${booking.toDate}") + "${booking.toDate}".length(), String.valueOf(booking.getToDate()));

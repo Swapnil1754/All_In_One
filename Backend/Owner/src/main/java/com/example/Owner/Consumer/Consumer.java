@@ -12,17 +12,17 @@ public class Consumer {
     @Autowired
     private OwnerServiceImpl service;
     @RabbitListener(queues = "my_queue")
-    public void getDataFromRabbit(UserDTO userDTO) {
-        User user = new User();
-        com.example.Owner.Domain.Customers.User user1 = new com.example.Owner.Domain.Customers.User();
-        user.setUserId(userDTO.getUserId());
-        user.setActivated(userDTO.isActivated());
-        user.setOwner(userDTO.isOwner());
-        user.setEmail(userDTO.getEmail());
-        user.setName1(userDTO.getName1());
-        user.setMobNo(userDTO.getMobNo());
-        user.setPassword(userDTO.getPassword());
-        user.setCity(userDTO.getCity());
+    public void getDataFromRabbit(User user) {
+//        User user = new User();
+//        com.example.Owner.Domain.Customers.User user1 = new com.example.Owner.Domain.Customers.User();
+//        user.setUserId(userDTO.getUserId());
+//        user.setActivated(userDTO.isActivated());
+//        user.setOwner(userDTO.isOwner());
+//        user.setEmail(userDTO.getEmail());
+//        user.setName1(userDTO.getName1());
+//        user.setMobNo(userDTO.getMobNo());
+//        user.setPassword(userDTO.getPassword());
+//        user.setCity(userDTO.getCity());
         service.saveUser(user);
     }
 }

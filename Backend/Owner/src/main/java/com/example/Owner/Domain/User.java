@@ -1,6 +1,7 @@
 package com.example.Owner.Domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,7 +22,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 public class User {
     @Id
     private String userId;
-    @Transient
+    @JsonProperty("isOwner")
     private boolean isOwner;
     private boolean isActivated;
     @Field("activation_key")

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<!-- Parent POM Reference -->
+	<parent>
+		<groupId>com.example</groupId>
+		<artifactId>MakeMyYatraa</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+
+	<!-- Module Metadata -->
+	<artifactId>common-data</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>common-data</name>
+	<description>Shared data module for Spring Boot Microservices</description>
+	<packaging>jar</packaging> <!-- Added packaging type -->
+	<url/>
+
+	<!-- Properties -->
+	<properties>
+		<java.version>11</java.version>
+		<spring-cloud.version>2021.0.4</spring-cloud.version>
+	</properties>
+
+	<!-- Dependencies -->
+	<dependencies>
+		<!-- Add dependencies needed for the shared module -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+<!--		Cache-Caffeine-->
+		<dependency>
+			<groupId>com.github.ben-manes.caffeine</groupId>
+			<artifactId>caffeine</artifactId>
+			<version>3.1.8</version> <!-- Use the latest version -->
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-validation</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjrt</artifactId>
+			<version>1.9.9</version> <!-- Use the latest version -->
+		</dependency>
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+			<version>1.9.9</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.12.0</version> <!-- Use the latest version -->
+		</dependency>
+
+	</dependencies>
+
+	<!-- Build Configuration -->
+	<build>
+		<plugins>
+			<!-- Disable spring-boot-maven-plugin repackage goal -->
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>repackage</id>
+						<phase>none</phase> <!-- Disable the repackage goal -->
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>

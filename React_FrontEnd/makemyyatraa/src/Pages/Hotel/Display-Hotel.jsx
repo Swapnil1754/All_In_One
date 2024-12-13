@@ -76,7 +76,7 @@ const DisplayHotel = () => {
                 {data.rooms &&
                   data.rooms.map((room, index) => (
                     <li key={index} className="room-item">
-                      <p>Category: {room.roomCatagory}</p>
+                      <p>Category: {room.roomCategory}</p>
                       <button className="book-room-button" onClick={() => confirmBooking(room)}>Book Room</button>
                       <p>Type: {room.roomType}</p>
                       <p>Price Rs. {room.price}</p>

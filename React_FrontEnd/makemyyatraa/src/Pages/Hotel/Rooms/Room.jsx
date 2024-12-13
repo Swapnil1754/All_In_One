@@ -46,9 +46,9 @@ const Room = ({ room, onChange }) => {
       <td>
         <input
           type="text"
-          name="roomCatagory"
+          name="roomCategory"
           placeholder="Room Category"
-          value={room.roomCatagory}
+          value={room.roomCategory}
           onChange={handleChange}
         />
       </td>

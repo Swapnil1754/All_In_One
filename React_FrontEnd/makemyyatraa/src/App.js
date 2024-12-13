@@ -19,9 +19,12 @@ import ConfirmHotelBooking from './Pages/Booking/Confirm-Hotel-Booking';
 import HotelBill from './Pages/Bill/Hotel-Bill';
 import ForgetPassword from './Pages/Registration/Forget-Password';
 import ChatBot from './Pages/ChatBot/Chat_Bot';
+import { AuthProvider } from './AuthProvider';
+import ProtectedRoute from './ProtectedRoute';
 
 function App() {
   return (
+    <AuthProvider>
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <div className="main-app">
@@ -33,21 +36,22 @@ function App() {
               <Route path='/register' element={<Register />}/>
               <Route path='/login' element={<Login />} />
               <Route path='/forget-password' element={<ForgetPassword />} />
-              <Route path='/display-hotel' element={<DisplayHotel />}/>
-              <Route path='/add-hotel' element={<AddHotel/>} />
-              <Route path='/city-hotels' element={<CityHotels />}/>
-              <Route path='/add-room' element={<AddRoom />} />
-              <Route path='/edit-room' element={<EditRoom />} />
-              <Route path='/hotel-profile' element={<HotelProfile /> } />
+              <Route path='/display-hotel' element={<ProtectedRoute><DisplayHotel /></ProtectedRoute>}/>
+              <Route path='/add-hotel' element={<ProtectedRoute><AddHotel/></ProtectedRoute>} />
+              <Route path='/city-hotels' element={<ProtectedRoute><CityHotels /></ProtectedRoute>}/>
+              <Route path='/add-room' element={<ProtectedRoute><AddRoom /></ProtectedRoute>} />
+              <Route path='/edit-room' element={<ProtectedRoute><EditRoom /></ProtectedRoute>} />
+              <Route path='/hotel-profile' element={<ProtectedRoute><HotelProfile /></ProtectedRoute> } />
               <Route path='/owner-display' element={<OwnerDisplay /> } />
-              <Route path='/confirm-hotel-booking' element={<ConfirmHotelBooking />} />
-              <Route path='/hotel-bill' element={<HotelBill />} />
+              <Route path='/confirm-hotel-booking' element={<ProtectedRoute><ConfirmHotelBooking /></ProtectedRoute>} />
+              <Route path='/hotel-bill' element={<ProtectedRoute><HotelBill /></ProtectedRoute>} />
             </Routes>
           </Router>
           <ChatBot />
         </div>
       </PersistGate>
     </Provider>
+    </AuthProvider>
   );
 }
 

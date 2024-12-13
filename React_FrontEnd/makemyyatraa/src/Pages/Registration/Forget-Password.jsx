@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 const ForgetPassword = () => {
   const [email, setEmail] = useState('');
+  const [mobileNo, setMobileNo] = useState('');
   const [userOtp, setUserOtp] = useState('');
   const [verify, setVerify] = useState('');
   const [allow, setAllow] = useState(false);

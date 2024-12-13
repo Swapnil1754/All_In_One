@@ -3,13 +3,14 @@ package com.example.RegistrationService.Controller;
 import com.example.RegistrationService.Domain.User;
 import com.example.RegistrationService.Exceptions.UserAlreadyExistsException;
 import com.example.RegistrationService.Exceptions.UserNotFoundException;
+import com.example.RegistrationService.Rabitmq.Domain.UserDTO;
 import com.example.RegistrationService.Service.JwtSecurityTokenGenerator;
-import com.example.RegistrationService.Service.MaskData;
 import com.example.RegistrationService.Service.MaskService;
 import com.example.RegistrationService.Service.RegistrationService;
+import com.example.common_data.Annotations.DataAudit;
+import com.example.common_data.Masking.MaskDataGeneric;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.xmlbeans.impl.xb.xsdschema.PatternDocument;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,13 +40,14 @@ public class RegistrationController {
         this.tokenGenerator = tokenGenerator;
     }
     @PostMapping("/register")
-    public ResponseEntity<User> register(@RequestBody User user) throws IOException, UserAlreadyExistsException {
-        String srtData = MaskData.maskFun(user);
-        ObjectMapper objectMapper = new ObjectMapper();
-        User user1 = objectMapper.readValue(srtData, User.class);
-        System.out.println(user1);
+    public ResponseEntity<User> register(@RequestBody UserDTO userDTO) throws IOException, UserAlreadyExistsException {
     try {
-        responseEntity=new ResponseEntity<>(registrationService.registerUser(user1), HttpStatus.OK);
+        UserDTO userDTO1 = registrationService.registerUser(userDTO);
+        User user = new User();
+        BeanUtils.copyProperties(userDTO1, user);
+        user.setEmail(userDTO.getOriginalData().getIfPresent("email"));
+        user.setMobNo(userDTO.getOriginalData().getIfPresent("mobNo"));
+        responseEntity = new ResponseEntity<>(user, HttpStatus.OK);
     }catch (UserAlreadyExistsException e) {
         throw new UserAlreadyExistsException("user Already Exists...");
     }catch(Exception e){
@@ -53,6 +55,7 @@ public class RegistrationController {
     }
     return responseEntity;
     }
+    @DataAudit
     @PostMapping("/login/{userId}")
     public ResponseEntity<User> login(@PathVariable String userId, @RequestParam(name = "password") String password) throws UserNotFoundException {
     try {
@@ -68,10 +71,12 @@ public class RegistrationController {
     public ResponseEntity<User> fetchUser(@PathVariable String userId) throws UserNotFoundException {
         return new ResponseEntity<>(registrationService.fetchUser(userId), HttpStatus.OK);
     }
+
     @GetMapping(path = "/google")
     public ResponseEntity<User> getUserByEmailId(@RequestParam String token) throws UserNotFoundException, JsonProcessingException {
     return new ResponseEntity<>(registrationService.getUserByToken(token), HttpStatus.OK);
     }
+
     @GetMapping(path = "/facebook")
     public ResponseEntity<User> getUserByName(@RequestParam String email) throws UserNotFoundException {
     return new ResponseEntity<>(registrationService.getUserByEmail(email), HttpStatus.OK);

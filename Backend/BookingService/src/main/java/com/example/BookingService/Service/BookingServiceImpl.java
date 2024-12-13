@@ -6,6 +6,7 @@ import com.example.BookingService.Kafka.KafkaProducer;
 import com.example.BookingService.RabbitMQ.DTO.Notification;
 //import com.example.BookingService.RabbitMQ.Producer.Producer;
 import com.example.BookingService.Repository.BookingRepository;
+//import org.apache.kafka.clients.producer.Producer;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageProperties;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -14,6 +15,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 public class BookingServiceImpl implements BookingService{
@@ -35,7 +37,7 @@ public class BookingServiceImpl implements BookingService{
 
     @Override
     @Async("asyncEmail")
-    public HotelBooking generateHotelBill(HotelBooking booking) {
+    public CompletableFuture<HotelBooking> generateHotelBill(HotelBooking booking) {
 //        Notification notification = new Notification();
         String notification = "{\"message\":\" Your Hotel Booking has been confirmed...!!!\"}";
         MessageProperties properties = new MessageProperties();
@@ -47,7 +49,7 @@ public class BookingServiceImpl implements BookingService{
             book.setUserName(booking.getUserName());
             book.setMobNo(booking.getMobNo());
             book.setHotelName(booking.getHotelName());
-            book.setRoomCatagory(booking.getRoomCatagory());
+            book.setRoomCategory(booking.getRoomCategory());
             book.setRoomType(booking.getRoomType());
             book.setNoOfDays(booking.getNoOfDays());
             book.setNoOfPeoples(booking.getNoOfPeoples());
@@ -62,7 +64,7 @@ public class BookingServiceImpl implements BookingService{
             Message message = new Message(notification.getBytes(), properties);
             template.send("que_notifier", message);
             repository.save(book);
-            return book;
+            return CompletableFuture.completedFuture(book);
         } catch (Exception e) {
             throw new GenerateBillException("Error while generating bill..."+ e.getMessage());
         }

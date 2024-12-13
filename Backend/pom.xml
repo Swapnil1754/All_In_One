@@ -28,6 +28,7 @@
 		<module>EmailService</module>
 		<module>BookingService</module>
 		<module>NotificationService</module>
+		<module>common-data</module>
 	</modules>
 	<properties>
 		<java.version>11</java.version>

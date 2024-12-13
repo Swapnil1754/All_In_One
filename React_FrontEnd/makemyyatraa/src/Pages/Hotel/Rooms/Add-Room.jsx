@@ -8,13 +8,13 @@ import Toaster from "../../../Common/Toaster/Toaster";
 const AddRoom = () => {
     const navigate = useNavigate();
   const [roomsList, setRoomsList] = useState([
-    { roomCatagory: '', roomType: '', price: '', aminitiesList: [], images: [] },
+    { roomCategory: '', roomType: '', price: '', aminitiesList: [], images: [] },
   ]);
   const [message, setMessage] = useState();
   const url = process.env.REACT_APP_ADD_ROOM_URL;
 
   const addRoom = () => {
-    setRoomsList([...roomsList, { roomCatagory: '', roomType: '', price: '', aminitiesList: [], images: [] }]);
+    setRoomsList([...roomsList, { roomCategory: '', roomType: '', price: '', aminitiesList: [], images: [] }]);
   }
 
   const handleSubmit = async () => {

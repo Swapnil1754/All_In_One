@@ -114,7 +114,7 @@ const HotelProfile = () => {
                         <tbody>
                             {formData.rooms.map((item, index) => (
                                 <tr key={index}>
-                                    <td>{item.roomCatagory}</td>
+                                    <td>{item.roomCategory}</td>
                                     <td>{item.roomType}</td>
                                     <td>Rs.{item.price}</td>
                                     <td>

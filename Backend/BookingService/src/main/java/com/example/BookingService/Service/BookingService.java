@@ -2,6 +2,8 @@ package com.example.BookingService.Service;
 
 import com.example.BookingService.Domain.HotelBooking;
 
+import java.util.concurrent.CompletableFuture;
+
 public interface BookingService {
-    HotelBooking generateHotelBill(HotelBooking booking);
+    CompletableFuture<HotelBooking> generateHotelBill(HotelBooking booking);
 }

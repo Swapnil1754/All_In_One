@@ -19,7 +19,7 @@ public class HotelBooking {
     private String mobNo;
     @JsonProperty("hotelName")
     private String hotelName;
-    private String roomCatagory;
+    private String roomCategory;
     private String roomType;
     private Date fromDate;
     private Date toDate;
@@ -27,4 +27,5 @@ public class HotelBooking {
     private int noOfDays;
     private int noOfRooms;
     private double cost;
+    private String message;
 }

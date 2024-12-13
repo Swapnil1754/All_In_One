@@ -39,7 +39,7 @@
   width: 50%; /* Match the width of the input */
   list-style: none;
   padding: 0;
-  margin-left: 25%;
+  /* margin-left: 21%; */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   z-index: 10;
 }
@@ -50,7 +50,7 @@
   display: flex;
   justify-content: center;
   max-width: 70%;
-  margin-left: 9%;
+  margin-left: 27%;
   position: relative; /* Allows positioning of absolute elements inside */
 }
 
@@ -141,4 +141,34 @@
     width: 100%; /* Make the menu full-width on smaller screens */
     right: 0;
   }
+}
+.search-list {
+  padding: 1%;
+  cursor: pointer;
+}
+.search-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.search-wrapper input {
+  width: 100%;
+  padding: 10px 40px 10px 10px; /* Add padding for the icon */
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.microphone-icon {
+  position: absolute;
+  top: 50%;
+  right: 52%; /* Position the icon inside the input box */
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 20px;
+  color: #555;
+}
+
+.microphone-icon:hover {
+  color: #000; /* Change color on hover */
 }

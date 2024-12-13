@@ -1,69 +1,99 @@
+body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
 
+        .bill-container {
+            max-width: 700px;
+            margin: 40px auto;
+            background-color: #ffffff;
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
 
-.bill-container {
-    max-width: 600px;
-    margin: auto;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    padding: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-}
+        .bill-header {
+            text-align: center;
+            border-bottom: 2px solid #4caf50;
+            padding-bottom: 20px;
+        }
 
-.bill-header {
-    text-align: center;
-    margin-bottom: 20px;
-}
+        .logo {
+            max-width: 100px;
+            margin-bottom: 10px;
+        }
 
-.logo {
-    max-width: 80px;
-    position: absolute;
-    display: block;
-}
+        .bill-header h2 {
+            font-size: 24px;
+            margin: 10px 0;
+            color: #333;
+        }
 
-.bill-details {
-    margin-bottom: 20px;
-}
+        .bill-header p {
+            font-size: 16px;
+            color: #888;
+        }
 
-.detail-row {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
-    font-size: 16px;
-}
+        .bill-details, .bill-total {
+            margin: 20px 0;
+        }
 
-.bill-total {
-    margin-bottom: 20px;
-    font-size: 18px;
-    font-weight: bold;
-}
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            font-size: 16px;
+            border-bottom: 1px solid #f1f1f1;
+        }
 
-.bill-footer {
-    text-align: center;
-    margin-top: 20px;
-}
+        .detail-row:last-child {
+            border-bottom: none;
+        }
 
-.bill-footer p {
-    color: #777;
-    font-size: 14px;
-}
+        .bill-total .detail-row {
+            font-weight: bold;
+            font-size: 18px;
+        }
 
+        .bill-footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 14px;
+            color: #555;
+        }
 
-.button1 {
-    display: block;
-    margin: auto;
-    padding: 10px 20px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    text-align: center;
-    text-decoration: none;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
+        .bill-footer a {
+            color: #4caf50;
+            text-decoration: none;
+        }
 
-button:hover {
-    background-color: #45a049;
-}
+        .bill-footer a:hover {
+            text-decoration: underline;
+        }
+
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .button {
+            padding: 12px 25px;
+            background-color: #4caf50;
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 8px;
+            border: none;
+            display: inline-block;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .button:hover {
+            background-color: #45a049;
+        }

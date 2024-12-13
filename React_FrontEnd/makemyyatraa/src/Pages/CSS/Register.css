@@ -1,7 +1,7 @@
 .a{
     display:flex;
-    width: 1221px;
-    height: 500px;
+    /* width: 1221px; */
+    height: 85.5vh;
     border: 1px solid;
     /* padding-top: 40px; */
     padding-left: 70px;
@@ -25,11 +25,11 @@
 }
 .c{
     width: 35%;
-    height: 92%;
+    height: 69%;
     margin-left: 180px;
     float: right;
     background: rgba(255, 255, 255, 0.6); /* Adjust the last value (0.8) for transparency */
-    padding: 20px;
+    padding: 28px;
     border-radius: 10px;
 }
 .d{

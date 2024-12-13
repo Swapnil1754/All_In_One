@@ -10,13 +10,16 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.node.TextNode;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class MaskData {
+    private static final ConcurrentHashMap<String, String> originalValue = new ConcurrentHashMap<>();
     public static String maskFun(Object object) throws JsonProcessingException {
         String data = getJsonString(object);
         Map<String, String> maskMap = new TreeMap<>();
@@ -90,5 +93,16 @@ public class MaskData {
         objectMapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
         objectMapper.disable(DeserializationFeature.FAIL_ON_MISSING_CREATOR_PROPERTIES);
         return objectMapper.writeValueAsString(object);
+    }
+    public static String maskValue(String key, String value, String pattern) {
+
+        if (Objects.nonNull(value) && !value.isEmpty() && Objects.nonNull(pattern) && !pattern.isEmpty()) {
+            originalValue.put(key, value);
+            return value.replaceAll(pattern, "*");
+        }
+        return value;
+    }
+    public static String unmaskValue(String key) {
+        return originalValue.get(key);
     }
 }

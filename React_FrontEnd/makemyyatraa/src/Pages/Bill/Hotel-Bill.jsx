@@ -12,7 +12,7 @@ const HotelBill = () => {
         userName: email,
         mobNo: mobNo,
         hotelName: '',
-        roomCatagory: '',
+        roomCategory: '',
         roomType: '',
         fromDate: '',
         toDate: '',
@@ -39,7 +39,7 @@ const HotelBill = () => {
               setBill({
                 ...bill,
                 hotelName: hotlName,
-                roomCatagory: hotelData.roomCatagory,
+                roomCategory: hotelData.roomCategory,
                 roomType: hotelData.roomType,
                 fromDate: hotelData.fromDate,
                 toDate: hotelData.toDate,
@@ -95,8 +95,8 @@ const HotelBill = () => {
               <span>{hotelBill.bookingId}</span>
               </div>
           <div className="detail-row">
-              <span>Room Catagory:</span>
-              <span>{hotelBill.roomCatagory}</span>
+              <span>Room Category:</span>
+              <span>{hotelBill.roomCategory}</span>
             </div>
             <div className="detail-row">
               <span>Room Type:</span>

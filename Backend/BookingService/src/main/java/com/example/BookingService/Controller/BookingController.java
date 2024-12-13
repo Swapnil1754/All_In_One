@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequestMapping("/api/booking")
@@ -42,8 +43,9 @@ public class BookingController {
     }
     @PostMapping("generate/hotel-bill")
     public ResponseEntity<?> generateBill(@RequestBody HotelBooking booking) {
-        smsService.sendSms("+918097510328", "Hey..." + booking.getUserName() + " Your Booking for " + booking.getHotelName() + " is Successful...!!!");
-        HotelBooking booking1 = service.generateHotelBill(booking);
+        smsService.sendSms(booking.getMobNo(), "Hey..." + booking.getUserName() + " Your Booking for " + booking.getHotelName() + " is Successful...!!!");
+        CompletableFuture<HotelBooking> completableFuture = service.generateHotelBill(booking);
+        HotelBooking booking1 = completableFuture.join();
         System.out.println("booking1: " + booking1 );
         return new ResponseEntity<>(booking1, HttpStatus.OK);
     }

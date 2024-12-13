@@ -36,7 +36,7 @@ const EditRoom = () => {
     }
 
     try {
-      const response = await axios.put(`${imgUrl}/${regid}/${room.roomCatagory}`, formData, {
+      const response = await axios.put(`${imgUrl}/${regid}/${room.roomCategory}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -59,7 +59,7 @@ const EditRoom = () => {
       <form>
         <div>
         <TextField className="TextField" placeholder="Room Id" variant="outlined" name="roomId" value={room.roomId} />
-<TextField className="TextField" placeholder="Room Catagory" variant="outlined" name="roomCatagory" value={room.roomCatagory} />
+<TextField className="TextField" placeholder="Room Category" variant="outlined" name="roomCategory" value={room.roomCategory} />
 <TextField className="TextField" placeholder="Room Type" variant="outlined" name="roomType" value={room.roomType} />
 <TextField className="TextField" placeholder="Room Price" variant="outlined" name="price" value={room.price} />
 

@@ -20,8 +20,8 @@ public class Room {
     @Id
     private String roomId;
     @Indexed(unique = true)
-    @JsonProperty("roomCatagory")
-    private String roomCatagory;
+    @JsonProperty("roomCategory")
+    private String roomCategory;
     @JsonProperty("roomType")
     private String roomType;
     @JsonProperty("price")

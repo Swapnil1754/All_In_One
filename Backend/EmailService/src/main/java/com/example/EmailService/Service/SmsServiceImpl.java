@@ -13,7 +13,7 @@ public class SmsServiceImpl implements SmsService {
     @Override
     public String sendOtpBySms(String message, String receiver) {
         try {
-            String apiKey = "9KrcepLHX2Rb4yCaJ0TGNvmZxjosktqABUzI8uWiEldM1DfQ7n2N58YKxaF4tbDQiCeMwIfSOHLnWEl6";
+            String apiKey = "WaXyuf7Cidl3naCna9CoPkQuPWOeOJUxg7M0952mZ1ftPy2rmnv1ZnCXD9fH";
             String sendId = "FSTSMS";
             message = URLEncoder.encode(message, "UTF-8");
             String language = "english";
@@ -26,16 +26,16 @@ public class SmsServiceImpl implements SmsService {
             connection.setRequestProperty("cache-control", "no-cache");
             int code = connection.getResponseCode();
             System.out.println("Response: "+ code);
-            StringBuffer respone = new StringBuffer();
+            StringBuffer response = new StringBuffer();
             BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             while (true) {
                 String line = reader.readLine();
                 if (line == null) {
                     break;
                 } else {
-                    respone.append(line);
+                    response.append(line);
                 }
-                System.out.println("Final Response: "+respone);
+                System.out.println("Final Response: "+response);
             }
             return message;
         } catch (Exception e) {

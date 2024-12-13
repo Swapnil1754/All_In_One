@@ -16,7 +16,7 @@ const ConfirmBooking = () => {
   const navigate = useNavigate();
 const paymentUrl = process.env.REACT_APP_INITIATE_PAYMENT_URL;
 const hotelBill = {
-  roomCatagory: room && room.roomCatagory,
+  roomCategory: room && room.roomCategory,
   roomType: room && room.roomType,
   fromDate: startDate,
   toDate: endDate,
@@ -32,6 +32,7 @@ useEffect(() => {
     console.log("email", emailData);
        const value = localStorage.getItem('roomData');
           const roomData = JSON.parse(value);
+          
           setRoom(roomData);
   }
   getRoom();
@@ -109,7 +110,7 @@ useEffect(() => {
     <div className="confirm-booking-container">
       <h2>Confirm Your Booking</h2>
       <div>
-  {room && <span>Room Category: {room.roomCatagory}</span>}
+  {room && <span>Room Category: {room.roomCategory}</span>}
   <br />
   {room && <span>Room Type: {room.roomType}</span>}
 </div>

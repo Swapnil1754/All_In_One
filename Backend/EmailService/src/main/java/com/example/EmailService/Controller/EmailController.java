@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.mail.MessagingException;
 import java.io.IOException;
+import java.util.Random;
 import java.util.UUID;
 @RestController
 @RequestMapping("/api/email/")
@@ -37,7 +38,7 @@ public class EmailController {
         try {
             byte[] pdfBytes = pdfservice.generatePdf(bill);
             String to = bill.getUserName();
-            String subject = "Hotel Booking Bill";
+            String subject = "AllInOne Hotel Booking...";
             String text = "Please find the attached bill for your reference.";
             String attachmentName = "ProfessionalBill.pdf";
             emailService.sendMailWithAttachment(to, subject, text, pdfBytes, attachmentName);
@@ -47,14 +48,21 @@ public class EmailController {
     }
     @GetMapping("/get-otp/{userName}")
     public ResponseEntity<String> getOtpByMail(@PathVariable String userName) {
-        Otp otp = new Otp(userName, otpGenerator(), "OTP Verification for AllInOne.com");
+        Otp otp = new Otp(userName, otpGenerator(6), "OTP Verification for AllInOne.com");
         return new ResponseEntity<>(emailService.sendSimpleMail(otp), HttpStatus.OK);
     }
     @GetMapping("/get-otpBySms/{mobileNumber}")
     public ResponseEntity<String> getOtpBySms(@PathVariable String mobileNumber) {
-        return new ResponseEntity<>(smsService.sendOtpBySms(otpGenerator(), mobileNumber), HttpStatus.OK);
+        return new ResponseEntity<>(smsService.sendOtpBySms(otpGenerator(6), mobileNumber), HttpStatus.OK);
     }
-    private String otpGenerator() {
-       return UUID.randomUUID().toString().replace("-", "").substring(0, 6).toUpperCase();
+    private String otpGenerator(int length) {
+//       return UUID.randomUUID().toString().replace("-", "").substring(0, 6).toUpperCase();
+        Random random = new Random();
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < length; i++) {
+            int digit = random.nextInt(10);
+            builder.append(digit);
+        }
+        return builder.toString();
     }
 }

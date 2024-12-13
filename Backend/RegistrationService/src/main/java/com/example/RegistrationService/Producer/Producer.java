@@ -1,5 +1,6 @@
 package com.example.RegistrationService.Producer;
 
+import com.example.RegistrationService.Domain.User;
 import com.example.RegistrationService.Rabitmq.Domain.UserDTO;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -16,7 +17,7 @@ public class Producer {
         this.template = template;
         this.exchange = exchange;
     }
-    public void sendMessageToRabbitMq(UserDTO userDTO) {
+    public void sendMessageToRabbitMq(User userDTO) {
         template.convertAndSend(exchange.getName(),"my_routing",userDTO);
     }
 }

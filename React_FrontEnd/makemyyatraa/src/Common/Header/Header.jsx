@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { updateLoginToken, updateUser, updateIsOwner } from "../../Redux/actions";
 import Notify from "./Notify";
+import { useAuth } from "../../AuthProvider";
 
 const Header = () => {
   const [showOptions, setShowOptions] = useState(false);
@@ -17,6 +18,9 @@ const Header = () => {
   const [suggestions, setSuggestions] = useState([]);
   const [loading, setLoading] = useState(false);
   const cityUrl = process.env.REACT_APP_SEARCH_CITIES;
+  const { logout } = useAuth();
+  const [isListening, setIsListening] = useState(false);
+
   useEffect(() => {
     if (xD !== 900) {
       setX(true);
@@ -32,6 +36,7 @@ const Header = () => {
     dispatch(updateUser(null));
     localStorage.removeItem("Token");
     setX(false);
+    logout();
   };
 
   const toggleOption = () => {
@@ -43,7 +48,6 @@ const Header = () => {
     setShowOptions(!showOptions);
   };
 
-  // Debounce the search to reduce excessive API calls
   useEffect(() => {
     const debounceData = setTimeout(() => {
       if (cityQuery) {
@@ -55,7 +59,6 @@ const Header = () => {
     return () => clearTimeout(debounceData);
   }, [cityQuery]);
 
-  // Fetch cities from backend API
   const fetchCities = async (searchCity) => {
     setLoading(true);
     try {
@@ -64,23 +67,56 @@ const Header = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        credentials: "include",  // Include credentials if authentication is required
+        credentials: "include",
       });
       const data = await response.json();
-      setSuggestions(data);  // Use an empty array if data is null or undefined
+      setSuggestions(data);
     } catch (error) {
       console.error("Error fetching cities:", error);
     } finally {
       setLoading(false);
     }
   };
-  // To get city Data
+
   const renderCityData = (e) => {
     localStorage.removeItem("cityName");
     localStorage.setItem("cityName", e.cityName);
-    // setCityQuery("");
     navigate("/city-hotels");
-  }
+  };
+
+  const startSpeechToText = () => {
+    if (!("webkitSpeechRecognition" in window || "SpeechRecognition" in window)) {
+      alert("Speech recognition is not supported in this browser.");
+      return;
+    }
+
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const recognition = new SpeechRecognition();
+
+    recognition.lang = "en-US";
+    recognition.interimResults = false;
+
+    recognition.onstart = () => {
+      setIsListening(true);
+    };
+
+    recognition.onresult = (event) => {
+      const transcript = event.results[0][0].transcript;
+      setCityQuery(transcript);
+      setIsListening(false);
+    };
+
+    recognition.onerror = (event) => {
+      console.error("Speech recognition error:", event.error);
+      setIsListening(false);
+    };
+
+    recognition.onend = () => {
+      setIsListening(false);
+    };
+
+    recognition.start();
+  };
 
   return (
     <header className="header-container">
@@ -90,21 +126,31 @@ const Header = () => {
 
           {/* Search Container */}
           <div className="search-container">
-            <input
-              type="text"
-              value={cityQuery}
-              onChange={(e) => setCityQuery(e.target.value)}
-              placeholder="Search for a City..."
-              aria-label="City search"
-            />
+            <div className="search-wrapper">
+              <input
+                type="text"
+                value={cityQuery}
+                onChange={(e) => setCityQuery(e.target.value)}
+                placeholder="Search for a City..."
+                aria-label="City search"
+              />
+              <span
+                className="microphone-icon"
+                onClick={startSpeechToText}
+                aria-label="Activate speech recognition"
+                title={isListening ? "Listening..." : "Click to Speak"}
+              >
+                🎤
+              </span>
+            </div>
             {suggestions.length > 0 && (
               <ul className="search-suggestions">
-              {suggestions.map((city, index) => (
-                <li key={index} onClick={() => renderCityData(city)}>
-                  <strong>{city.cityName}</strong>, {city.state} - {city.nation}
-                </li>
-              ))}
-            </ul>
+                {suggestions.map((city, index) => (
+                  <li key={index} onClick={() => renderCityData(city)}>
+                    <strong>{city.cityName}</strong>, {city.state} - {city.nation}
+                  </li>
+                ))}
+              </ul>
             )}
           </div>
 

@@ -2,65 +2,168 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <title>AllInOne.com</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hotel Booking Receipt - AllInOne.com</title>
     <link rel="stylesheet" href="../css/styles.css" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        .bill-container {
+            max-width: 700px;
+            margin: 40px auto;
+            background-color: #ffffff;
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .bill-header {
+            text-align: center;
+            border-bottom: 2px solid #4caf50;
+            padding-bottom: 20px;
+        }
+
+        .logo {
+            max-width: 100px;
+            margin-bottom: 10px;
+        }
+
+        .bill-header h2 {
+            font-size: 24px;
+            margin: 10px 0;
+            color: #333;
+        }
+
+        .bill-header p {
+            font-size: 16px;
+            color: #888;
+        }
+
+        .bill-details, .bill-total {
+            margin: 20px 0;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            font-size: 16px;
+            border-bottom: 1px solid #f1f1f1;
+        }
+
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+
+        .bill-total .detail-row {
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .bill-footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .bill-footer a {
+            color: #4caf50;
+            text-decoration: none;
+        }
+
+        .bill-footer a:hover {
+            text-decoration: underline;
+        }
+
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .button {
+            padding: 12px 25px;
+            background-color: #4caf50;
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 8px;
+            border: none;
+            display: inline-block;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .button:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 <body>
-<h1>Hotel Booking Receipt</h1>
 <div class="bill-container">
-    <div class="bill-container" id="bill-data">
-        <div class="bill-header">
-             <img src="/AllInOne_logo.png" alt="" class="logo" />
-             <h2>${booking.hotelName}</h2>
-            <p>Booking Receipt</p>
-        </div>
-        <div class="bill-details">
-            <div class="detail-row">
-                <span>Booking Id: </span>
-                <span>${booking.bookingId}</span>
-            </div>
-            <div class="detail-row">
-                <span>Room Category:</span>
-                <span>${booking.roomCategory}</span>
-            </div>
-            <div class="detail-row">
-                <span>Room Type:</span>
-                <span>${booking.roomType}</span>
-            </div>
-            <div class="detail-row">
-                <span>Check-in Date:</span>
-                <span>${booking.fromDate}</span>
-            </div>
-            <div class="detail-row">
-                <span>Check-out Date:</span>
-                <span>${booking.toDate}</span>
-            </div>
-            <div class="detail-row">
-                <span>No of Days:</span>
-                <span>${booking.noOfDays}</span>
-            </div>
-            <div class="detail-row">
-                <span>Number of Adults:</span>
-                <span>${booking.noOfPeople}</span>
-            </div>
-            <div class="detail-row">
-                <span>Number of Rooms:</span>
-                <span>${booking.noOfRooms}</span>
-            </div>
-        </div>
+    <div class="bill-header">
+        <img src="/AllInOne_logo.png" alt="AllInOne Logo" class="logo" />
+        <h2>${booking.hotelName}</h2>
+        <p>Hotel Booking Receipt</p>
+    </div>
 
-        <div class="bill-total">
-            <div class="detail-row">
-                <span>Total Amount:</span>
-                <span>${booking.cost} INR</span>
-            </div>
+    <div class="bill-details">
+        <div class="detail-row">
+            <span>Booking ID:</span>
+            <span>${booking.bookingId}</span>
         </div>
+        <div class="detail-row">
+            <span>Room Category:</span>
+            <span>${booking.roomCategory}</span>
+        </div>
+        <div class="detail-row">
+            <span>Room Type:</span>
+            <span>${booking.roomType}</span>
+        </div>
+        <div class="detail-row">
+            <span>Check-in Date:</span>
+            <span>${booking.fromDate}</span>
+        </div>
+        <div class="detail-row">
+            <span>Check-out Date:</span>
+            <span>${booking.toDate}</span>
+        </div>
+        <div class="detail-row">
+            <span>No. of Days:</span>
+            <span>${booking.noOfDays}</span>
+        </div>
+        <div class="detail-row">
+            <span>No. of Adults:</span>
+            <span>${booking.noOfPeople}</span>
+        </div>
+        <div class="detail-row">
+            <span>No. of Rooms:</span>
+            <span>${booking.noOfRooms}</span>
+        </div>
+    </div>
 
-        <div class="bill-footer">
-            <p>Thank you for choosing <a>AllinOne.com</a>! We hope you have a pleasant stay.</p>
+    <div class="bill-total">
+        <div class="detail-row">
+            <span>Total Amount:</span>
+            <span>${booking.cost} INR</span>
         </div>
+    </div>
+
+    <div class="bill-footer">
+        <p>Thank you for booking with <a href="#">AllInOne.com</a>. We look forward to serving you again!</p>
+    </div>
+
+    <div class="button-container">
+        <a href="#" class="button">Download Receipt</a>
     </div>
 </div>
 </body>
 </html>
-

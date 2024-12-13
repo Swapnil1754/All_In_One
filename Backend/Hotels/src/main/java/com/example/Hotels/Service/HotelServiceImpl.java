@@ -11,6 +11,9 @@ import com.example.Hotels.Exceptions.OwnerNotExistsException;
 import com.example.Hotels.Exceptions.RoomNotFoundException;
 import com.example.Hotels.Repository.HotelRepository;
 import com.example.Hotels.Repository.OwnerRepository;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,6 +33,7 @@ import java.util.UUID;
 public class HotelServiceImpl implements HotelService {
     private HotelRepository repository;
     private OwnerRepository ownerRepository;
+    private static final Logger logger = LoggerFactory.getLogger(HotelServiceImpl.class);
 
     @Autowired
 
@@ -41,6 +45,7 @@ public class HotelServiceImpl implements HotelService {
 
     @Override
     public Hotel addHotel(byte[] image, Hotel hotel) {
+        logger.info("HotelServiceImpl - addHotel - started with hotel: {}", hotel);
         Optional<User> user = ownerRepository.findUserByName1(hotel.getOwnerName());
         if (!user.isPresent()) {
             throw new OwnerNotExistsException("Owner does not Exists...");
@@ -62,7 +67,7 @@ public class HotelServiceImpl implements HotelService {
             for (Map<String, Object> x : room) {
                 Room room1 = new Room();
                 room1.setRoomId(roomRegistrationNumber());
-                room1.setRoomCatagory((String) x.get("roomCatagory"));
+                room1.setRoomCategory((String) x.get("roomCatagory"));
                 room1.setRoomType((String) x.get("roomType"));
                 double price = Double.parseDouble(x.get("price").toString());
                 room1.setPrice(price);
@@ -90,7 +95,7 @@ public class HotelServiceImpl implements HotelService {
             }
             imgBytes.add(bytes);
         }
-        Optional<Room> roomOptional = hotel.getRooms().stream().filter(x-> Objects.equals(x.getRoomCatagory(), roomCatagory)).findFirst();
+        Optional<Room> roomOptional = hotel.getRooms().stream().filter(x-> Objects.equals(x.getRoomCategory(), roomCatagory)).findFirst();
         if (roomOptional.isPresent()) {
             Room room = roomOptional.get();
             if (room.getImages() == null) {
